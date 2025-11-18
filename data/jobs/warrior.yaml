@@ -1,0 +1,29 @@
+archetype:
+  id: warrior
+  name: Warrior
+  description: A frontline fighter specializing in physical combat.
+  isStarter: true
+  startingAttributes:
+    strength: 7
+    agility: 4
+    intelligence: 2
+  attributeGrowthPerLevel:
+    strength: 2
+    agility: 1
+    intelligence: 0
+  startingResourceCaps:
+    maxHealth: 65
+    maxMana: 20
+  resourceGrowthPerLevel:
+    maxHealth: 12
+    maxMana: 4
+  skills:
+    - id: power-strike
+      level: 1
+    - id: shield-bash
+      level: 2
+  passives:
+    - stalwart-stance
+  growthModifier:
+    base: 1.1
+    perLevel: 0.03

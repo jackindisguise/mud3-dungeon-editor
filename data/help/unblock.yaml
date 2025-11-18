@@ -1,0 +1,52 @@
+keyword: unblock
+aliases:
+  - unignore
+related:
+  - communication
+  - block
+  - ignore
+  - channels
+  - whisper
+topic:
+  - communication
+  - privacy
+  - blocking
+  - moderation
+content: |-
+  UNBLOCK - Remove a User from Your Blocked List
+
+  Usage:
+    unblock <username>      - Unblock a user
+    unignore <username>     - Same as unblock (alternative command)
+
+  The unblock command (also known as "unignore") removes a user from your
+  blocked list, allowing them to send you messages on all channels again.
+
+  Examples:
+    unblock Alice
+      Removes Alice from your blocked list
+    
+    unignore Bob
+      Alternative syntax using "unignore" alias
+
+  Features:
+    - Immediate effect - user can message you as soon as unblocked
+    - Case-insensitive usernames
+    - Clear confirmation message when successful
+    - Helpful feedback if user isn't actually blocked
+
+  How It Works:
+    - Removes the specified username from your blocked list
+    - The user can immediately send you messages on any channel
+    - The unblocked user is not notified of the change
+    - Changes are persisted to your character file
+
+  Notes:
+    - You cannot unblock someone who isn't on your blocked list
+    - Use "block" command (with no arguments) to see who you have blocked
+    - Unblocking is silent - the other user won't know
+    - This affects all communication channels
+
+  Error Messages:
+    - "<username> is not on your blocked list" - User isn't blocked
+    - "Who do you want to unblock?" - You didn't provide a username

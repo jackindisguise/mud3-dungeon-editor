@@ -1,0 +1,43 @@
+keyword: who
+aliases:
+  - players
+  - online
+related:
+  - commands
+topic:
+  - information
+  - players
+  - social
+  - list
+content: |-
+  WHO - See Who Is Online
+
+  Usage:
+    who
+
+  The who command displays a list of all players currently connected to the
+  game, along with summary statistics about the number of players and total
+  connections.
+
+  Example Output:
+    === Players Online ===
+    > Alice
+    > Bob
+    > Charlie
+    
+    Total Players: 3
+    Total Connections: 3
+
+  Features:
+    - Shows all connected player usernames
+    - Displays total player count
+    - Shows total connection count
+    - Updates in real-time
+
+  Examples:
+    who               (show who is online)
+    w                 (autocomplete to "who")
+
+  Note: This command shows all players regardless of their location in the
+  game world. Use this to see if friends are online or check how busy the
+  game currently is.

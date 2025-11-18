@@ -1,0 +1,27 @@
+archetype:
+  id: half-orc
+  name: Half-Orc
+  description: Battle-born raiders fueled by relentless endurance.
+  isStarter: true
+  startingAttributes:
+    strength: 8
+    agility: 4
+    intelligence: 3
+  attributeGrowthPerLevel:
+    strength: 2
+    agility: 1
+    intelligence: 0
+  startingResourceCaps:
+    maxHealth: 70
+    maxMana: 25
+  resourceGrowthPerLevel:
+    maxHealth: 12
+    maxMana: 4
+  skills:
+    - id: relentless-endurance
+      level: 1
+  passives:
+    - savage-attacks
+  growthModifier:
+    base: 1.03
+    perLevel: 0.04

@@ -1,0 +1,6 @@
+name: changes
+displayName: Changes
+description: Updates about the game.
+permanent: true
+writePermission: admin
+nextMessageId: 109

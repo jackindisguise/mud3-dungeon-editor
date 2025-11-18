@@ -1,0 +1,42 @@
+keyword: say
+aliases:
+  - ''''
+related:
+  - communication
+  - ooc
+topic:
+  - communication
+  - speaking
+  - speech
+  - roleplay
+  - ic
+  - in-character
+content: |-
+  SAY - In-Character Speech
+
+  Usage:
+    say <message>
+    '<message>
+
+  The say command allows you to speak to other players and NPCs in the same
+  room as you. This is the primary way to communicate in-character and engage
+  in roleplay with others in your immediate vicinity.
+
+  Examples:
+    say Hello, traveler!
+    say How are you doing today?
+    'This is a shortcut for say
+    s~ Autocompletes to "say"
+
+  Features:
+    - Messages are only visible to players/NPCs in your current room
+    - Your character's name is shown to others
+    - You see your own message prefixed with "You say:"
+    - Others see it as "[Your Name] says,"
+
+  Note: Unlike OOC (out-of-character) messages, say is used for in-character
+  roleplay and conversation. Only characters in the same room can hear you.
+
+  See Also:
+    help ooc              - Out-of-character communication
+    help communication    - Overview of communication commands

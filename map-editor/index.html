@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Dungeon Map Editor</title>
+		<link rel="stylesheet" href="/static/style.css" />
+	</head>
+	<body>
+		<div id="app">
+			<header>
+				<h1>Dungeon Map Editor</h1>
+				<div class="header-controls">
+					<select id="dungeon-select">
+						<option value="">Select a dungeon...</option>
+					</select>
+					<button id="save-btn">Save</button>
+					<button id="help-btn" class="help-btn" title="Show help">?</button>
+				</div>
+			</header>
+
+			<div class="main-container">
+				<!-- Left Sidebar: Templates -->
+				<aside class="sidebar left">
+					<div class="tabs">
+						<button class="tab active" data-tab="rooms">Rooms</button>
+						<button class="tab" data-tab="mobs">Mobs</button>
+						<button class="tab" data-tab="objects">Objects</button>
+					</div>
+
+					<!-- Room Templates -->
+					<div class="tab-content active" id="rooms-tab">
+						<div class="template-list" id="room-templates"></div>
+						<button class="add-btn" id="add-room-btn">
+							+ Add Room Template
+						</button>
+					</div>
+
+					<!-- Mob Templates -->
+					<div class="tab-content" id="mobs-tab">
+						<div class="template-list" id="mob-templates"></div>
+						<button class="add-btn" id="add-mob-btn">+ Add Mob Template</button>
+					</div>
+
+					<!-- Object Templates -->
+					<div class="tab-content" id="objects-tab">
+						<div class="template-list" id="object-templates"></div>
+						<button class="add-btn" id="add-object-btn">
+							+ Add Object Template
+						</button>
+					</div>
+				</aside>
+
+				<!-- Center: Map Grid -->
+				<main class="map-container">
+					<!-- Toolbox -->
+					<div class="toolbox">
+						<div class="toolbox-title">Selection Tools</div>
+						<div class="toolbox-tools">
+							<button
+								class="tool-btn"
+								id="tool-rectangle"
+								data-tool="rectangle"
+								title="Rectangle Selection"
+							>
+								▭
+							</button>
+							<button
+								class="tool-btn"
+								id="tool-circle"
+								data-tool="circle"
+								title="Circle Selection"
+							>
+								○
+							</button>
+							<button
+								class="tool-btn"
+								id="tool-squircle"
+								data-tool="squircle"
+								title="Squircle Selection"
+							>
+								▢
+							</button>
+							<button
+								class="tool-btn"
+								id="tool-edge-rectangle"
+								data-tool="edge-rectangle"
+								title="Rectangle Edge Selection"
+							>
+								⊡
+							</button>
+							<button
+								class="tool-btn"
+								id="tool-edge-circle"
+								data-tool="edge-circle"
+								title="Circle Edge Selection"
+							>
+								◯
+							</button>
+							<button
+								class="tool-btn"
+								id="tool-edge-squircle"
+								data-tool="edge-squircle"
+								title="Squircle Edge Selection"
+							>
+								⊟
+							</button>
+						</div>
+					</div>
+					<div class="map-controls">
+						<label>
+							Layer:
+							<select id="layer-select"></select>
+						</label>
+						<label>
+							Dimensions:
+							<input
+								type="number"
+								id="width-input"
+								min="1"
+								max="100"
+								placeholder="width"
+							/>
+							<input
+								type="number"
+								id="height-input"
+								min="1"
+								max="100"
+								placeholder="height"
+							/>
+							<input
+								type="number"
+								id="layers-input"
+								min="1"
+								max="100"
+								placeholder="layers"
+							/>
+							<button id="resize-btn">Resize</button>
+						</label>
+						<label>
+							Reset Message:
+							<input
+								type="text"
+								id="reset-message-input"
+								placeholder="Reset message..."
+							/>
+						</label>
+					</div>
+					<div class="map-grid" id="map-grid"></div>
+					<!-- Toast Container -->
+					<div id="toast-container" class="toast-container"></div>
+					<!-- Placement Indicator -->
+					<div
+						id="placement-indicator"
+						class="placement-indicator"
+						style="display: none"
+					>
+						<div class="placement-indicator-content">
+							<div class="placement-main-row">
+								<div class="placement-icon"></div>
+								<div class="placement-text">
+									<div class="placement-action"></div>
+									<div class="placement-template"></div>
+								</div>
+								<button
+									class="placement-cancel"
+									id="placement-cancel-btn"
+									title="Cancel placement"
+								>
+									×
+								</button>
+							</div>
+							<div class="placement-modes">
+								<button
+									class="placement-mode-btn"
+									id="placement-mode-insert"
+									data-mode="insert"
+									title="Insert mode (click to place, drag to draw)"
+								>
+									✏️
+								</button>
+								<button
+									class="placement-mode-btn"
+									id="placement-mode-paint"
+									data-mode="paint"
+									title="Paint mode (click to replace all identical templates)"
+								>
+									🪣
+								</button>
+							</div>
+						</div>
+					</div>
+				</main>
+
+				<!-- Right Sidebar: Resets & Info -->
+				<aside class="sidebar right">
+					<div class="tabs">
+						<button class="tab active" data-tab="resets">Resets</button>
+						<button class="tab" data-tab="info">Info</button>
+					</div>
+
+					<!-- Resets -->
+					<div class="tab-content active" id="resets-tab">
+						<div class="reset-list" id="reset-list"></div>
+					</div>
+
+					<!-- Info -->
+					<div class="tab-content" id="info-tab">
+						<div class="info-panel" id="info-panel">
+							<p>
+								Click on a room in the map to see its details and manage resets.
+							</p>
+						</div>
+					</div>
+				</aside>
+			</div>
+
+			<!-- Modal for template editing -->
+			<div id="template-modal" class="modal">
+				<div class="modal-content">
+					<span class="close">&times;</span>
+					<h2 id="modal-title">Edit Template</h2>
+					<div id="modal-body"></div>
+					<div class="modal-actions">
+						<button id="modal-save">Save</button>
+						<button id="modal-cancel">Cancel</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Confirmation modal for dimension reduction -->
+			<div id="confirm-modal" class="modal">
+				<div class="modal-content">
+					<h2>Confirm Dimension Reduction</h2>
+					<p>
+						Reducing dungeon dimensions will delete rooms and resets outside the
+						new boundaries. This cannot be undone.
+					</p>
+					<div class="modal-actions">
+						<button id="confirm-yes">Yes, Continue</button>
+						<button id="confirm-no">Cancel</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Help modal -->
+			<div id="help-modal" class="modal">
+				<div class="modal-content help-modal-content">
+					<span class="close" id="help-close">&times;</span>
+					<h2>Help & Tips</h2>
+					<div class="help-content">
+						<section class="help-section">
+							<h3>Layer Navigation</h3>
+							<ul>
+								<li><strong>Page Up</strong> - Go to next layer (higher)</li>
+								<li>
+									<strong>Page Down</strong> - Go to previous layer (lower)
+								</li>
+								<li><strong>Home</strong> - Jump to first layer (layer 0)</li>
+								<li><strong>End</strong> - Jump to last layer</li>
+							</ul>
+						</section>
+
+						<section class="help-section">
+							<h3>Painting Templates</h3>
+							<ul>
+								<li>
+									Select a template from the left sidebar (Rooms, Mobs, or
+									Objects)
+								</li>
+								<li>
+									In <strong>Insert Mode</strong> (✏️): Click and drag to paint
+									templates continuously across cells
+								</li>
+								<li>
+									In <strong>Paint Mode</strong> (🪣): Click to flood-fill all
+									connected cells with matching templates
+								</li>
+								<li>
+									Toggle between Insert and Paint modes using the buttons in the
+									placement indicator (bottom right)
+								</li>
+							</ul>
+						</section>
+
+						<section class="help-section">
+							<h3>Selection Tools</h3>
+							<ul>
+								<li>
+									Click any selection tool in the toolbox (left side of map) to
+									activate it
+								</li>
+								<li>
+									<strong>Rectangle</strong> (▭) - Select all cells in a
+									rectangular area
+								</li>
+								<li>
+									<strong>Circle</strong> (○) - Select all cells within a
+									circular area
+								</li>
+								<li>
+									<strong>Squircle</strong> (▢) - Select all cells within a
+									rounded rectangle
+								</li>
+								<li>
+									<strong>Rectangle Edge</strong> (⊡) - Select only border cells
+									of a rectangle
+								</li>
+								<li>
+									<strong>Circle Edge</strong> (◯) - Select only cells on the
+									circle circumference
+								</li>
+								<li>
+									<strong>Squircle Edge</strong> (⊟) - Select only border cells
+									of a rounded rectangle
+								</li>
+								<li>Click and drag on the map to create a selection</li>
+								<li>Click the same tool again to deselect it</li>
+							</ul>
+						</section>
+
+						<section class="help-section">
+							<h3>Auto-Fill Selection</h3>
+							<ul>
+								<li>First, use a selection tool to select cells on the map</li>
+								<li>
+									Then click any template (Room, Mob, or Object) to
+									automatically fill all selected cells with that template
+								</li>
+								<li>The selection will clear after filling</li>
+							</ul>
+						</section>
+					</div>
+					<div class="modal-actions">
+						<button id="help-close-btn">Close</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Modal for editing resets -->
+			<div id="reset-edit-modal" class="modal">
+				<div class="modal-content">
+					<span class="close" id="reset-edit-close">&times;</span>
+					<h2>Edit Reset</h2>
+					<div class="form-group">
+						<label>Minimum Count:</label>
+						<input type="number" id="reset-min-count" min="1" value="1" />
+					</div>
+					<div class="form-group">
+						<label>Maximum Count:</label>
+						<input type="number" id="reset-max-count" min="1" value="1" />
+					</div>
+					<div class="modal-actions">
+						<button id="reset-edit-save">Save</button>
+						<button id="reset-edit-cancel">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+		<script type="module" src="/static/app.js"></script>
+	</body>
+</html>

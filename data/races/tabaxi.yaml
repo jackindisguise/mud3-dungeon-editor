@@ -1,0 +1,27 @@
+archetype:
+  id: tabaxi
+  name: Tabaxi
+  description: Curious catfolk who sprint faster than their stories spread.
+  isStarter: true
+  startingAttributes:
+    strength: 4
+    agility: 9
+    intelligence: 4
+  attributeGrowthPerLevel:
+    strength: 1
+    agility: 3
+    intelligence: 1
+  startingResourceCaps:
+    maxHealth: 50
+    maxMana: 35
+  resourceGrowthPerLevel:
+    maxHealth: 9
+    maxMana: 7
+  skills:
+    - id: feline-agility
+      level: 1
+  passives:
+    - curious-whiskers
+  growthModifier:
+    base: 1.04
+    perLevel: 0.04

@@ -1,0 +1,29 @@
+archetype:
+  id: mink
+  name: Mink
+  description: Electro-charged beastfolk whose fur stores thunderstorm energy.
+  isStarter: true
+  startingAttributes:
+    strength: 5
+    agility: 8
+    intelligence: 5
+  attributeGrowthPerLevel:
+    strength: 1
+    agility: 3
+    intelligence: 1
+  startingResourceCaps:
+    maxHealth: 55
+    maxMana: 50
+  resourceGrowthPerLevel:
+    maxHealth: 9
+    maxMana: 10
+  skills:
+    - id: electro-claw
+      level: 1
+  passives:
+    - sulong-awakening
+  growthModifier:
+    base: 1.06
+    perLevel: 0.04
+
+

@@ -1,0 +1,29 @@
+archetype:
+  id: fishman
+  name: Fishman
+  description: Ocean-born warriors whose strength multiplies near water.
+  isStarter: true
+  startingAttributes:
+    strength: 8
+    agility: 4
+    intelligence: 4
+  attributeGrowthPerLevel:
+    strength: 3
+    agility: 1
+    intelligence: 1
+  startingResourceCaps:
+    maxHealth: 70
+    maxMana: 35
+  resourceGrowthPerLevel:
+    maxHealth: 12
+    maxMana: 7
+  skills:
+    - id: fishman-karate
+      level: 1
+  passives:
+    - tidal-surge
+  growthModifier:
+    base: 1.05
+    perLevel: 0.04
+
+

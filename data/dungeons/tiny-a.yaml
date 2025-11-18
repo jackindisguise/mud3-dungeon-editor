@@ -1,0 +1,30 @@
+dungeon:
+  id: tiny-a
+  dimensions:
+    width: 11
+    height: 11
+    layers: 1
+  grid:
+    - [
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
+      ]
+  rooms:
+    - {
+        display: "Tiny A-0",
+        description: "A very small dungeon with a single room.",
+      }
+    - {
+        display: "Tiny A-1",
+        description: "A very small dungeon with a single room.",
+        roomLinks: { east: "@tiny-b{0,10,0}" },
+      }

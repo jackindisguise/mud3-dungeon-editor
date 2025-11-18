@@ -1,0 +1,29 @@
+archetype:
+  id: riftstalker
+  name: Riftstalker
+  description: A blade-dancer who blinks between planes to strike unseen angles.
+  isStarter: true
+  startingAttributes:
+    strength: 4
+    agility: 9
+    intelligence: 4
+  attributeGrowthPerLevel:
+    strength: 1
+    agility: 3
+    intelligence: 1
+  startingResourceCaps:
+    maxHealth: 55
+    maxMana: 40
+  resourceGrowthPerLevel:
+    maxHealth: 9
+    maxMana: 8
+  skills:
+    - id: phase-strike
+      level: 1
+    - id: blinkstorm
+      level: 2
+  passives:
+    - dimensional-slip
+  growthModifier:
+    base: 1.06
+    perLevel: 0.05

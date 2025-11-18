@@ -1,0 +1,44 @@
+{
+	"name": "map-editor",
+	"version": "1.0.0",
+	"description": "",
+	"license": "ISC",
+	"author": "",
+	"type": "module",
+	"main": "index.js",
+	"scripts": {
+		"prebuild": "rimraf dist",
+		"build": "tsc",
+		"pretest": "npm run build",
+		"test": "node scripts/test.js",
+		"test:compiled": "node --test --test-reporter=spec \"dist/**/*.spec.js\"",
+		"coverage": "npx c8 --reporter=html --reporter=text-summary npm run test:compiled",
+		"doc": "npx typedoc",
+		"deploy": "npm run build && npm run coverage && npm run doc",
+		"start": "npm run map-editor",
+		"map-editor": "npm run build && node dist/start-map-editor.js",
+		"pull-mud3": "node scripts/pull-mud3.js",
+		"copy-mud3-data": "node scripts/copy-mud3-data.js",
+		"update-mud3": "npm run pull-mud3 && npm run copy-mud3-data"
+	},
+	"devDependencies": {
+		"@types/ini": "^4.1.1",
+		"@types/js-yaml": "^4.0.9",
+		"@types/node": "^24.9.1",
+		"@types/xml2js": "^0.4.14",
+		"c8": "^10.1.3",
+		"js-yaml": "^4.1.0",
+		"rimraf": "^6.0.1",
+		"smol-toml": "^1.4.2",
+		"ts-node": "^10.9.2",
+		"typedoc": "^0.28.14",
+		"typescript": "^5.9.3",
+		"winston": "^3.18.3"
+	},
+	"dependencies": {
+		"accurate-intervals": "github:jackindisguise/accurate-intervals",
+		"mud-ext": "github:jackindisguise/mud-ext#v2.12.1",
+		"node-test-reporter": "^1.2.0",
+		"package-loader": "github:jackindisguise/package-loader"
+	}
+}

@@ -1,0 +1,30 @@
+archetype:
+  id: nobility
+  name: Nobility
+  description: Ancient pureblood vampires whose elegance masks cosmic predation.
+  isStarter: true
+  startingAttributes:
+    strength: 8
+    agility: 6
+    intelligence: 8
+  attributeGrowthPerLevel:
+    strength: 3
+    agility: 2
+    intelligence: 2
+  startingResourceCaps:
+    maxHealth: 75
+    maxMana: 65
+  resourceGrowthPerLevel:
+    maxHealth: 13
+    maxMana: 12
+  skills:
+    - id: sanguine-dominate
+      level: 1
+  passives:
+    - starlight-immortality
+    - daylight-curse
+  growthModifier:
+    base: 1.08
+    perLevel: 0.05
+
+

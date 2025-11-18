@@ -1,0 +1,27 @@
+archetype:
+  id: human
+  name: Human
+  description: A balanced race suited for varied roles.
+  isStarter: true
+  startingAttributes:
+    strength: 5
+    agility: 5
+    intelligence: 5
+  attributeGrowthPerLevel:
+    strength: 1
+    agility: 1
+    intelligence: 1
+  startingResourceCaps:
+    maxHealth: 55
+    maxMana: 35
+  resourceGrowthPerLevel:
+    maxHealth: 10
+    maxMana: 6
+  skills:
+    - id: inspire
+      level: 1
+  passives:
+    - adaptable
+  growthModifier:
+    base: 1.0
+    perLevel: 0.05

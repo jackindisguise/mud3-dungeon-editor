@@ -1,0 +1,29 @@
+archetype:
+  id: gravesinger
+  name: Gravesinger
+  description: A dirge-channeler who commands bone choirs and mourning winds.
+  isStarter: true
+  startingAttributes:
+    strength: 2
+    agility: 4
+    intelligence: 9
+  attributeGrowthPerLevel:
+    strength: 0
+    agility: 1
+    intelligence: 3
+  startingResourceCaps:
+    maxHealth: 42
+    maxMana: 72
+  resourceGrowthPerLevel:
+    maxHealth: 6
+    maxMana: 14
+  skills:
+    - id: mournful-wail
+      level: 1
+    - id: ossuary-pact
+      level: 3
+  passives:
+    - grave-attunement
+  growthModifier:
+    base: 1.08
+    perLevel: 0.05

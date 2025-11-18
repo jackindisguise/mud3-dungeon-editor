@@ -1,0 +1,27 @@
+archetype:
+  id: goliath
+  name: Goliath
+  description: Towering nomads bred for cliff-side challenges.
+  isStarter: true
+  startingAttributes:
+    strength: 9
+    agility: 4
+    intelligence: 2
+  attributeGrowthPerLevel:
+    strength: 3
+    agility: 1
+    intelligence: 0
+  startingResourceCaps:
+    maxHealth: 80
+    maxMana: 20
+  resourceGrowthPerLevel:
+    maxHealth: 14
+    maxMana: 3
+  skills:
+    - id: stone-giant-grip
+      level: 1
+  passives:
+    - mountain-stride
+  growthModifier:
+    base: 1.04
+    perLevel: 0.03

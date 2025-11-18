@@ -1,0 +1,58 @@
+keyword: colors
+aliases:
+  - color
+  - colour
+  - colours
+  - ansi
+related:
+  - help
+topic:
+  - formatting
+  - display
+  - customization
+  - text
+content: |-
+  {WCOLOR CODES{x
+    Colors are added to text using {W{{letter{x syntax. Use lowercase for standard
+  colors, uppercase for bright versions.
+
+  {WFOREGROUND COLORS{x
+    {kk{x - Black        {KK{x - Grey
+    {rr{x - Maroon       {RR{x - Crimson
+    {gg{x - Dark Green   {GG{x - Lime
+    {yy{x - Olive        {YY{x - Yellow
+    {bb{x - Dark Blue    {BB{x - Light Blue
+    {mm{x - Purple       {MM{x - Pink
+    {cc{x - Teal         {CC{x - Cyan
+    {ww{x - Silver       {WW{x - White
+
+  {WBACKGROUND COLORS{x
+    Use numbers 0-7 for background colors (same order as foreground).
+
+    {W{00{x - Black
+    {W{11{x - Maroon
+    {W{22{x - Dark Green
+    {W{33{x - Olive
+    {W{44{x - Dark Blue
+    {W{55{x - Purple
+    {W{66{x - Teal
+    {W{77{x - Silver
+
+  {WTEXT STYLES{x
+    {dd{x - Bold         {ii{x - Italic       {uu{x - Underline
+    {ff{x - Blink        {vv{x - Reverse      {ss{x - Strikethrough
+
+  {WRESET CODES{x
+    {xx{x - {RReset{x color  {XX{x - {RAlso reset{x color
+
+  {WEXAMPLES{x
+    {RThis is crimson{x
+    {GLime{x {Cand{x {Ycyan{x
+    {dBold{X {uunderlined{x
+    {Y{4Yellow on dark blue background{x
+
+  {WESCAPING{x
+    Use {W{{{{{x to produce a literal {{ character.
+
+  {WNOTE{x
+    Not all terminals support all styles. Basic colors work on most terminals.

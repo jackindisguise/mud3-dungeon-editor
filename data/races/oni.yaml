@@ -1,0 +1,29 @@
+archetype:
+  id: oni
+  name: Oni
+  description: Blood-demon beings blessed with monstrous strength and regeneration.
+  isStarter: true
+  startingAttributes:
+    strength: 9
+    agility: 5
+    intelligence: 5
+  attributeGrowthPerLevel:
+    strength: 3
+    agility: 1
+    intelligence: 1
+  startingResourceCaps:
+    maxHealth: 90
+    maxMana: 40
+  resourceGrowthPerLevel:
+    maxHealth: 15
+    maxMana: 8
+  skills:
+    - id: blood-demon-art
+      level: 1
+  passives:
+    - rapid-regeneration
+  growthModifier:
+    base: 1.08
+    perLevel: 0.04
+
+

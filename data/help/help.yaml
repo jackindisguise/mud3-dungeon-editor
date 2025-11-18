@@ -1,0 +1,52 @@
+keyword: help
+aliases:
+  - '?'
+related:
+  - searching
+topic:
+  - documentation
+  - information
+  - reference
+  - search
+  - tutorial
+content: |-
+  HELP - Access Game Documentation
+
+  Usage:
+    help
+    ?
+    help <topic>
+    ? <topic>
+    help search <query>
+    ? search <query>
+
+  The help command allows you to access documentation for game features,
+  commands, and mechanics.
+
+  Basic Usage:
+    help              - Shows general help information
+    help commands     - Lists all available commands
+    help ooc          - Shows help for the OOC command
+    help com          - Autocompletes to first matching topic
+
+  Search Functionality:
+    help search combat    - Searches all helpfiles for "combat"
+    help search att       - Finds all mentions of "att" anywhere
+
+  The search command will show results categorized by where the match was found:
+    - Keyword Matches: Topics whose name starts with your search
+    - Alias Matches: Topics with an alias matching your search
+    - Content Matches: Topics whose content contains your search
+    - Related Matches: Topics related to matching keywords
+
+  Examples:
+    help              (show general help)
+    help say          (show help for say command)
+    help com          (autocomplete to "commands" or "communication")
+    help search talk  (search for "talk" everywhere)
+
+  Tips:
+    - Searches are case-insensitive
+    - Partial matches work for autocomplete
+    - Use "help search" for comprehensive searches
+    - Related topics are shown at the bottom of each help page

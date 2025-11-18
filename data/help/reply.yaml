@@ -1,0 +1,39 @@
+keyword: reply
+aliases:
+  - r
+related:
+  - communication
+  - whisper
+  - tell
+  - channels
+topic:
+  - communication
+  - chat
+  - private
+  - messaging
+content: |-
+  REPLY - Respond to Whispers
+
+  Usage:
+    reply <message>
+    r <message>
+
+  The reply command allows you to quickly respond to the last person who
+  whispered to you without having to type their name. This is a convenient
+  shortcut for continuing private conversations.
+
+  When someone whispers to you, their username is automatically remembered.
+  You can then use "reply" to send them a message back, and they in turn
+  can reply to you.
+
+  Examples:
+    reply Thanks for letting me know!
+      Sends a whisper to the last person who messaged you
+    
+    r No problem at all.
+      Short alias for quick replies
+
+  Notes:
+    - You must have received at least one whisper before using reply
+    - If the other player logs off, you'll be notified they're offline
+    - Both you and the recipient must have the WHISPER channel enabled

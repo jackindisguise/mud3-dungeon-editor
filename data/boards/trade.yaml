@@ -1,0 +1,6 @@
+name: trade
+displayName: Trade
+description: Trade!
+permanent: false
+expirationMs: 604800000
+nextMessageId: 1

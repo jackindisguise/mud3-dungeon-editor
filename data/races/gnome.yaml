@@ -1,0 +1,27 @@
+archetype:
+  id: gnome
+  name: Gnome
+  description: Inventive tricksters with a knack for clockwork sorcery.
+  isStarter: true
+  startingAttributes:
+    strength: 2
+    agility: 5
+    intelligence: 8
+  attributeGrowthPerLevel:
+    strength: 0
+    agility: 1
+    intelligence: 2
+  startingResourceCaps:
+    maxHealth: 40
+    maxMana: 45
+  resourceGrowthPerLevel:
+    maxHealth: 7
+    maxMana: 10
+  skills:
+    - id: clockwork-bolt
+      level: 1
+  passives:
+    - tinker-savant
+  growthModifier:
+    base: 1.03
+    perLevel: 0.04

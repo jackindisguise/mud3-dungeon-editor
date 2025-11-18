@@ -1,0 +1,29 @@
+archetype:
+  id: mage
+  name: Mage
+  description: A spellcaster who channels arcane energies.
+  isStarter: true
+  startingAttributes:
+    strength: 2
+    agility: 3
+    intelligence: 9
+  attributeGrowthPerLevel:
+    strength: 0
+    agility: 1
+    intelligence: 3
+  startingResourceCaps:
+    maxHealth: 40
+    maxMana: 70
+  resourceGrowthPerLevel:
+    maxHealth: 6
+    maxMana: 14
+  skills:
+    - id: firebolt
+      level: 1
+    - id: mana-shield
+      level: 2
+  passives:
+    - arcane-pulse
+  growthModifier:
+    base: 1.08
+    perLevel: 0.05

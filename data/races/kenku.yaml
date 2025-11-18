@@ -1,0 +1,27 @@
+archetype:
+  id: kenku
+  name: Kenku
+  description: Beaked mimics who trade stolen voices for secrets.
+  isStarter: true
+  startingAttributes:
+    strength: 3
+    agility: 8
+    intelligence: 6
+  attributeGrowthPerLevel:
+    strength: 0
+    agility: 2
+    intelligence: 1
+  startingResourceCaps:
+    maxHealth: 45
+    maxMana: 40
+  resourceGrowthPerLevel:
+    maxHealth: 7
+    maxMana: 9
+  skills:
+    - id: mimic-call
+      level: 1
+  passives:
+    - shadow-flutter
+  growthModifier:
+    base: 1.03
+    perLevel: 0.04

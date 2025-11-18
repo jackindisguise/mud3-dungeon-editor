@@ -1,0 +1,49 @@
+keyword: whisper
+aliases:
+  - tell
+  - w
+related:
+  - communication
+  - reply
+  - channels
+topic:
+  - communication
+  - chat
+  - private
+  - messaging
+content: |-
+  WHISPER - Send Private Messages
+
+  Usage:
+    whisper <player> <message>
+    tell <player> <message>
+    w <player> <message>
+
+  The whisper command (also known as "tell") allows you to send private
+  messages to other players who are currently online. Only you and the
+  recipient can see whispered messages.
+
+  When you whisper to someone, they can use the "reply" command to quickly
+  respond without typing your name.
+
+  Examples:
+    whisper Alice Hey, how's it going?
+      Sends a private message to Alice
+    
+    tell Bob Meet me in the town square
+      Same as whisper, alternative syntax
+    
+    w Carol Thanks for your help!
+      Short alias for quick whispers
+
+  Features:
+    - Messages are completely private between sender and recipient
+    - Color-coded with purple/pink color scheme
+    - Case-insensitive player names
+    - Updates recipient's reply target automatically
+    - Both parties must be subscribed to the WHISPER channel
+
+  Notes:
+    - You cannot whisper to yourself
+    - Both you and the recipient must have the WHISPER channel enabled
+    - Use "reply" or "r" to respond to the last person who whispered to you

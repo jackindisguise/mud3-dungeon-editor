@@ -1,0 +1,27 @@
+archetype:
+  id: halfling
+  name: Halfling
+  description: Small wanderers whose luck and light steps keep them alive.
+  isStarter: true
+  startingAttributes:
+    strength: 3
+    agility: 8
+    intelligence: 5
+  attributeGrowthPerLevel:
+    strength: 0
+    agility: 2
+    intelligence: 1
+  startingResourceCaps:
+    maxHealth: 45
+    maxMana: 30
+  resourceGrowthPerLevel:
+    maxHealth: 8
+    maxMana: 6
+  skills:
+    - id: lucky-escape
+      level: 1
+  passives:
+    - brave-heart
+  growthModifier:
+    base: 1.04
+    perLevel: 0.03

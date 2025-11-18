@@ -1,0 +1,40 @@
+keyword: commands
+aliases:
+  - command
+  - cmd
+  - cmds
+related:
+  - help
+  - searching
+topic:
+  - general
+  - reference
+  - list
+  - index
+  - overview
+content: |-
+  COMMANDS - Available Game Commands
+
+  Welcome to the MUD! Here are the available commands:
+
+  Communication:
+    say <message>     - Speak to players in the same room
+    '<message>        - Shortcut for say command
+    ooc <message>     - Send an out-of-character message to all players
+    "<message>        - Shortcut for OOC command
+
+  Information:
+    help <topic>      - View help on a specific topic
+    help search <q>   - Search for topics across all help content
+    who               - See who is currently online
+
+  Getting Help:
+    help              - Show general help
+    help commands     - View this list
+    help <topic>      - Get help on a specific topic
+    help search <q>   - Search all help topics
+
+  Note: Many commands support. For example, typing "hel" will match the full "help" command.
+
+  For more information on a specific command, type: help <command>
+  Examples: help say, help ooc, help search

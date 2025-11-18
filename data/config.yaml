@@ -1,0 +1,8 @@
+game:
+  name: mud3
+  creator: jackindisguise
+server:
+  port: 23
+  inactivity_timeout: 1800
+security:
+  password_salt: kickEEwinTI

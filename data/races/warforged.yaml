@@ -1,0 +1,27 @@
+archetype:
+  id: warforged
+  name: Warforged
+  description: Living constructs forged for battle yet hungry for purpose.
+  isStarter: true
+  startingAttributes:
+    strength: 7
+    agility: 4
+    intelligence: 6
+  attributeGrowthPerLevel:
+    strength: 2
+    agility: 1
+    intelligence: 1
+  startingResourceCaps:
+    maxHealth: 75
+    maxMana: 30
+  resourceGrowthPerLevel:
+    maxHealth: 12
+    maxMana: 6
+  skills:
+    - id: integrated-armor
+      level: 1
+  passives:
+    - construct-nature
+  growthModifier:
+    base: 1.03
+    perLevel: 0.04

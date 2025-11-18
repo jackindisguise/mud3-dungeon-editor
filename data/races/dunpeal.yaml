@@ -1,0 +1,30 @@
+archetype:
+  id: dunpeal
+  name: Dunpeal
+  description: Half-vampiric wanderers who temper night-born hunger with stoic resolve.
+  isStarter: true
+  startingAttributes:
+    strength: 7
+    agility: 6
+    intelligence: 6
+  attributeGrowthPerLevel:
+    strength: 2
+    agility: 2
+    intelligence: 1
+  startingResourceCaps:
+    maxHealth: 65
+    maxMana: 45
+  resourceGrowthPerLevel:
+    maxHealth: 11
+    maxMana: 9
+  skills:
+    - id: bloodbound-lunge
+      level: 1
+  passives:
+    - lunar-regeneration
+    - daylight-penance
+  growthModifier:
+    base: 1.06
+    perLevel: 0.04
+
+

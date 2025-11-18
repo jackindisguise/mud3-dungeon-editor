@@ -1,0 +1,13 @@
+{
+	"include": ["src/**/*", "*.ts"],
+	"exclude": ["node_modules", "dist"],
+	"compilerOptions": {
+		"outDir": "dist",
+		"target": "esnext",
+		"module": "nodenext",
+		"moduleResolution": "nodenext",
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"declaration": true
+	}
+}

@@ -1,0 +1,46 @@
+keyword: searching
+aliases:
+  - find
+  - lookup
+related:
+  - help
+  - commands
+topic:
+  - search
+  - find
+  - lookup
+  - documentation
+  - information
+content: |-
+  SEARCH - Deep Search Across Help Topics
+
+  Usage:
+    help search <query>
+
+  The search command performs a comprehensive search across all helpfiles,
+  looking in keywords, aliases, content, and related topics. Results are
+  categorized by match type to help you find the most relevant information.
+
+  Search Categories:
+    Keyword Matches   - Topics whose primary name matches your search
+    Alias Matches     - Topics with alternative names matching your search
+    Content Matches   - Topics whose help text contains your search
+    Related Matches   - Topics related to matching keywords
+
+  Examples:
+    help search combat    - Find all combat-related topics
+    help search talk      - Find communication commands
+    help search att       - Find topics about attacking
+
+  Features:
+    - Case-insensitive searching
+    - Partial word matching for keywords and aliases
+    - Full-text search in content
+    - Shows content snippets for content matches
+    - Highlights the "best match" at the top
+
+  Tips:
+    - Use specific terms for better results
+    - Try different search terms if you don't find what you need
+    - The best match is usually what you're looking for
+    - Check related topics for additional information

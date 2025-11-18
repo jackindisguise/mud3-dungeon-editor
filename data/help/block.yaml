@@ -1,0 +1,71 @@
+keyword: block
+aliases:
+  - ignore
+related:
+  - communication
+  - channels
+  - whisper
+  - unblock
+topic:
+  - communication
+  - privacy
+  - blocking
+  - moderation
+content: |-
+  BLOCK - Block Communication from Other Players
+
+  Usage:
+    block                   - List all blocked users
+    block <username>        - Block a user
+    ignore <username>       - Same as block (alternative command)
+
+  The block command (also known as "ignore") allows you to prevent specific
+  players from sending you messages on any channel. When you block someone,
+  they cannot communicate with you through:
+    - Whispers (private messages)
+    - Say (room chat)
+    - OOC (out of character)
+    - Gossip
+    - Any other communication channels
+
+  To remove someone from your blocked list, use the "unblock" command.
+
+  Examples:
+    block
+      Shows a list of all users you have blocked
+    
+    block Spammer
+      Blocks the user "Spammer" from sending you any messages
+    
+    ignore Annoying
+      Alternative syntax using "ignore" alias
+    
+    unblock Spammer
+      Removes Spammer from your blocked list
+
+  Features:
+    - Completely silent - blocked users don't know they're blocked
+    - Case-insensitive usernames
+    - Persists between logins (saved to your character file)
+    - Explicit block/unblock commands (no toggle confusion)
+    - Works across all communication channels
+    - List all blocked users with no arguments
+
+  How It Works:
+    - When someone you've blocked tries to message you, the message is
+      simply not delivered to you
+    - The blocked user receives no indication that you blocked them
+    - They can still use commands normally, you just won't see their messages
+    - You can unblock them at any time by using the "unblock" command
+
+  Notes:
+    - You cannot block yourself
+    - Blocking is one-way (they can still receive your messages unless they block you)
+    - Blocks persist through logouts and server restarts
+    - Admins and moderators may still be able to contact you for moderation purposes
+    - This only affects channel messages, not game mechanics or interactions
+
+  Privacy:
+    - Your block list is private and only visible to you
+    - Blocked users are not notified when you block or unblock them
+    - No public indication that someone is on your block list

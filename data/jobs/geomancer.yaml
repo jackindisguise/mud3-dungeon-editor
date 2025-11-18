@@ -1,0 +1,29 @@
+archetype:
+  id: geomancer
+  name: Geomancer
+  description: An earthshaper who turns terrain, crystal, and magma into weapons.
+  isStarter: true
+  startingAttributes:
+    strength: 6
+    agility: 3
+    intelligence: 7
+  attributeGrowthPerLevel:
+    strength: 2
+    agility: 0
+    intelligence: 2
+  startingResourceCaps:
+    maxHealth: 65
+    maxMana: 55
+  resourceGrowthPerLevel:
+    maxHealth: 11
+    maxMana: 10
+  skills:
+    - id: stone-spike
+      level: 1
+    - id: earthen-ward
+      level: 2
+  passives:
+    - seismic-attunement
+  growthModifier:
+    base: 1.06
+    perLevel: 0.04

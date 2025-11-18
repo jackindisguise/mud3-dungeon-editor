@@ -1,0 +1,9 @@
+node_modules
+dist
+coverage
+logs/*.log
+**/*.tmp
+.cursor
+guides
+commit-message.md
+src/mud3

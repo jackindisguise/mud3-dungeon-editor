@@ -1,0 +1,27 @@
+archetype:
+  id: tiefling
+  name: Tiefling
+  description: Infernal-blooded survivors wielding ember-hot magic.
+  isStarter: true
+  startingAttributes:
+    strength: 3
+    agility: 4
+    intelligence: 8
+  attributeGrowthPerLevel:
+    strength: 1
+    agility: 1
+    intelligence: 2
+  startingResourceCaps:
+    maxHealth: 45
+    maxMana: 55
+  resourceGrowthPerLevel:
+    maxHealth: 8
+    maxMana: 11
+  skills:
+    - id: hellish-rebuke
+      level: 1
+  passives:
+    - infernal-legacy
+  growthModifier:
+    base: 1.05
+    perLevel: 0.04

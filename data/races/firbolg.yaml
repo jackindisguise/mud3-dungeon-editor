@@ -1,0 +1,27 @@
+archetype:
+  id: firbolg
+  name: Firbolg
+  description: Gentle forest giants weaving nature magic through might.
+  isStarter: true
+  startingAttributes:
+    strength: 7
+    agility: 3
+    intelligence: 6
+  attributeGrowthPerLevel:
+    strength: 2
+    agility: 1
+    intelligence: 2
+  startingResourceCaps:
+    maxHealth: 65
+    maxMana: 45
+  resourceGrowthPerLevel:
+    maxHealth: 11
+    maxMana: 9
+  skills:
+    - id: hidden-step
+      level: 1
+  passives:
+    - speaker-of-beasts
+  growthModifier:
+    base: 1.04
+    perLevel: 0.04

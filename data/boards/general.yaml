@@ -1,0 +1,7 @@
+name: general
+displayName: General
+description: General messages.
+permanent: false
+expirationMs: 2592000000
+writePermission: all
+nextMessageId: 6

@@ -1,0 +1,29 @@
+archetype:
+  id: stormcaller
+  name: Stormcaller
+  description: A tempest maestro who braids song and lightning into battle.
+  isStarter: true
+  startingAttributes:
+    strength: 3
+    agility: 5
+    intelligence: 9
+  attributeGrowthPerLevel:
+    strength: 0
+    agility: 2
+    intelligence: 3
+  startingResourceCaps:
+    maxHealth: 45
+    maxMana: 65
+  resourceGrowthPerLevel:
+    maxHealth: 7
+    maxMana: 13
+  skills:
+    - id: tempest-lance
+      level: 1
+    - id: windstep-chorus
+      level: 2
+  passives:
+    - stormheart-conduit
+  growthModifier:
+    base: 1.07
+    perLevel: 0.05

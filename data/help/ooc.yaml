@@ -1,0 +1,30 @@
+keyword: ooc
+aliases:
+  - out-of-character
+  - '"'
+related:
+  - communication
+topic:
+  - communication
+  - speaking
+  - speech
+  - channel
+  - chat
+  - ooc
+content: |-
+  OOC - Out of Character Communication
+
+  Usage:
+    ooc <message>
+    "<message>
+
+  The OOC command allows you to send out-of-character messages to all connected
+  players. This is useful for discussing game mechanics, asking for help, or
+  having conversations that aren't part of the in-game roleplay.
+
+  Examples:
+    ooc Hey everyone, how do I get started?
+    ooc Is the server going down for maintenance?
+    "Anyone want to team up?
+
+  Note: OOC messages are visible to all players currently online.

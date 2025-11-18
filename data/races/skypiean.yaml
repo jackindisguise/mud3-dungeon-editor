@@ -1,0 +1,29 @@
+archetype:
+  id: skypiean
+  name: Skypiean
+  description: Winged islanders who glide on dials and cloud-reef drafts.
+  isStarter: true
+  startingAttributes:
+    strength: 4
+    agility: 7
+    intelligence: 6
+  attributeGrowthPerLevel:
+    strength: 1
+    agility: 2
+    intelligence: 2
+  startingResourceCaps:
+    maxHealth: 50
+    maxMana: 55
+  resourceGrowthPerLevel:
+    maxHealth: 8
+    maxMana: 11
+  skills:
+    - id: dial-surge
+      level: 1
+  passives:
+    - cloud-glider
+  growthModifier:
+    base: 1.05
+    perLevel: 0.04
+
+

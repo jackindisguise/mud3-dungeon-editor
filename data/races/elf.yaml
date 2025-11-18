@@ -1,0 +1,27 @@
+archetype:
+  id: elf
+  name: Elf
+  description: Graceful and attuned to the arcane.
+  isStarter: true
+  startingAttributes:
+    strength: 3
+    agility: 6
+    intelligence: 8
+  attributeGrowthPerLevel:
+    strength: 0
+    agility: 1
+    intelligence: 2
+  startingResourceCaps:
+    maxHealth: 45
+    maxMana: 50
+  resourceGrowthPerLevel:
+    maxHealth: 8
+    maxMana: 12
+  skills:
+    - id: essence-bolt
+      level: 1
+  passives:
+    - keen-focus
+  growthModifier:
+    base: 1.05
+    perLevel: 0.04
