@@ -2930,12 +2930,22 @@ class MapEditor {
 		const dungeon = this.yamlData.dungeon;
 		const reset = dungeon.resets[index];
 
+		// Get template info for display
+		const template = dungeon.templates?.find((t) => t.id === reset.templateId);
+		const templateName = template
+			? template.display || reset.templateId
+			: reset.templateId;
+
+		// Populate template and location info
+		document.getElementById("reset-template-name").textContent = templateName;
+		document.getElementById("reset-location").textContent =
+			reset.roomRef || "N/A";
+
 		// Populate modal with current values
 		document.getElementById("reset-min-count").value = reset.minCount || 1;
 		document.getElementById("reset-max-count").value = reset.maxCount || 1;
 
 		// Check if this is a mob reset
-		const template = dungeon.templates?.find((t) => t.id === reset.templateId);
 		const isMobReset = template?.type === "Mob";
 
 		// Show/hide mob-specific fields
