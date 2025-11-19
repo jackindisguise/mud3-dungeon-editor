@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/jackindisguise/mud3-dungeon-editor/compare/v1.2.0...v1.3.0) (2025-11-19)
+
+
+### Features
+
+* add behavior system to mob template editor modal ([8f960f8](https://github.com/jackindisguise/mud3-dungeon-editor/commit/8f960f8b5285098e7bfa4e269211d23a644aa4e0))
+
 ## [1.2.0](https://github.com/jackindisguise/mud3-dungeon-editor/compare/v1.1.0...v1.2.0) (2025-11-19)
 
 
