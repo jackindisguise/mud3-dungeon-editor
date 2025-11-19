@@ -1318,10 +1318,246 @@ header h1 {
 	margin-bottom: 0.25rem;
 }
 
-.toast-details {
-	color: #ccc;
-	font-size: 0.85rem;
-}
+	.toast-details {
+		color: #ccc;
+		font-size: 0.85rem;
+	}
+
+	/* Template Selection UI for Reset Modal */
+	.template-selection-container {
+		display: flex;
+		gap: 1rem;
+		margin-top: 0.5rem;
+	}
+
+	.template-table-container {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+	}
+
+	.template-table-header {
+		background: #3a3a3a;
+		padding: 0.5rem;
+		border: 1px solid #555;
+		border-bottom: none;
+		border-radius: 4px 4px 0 0;
+		color: #fff;
+		font-size: 0.85rem;
+		font-weight: 600;
+		text-align: center;
+	}
+
+	.template-table {
+		background: #1a1a1a;
+		border: 1px solid #555;
+		border-radius: 0 0 4px 4px;
+		max-height: 200px;
+		overflow-y: auto;
+		overflow-x: hidden;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding: 2px;
+	}
+
+	.template-table-item {
+		padding: 0.5rem;
+		background: #2a2a2a;
+		border: 1px solid #444;
+		border-radius: 3px;
+		cursor: pointer;
+		transition: all 0.2s;
+		font-size: 0.85rem;
+	}
+
+	.template-table-item:hover {
+		background: #333;
+		border-color: #666;
+	}
+
+	.template-table-item:active {
+		background: #3a3a3a;
+	}
+
+	.template-table-item-name {
+		color: #fff;
+		font-weight: 500;
+		margin-bottom: 0.25rem;
+	}
+
+	.template-table-item-id {
+		color: #aaa;
+		font-size: 0.75rem;
+		font-family: monospace;
+	}
+
+	.template-list-container {
+		flex: 1;
+		display: flex;
+		flex-direction: column;
+		min-width: 0;
+	}
+
+	.template-list-header {
+		background: #3a3a3a;
+		padding: 0.5rem;
+		border: 1px solid #555;
+		border-bottom: none;
+		border-radius: 4px 4px 0 0;
+		color: #fff;
+		font-size: 0.85rem;
+		font-weight: 600;
+		text-align: center;
+	}
+
+	.template-list-container .template-list {
+		background: #1a1a1a;
+		border: 1px solid #555;
+		border-radius: 0 0 4px 4px;
+		max-height: 200px;
+		overflow-y: auto;
+		overflow-x: hidden;
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		padding: 2px;
+		margin: 0;
+	}
+
+	.template-list-item {
+		padding: 0.5rem;
+		background: #2a2a2a;
+		border: 1px solid #444;
+		border-radius: 3px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem;
+		font-size: 0.85rem;
+	}
+
+	.template-list-item-content {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.template-list-item-name {
+		color: #fff;
+		font-weight: 500;
+		margin-bottom: 0.25rem;
+	}
+
+	.template-list-item-id {
+		color: #aaa;
+		font-size: 0.75rem;
+		font-family: monospace;
+	}
+
+	.template-list-item-remove {
+		width: 20px;
+		height: 20px;
+		padding: 0;
+		background: #4a2a2a;
+		border: 1px solid #755;
+		border-radius: 3px;
+		color: #ff6b6b;
+		cursor: pointer;
+		font-size: 14px;
+		line-height: 1;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		transition: all 0.2s;
+	}
+
+	.template-list-item-remove:hover {
+		background: #5a3a3a;
+		border-color: #855;
+	}
+
+	.template-list-empty {
+		padding: 1rem;
+		text-align: center;
+		color: #666;
+		font-size: 0.85rem;
+		font-style: italic;
+	}
+
+	/* Bonuses Section */
+	.bonuses-section {
+		margin-top: 1rem;
+		border: 1px solid #555;
+		border-radius: 4px;
+		background: #1a1a1a;
+	}
+
+	.bonuses-toggle {
+		width: 100%;
+		padding: 0.75rem 1rem;
+		background: #2a2a2a;
+		border: none;
+		border-bottom: 1px solid #555;
+		color: #fff;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-size: 0.9rem;
+		font-weight: 600;
+		transition: background 0.2s;
+		text-align: left;
+	}
+
+	.bonuses-toggle:hover {
+		background: #333;
+	}
+
+	.bonuses-toggle-icon {
+		font-size: 0.8rem;
+		transition: transform 0.2s;
+	}
+
+	.bonuses-content {
+		padding: 1rem;
+	}
+
+	.bonuses-group {
+		margin-bottom: 1.5rem;
+	}
+
+	.bonuses-group:last-child {
+		margin-bottom: 0;
+	}
+
+	.bonuses-group h4 {
+		color: #fff;
+		font-size: 0.9rem;
+		margin-bottom: 0.75rem;
+		border-bottom: 1px solid #444;
+		padding-bottom: 0.5rem;
+		font-weight: 600;
+	}
+
+	.bonuses-group .form-group {
+		margin-bottom: 0.75rem;
+	}
+
+	.bonuses-group .form-group:last-child {
+		margin-bottom: 0;
+	}
+
+	.bonuses-group .form-group label {
+		font-size: 0.85rem;
+		margin-bottom: 0.25rem;
+	}
+
+	.bonuses-group .form-group input {
+		padding: 0.4rem;
+		font-size: 0.85rem;
+	}
 
 /* Responsive Design - Small Windows */
 @media (max-width: 1400px) {

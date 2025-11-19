@@ -414,6 +414,43 @@
 						<label>Maximum Count:</label>
 						<input type="number" id="reset-max-count" min="1" value="1" />
 					</div>
+					<!-- New Mob-specific fields (initially hidden) -->
+					<div id="reset-mob-fields" style="display: none">
+						<div class="form-group">
+							<label>Equipped Templates:</label>
+							<div class="template-selection-container">
+								<div class="template-table-container">
+									<div class="template-table-header">Available Equipment</div>
+									<div
+										class="template-table"
+										id="equipped-templates-table"
+									></div>
+								</div>
+								<div class="template-list-container">
+									<div class="template-list-header">Selected Equipment</div>
+									<div class="template-list" id="equipped-list"></div>
+								</div>
+							</div>
+							<input type="hidden" id="reset-equipped" />
+						</div>
+						<div class="form-group">
+							<label>Inventory Templates:</label>
+							<div class="template-selection-container">
+								<div class="template-table-container">
+									<div class="template-table-header">Available Items</div>
+									<div
+										class="template-table"
+										id="inventory-templates-table"
+									></div>
+								</div>
+								<div class="template-list-container">
+									<div class="template-list-header">Selected Items</div>
+									<div class="template-list" id="inventory-list"></div>
+								</div>
+							</div>
+							<input type="hidden" id="reset-inventory" />
+						</div>
+					</div>
 					<div class="modal-actions">
 						<button id="reset-edit-save">Save</button>
 						<button id="reset-edit-cancel">Cancel</button>

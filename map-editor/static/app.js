@@ -61,6 +61,269 @@ class MapEditor {
 		this.setupEventListeners();
 	}
 
+	generateHitTypeSelector(selectedHitType) {
+		// Common hit types organized by damage type
+		// Based on COMMON_HIT_TYPES from damage-types.ts
+		const hitTypesByDamage = {
+			// Physical damage types
+			SLASH: [
+				{ key: "slash", verb: "slash" },
+				{ key: "cut", verb: "cut" },
+			],
+			STAB: [{ key: "stab", verb: "stab" }],
+			CRUSH: [
+				{ key: "crush", verb: "crush" },
+				{ key: "bludgeon", verb: "bludgeon" },
+			],
+			EXOTIC: [
+				{ key: "bite", verb: "bite" },
+				{ key: "sting", verb: "sting" },
+			],
+			// Magical damage types
+			FIRE: [
+				{ key: "burn", verb: "burn" },
+				{ key: "singe", verb: "singe" },
+				{ key: "scorch", verb: "scorch" },
+			],
+			ICE: [{ key: "freeze", verb: "freeze" }],
+			ELECTRIC: [
+				{ key: "shock", verb: "shock" },
+				{ key: "zap", verb: "zap" },
+			],
+			WATER: [{ key: "drench", verb: "drench" }],
+			ACID: [
+				{ key: "melt", verb: "melt" },
+				{ key: "dissolve", verb: "dissolve" },
+				{ key: "corrode", verb: "corrode" },
+				{ key: "erode", verb: "erode" },
+				{ key: "eat", verb: "eat" },
+			],
+			RADIANT: [
+				{ key: "smite", verb: "smite" },
+				{ key: "purify", verb: "purify" },
+				{ key: "sear", verb: "sear" },
+				{ key: "illuminate", verb: "illuminate" },
+			],
+			NECROTIC: [
+				{ key: "wither", verb: "wither" },
+				{ key: "decay", verb: "decay" },
+				{ key: "drain", verb: "drain" },
+				{ key: "corrupt", verb: "corrupt" },
+				{ key: "blight", verb: "blight" },
+			],
+			PSYCHIC: [
+				{ key: "assault", verb: "assault" },
+				{ key: "scour", verb: "scour" },
+				{ key: "rend", verb: "rend" },
+				{ key: "pierce", verb: "pierce" },
+				{ key: "shatter", verb: "shatter" },
+			],
+			FORCE: [
+				{ key: "pummel", verb: "pummel" },
+				{ key: "strike", verb: "strike" },
+				{ key: "impact", verb: "impact" },
+				{ key: "blast", verb: "blast" },
+			],
+			THUNDER: [
+				{ key: "resonate", verb: "resonate" },
+				{ key: "echo", verb: "echo" },
+				{ key: "boom", verb: "boom" },
+				{ key: "thunder", verb: "thunder" },
+				{ key: "concuss", verb: "concuss" },
+			],
+			POISON: [
+				{ key: "venom", verb: "venom" },
+				{ key: "toxify", verb: "toxify" },
+				{ key: "poison", verb: "poison" },
+				{ key: "taint", verb: "taint" },
+			],
+		};
+
+		// Get the selected hit type key (could be string or object)
+		let selectedKey = "";
+		if (selectedHitType) {
+			if (typeof selectedHitType === "string") {
+				selectedKey = selectedHitType.toLowerCase();
+			} else if (selectedHitType.verb) {
+				// Find matching key by verb
+				for (const [damageType, hitTypes] of Object.entries(hitTypesByDamage)) {
+					const found = hitTypes.find((ht) => ht.verb === selectedHitType.verb);
+					if (found) {
+						selectedKey = found.key;
+						break;
+					}
+				}
+			}
+		}
+
+		let html =
+			'<div class="form-group"><label>Hit Type</label><select id="template-hit-type">';
+		html += '<option value="">(Default)</option>';
+
+		// Add Physical damage types section
+		html += '<optgroup label="─── Physical ───">';
+		html += this.generateHitTypeOptions(hitTypesByDamage.SLASH, selectedKey);
+		html += this.generateHitTypeOptions(hitTypesByDamage.STAB, selectedKey);
+		html += this.generateHitTypeOptions(hitTypesByDamage.CRUSH, selectedKey);
+		html += this.generateHitTypeOptions(hitTypesByDamage.EXOTIC, selectedKey);
+		html += "</optgroup>";
+
+		// Add Magical damage types sections
+		html += '<optgroup label="─── Fire ───">';
+		html += this.generateHitTypeOptions(hitTypesByDamage.FIRE, selectedKey);
+		html += "</optgroup>";
+
+		html += '<optgroup label="─── Ice ───">';
+		html += this.generateHitTypeOptions(hitTypesByDamage.ICE, selectedKey);
+		html += "</optgroup>";
+
+		html += '<optgroup label="─── Electric ───">';
+		html += this.generateHitTypeOptions(hitTypesByDamage.ELECTRIC, selectedKey);
+		html += "</optgroup>";
+
+		html += '<optgroup label="─── Water ───">';
+		html += this.generateHitTypeOptions(hitTypesByDamage.WATER, selectedKey);
+		html += "</optgroup>";
+
+		html += '<optgroup label="─── Acid ───">';
+		html += this.generateHitTypeOptions(hitTypesByDamage.ACID, selectedKey);
+		html += "</optgroup>";
+
+		html += '<optgroup label="─── Radiant ───">';
+		html += this.generateHitTypeOptions(hitTypesByDamage.RADIANT, selectedKey);
+		html += "</optgroup>";
+
+		html += '<optgroup label="─── Necrotic ───">';
+		html += this.generateHitTypeOptions(hitTypesByDamage.NECROTIC, selectedKey);
+		html += "</optgroup>";
+
+		html += '<optgroup label="─── Psychic ───">';
+		html += this.generateHitTypeOptions(hitTypesByDamage.PSYCHIC, selectedKey);
+		html += "</optgroup>";
+
+		html += '<optgroup label="─── Force ───">';
+		html += this.generateHitTypeOptions(hitTypesByDamage.FORCE, selectedKey);
+		html += "</optgroup>";
+
+		html += '<optgroup label="─── Thunder ───">';
+		html += this.generateHitTypeOptions(hitTypesByDamage.THUNDER, selectedKey);
+		html += "</optgroup>";
+
+		html += '<optgroup label="─── Poison ───">';
+		html += this.generateHitTypeOptions(hitTypesByDamage.POISON, selectedKey);
+		html += "</optgroup>";
+
+		html += "</select></div>";
+		return html;
+	}
+
+	generateHitTypeOptions(hitTypes, selectedKey) {
+		if (!hitTypes || hitTypes.length === 0) return "";
+		let html = "";
+		hitTypes.forEach((hitType) => {
+			const isSelected = hitType.key === selectedKey ? "selected" : "";
+			html += `<option value="${hitType.key}" ${isSelected}>${hitType.verb}</option>`;
+		});
+		return html;
+	}
+
+	generateBonusesSection(template) {
+		// Primary attributes
+		const primaryAttrs = ["strength", "agility", "intelligence"];
+		// Secondary attributes
+		const secondaryAttrs = [
+			"attackPower",
+			"vitality",
+			"defense",
+			"critRate",
+			"avoidance",
+			"accuracy",
+			"endurance",
+			"spellPower",
+			"wisdom",
+			"resilience",
+		];
+		// Resource capacities
+		const capacities = ["maxHealth", "maxMana"];
+
+		// Get existing values
+		const attributeBonuses = template.attributeBonuses || {};
+		const secondaryAttributeBonuses = template.secondaryAttributeBonuses || {};
+		const resourceBonuses = template.resourceBonuses || {};
+
+		let html = `
+			<div class="bonuses-section">
+				<button type="button" class="bonuses-toggle" id="bonuses-toggle">
+					<span class="bonuses-toggle-icon">▼</span>
+					<span class="bonuses-toggle-text">Attribute & Capacity Bonuses</span>
+				</button>
+				<div class="bonuses-content" id="bonuses-content" style="display: none;">
+					<div class="bonuses-group">
+						<h4>Primary Attributes</h4>
+		`;
+
+		// Primary attribute fields
+		primaryAttrs.forEach((attr) => {
+			const value = attributeBonuses[attr] || "";
+			html += `
+				<div class="form-group">
+					<label>${attr.charAt(0).toUpperCase() + attr.slice(1)}</label>
+					<input type="number" id="bonus-primary-${attr}" value="${value}" placeholder="0" step="0.1">
+				</div>
+			`;
+		});
+
+		html += `
+					</div>
+					<div class="bonuses-group">
+						<h4>Secondary Attributes</h4>
+		`;
+
+		// Secondary attribute fields
+		secondaryAttrs.forEach((attr) => {
+			const value = secondaryAttributeBonuses[attr] || "";
+			const label = attr
+				.replace(/([A-Z])/g, " $1")
+				.replace(/^./, (str) => str.toUpperCase())
+				.trim();
+			html += `
+				<div class="form-group">
+					<label>${label}</label>
+					<input type="number" id="bonus-secondary-${attr}" value="${value}" placeholder="0" step="0.1">
+				</div>
+			`;
+		});
+
+		html += `
+					</div>
+					<div class="bonuses-group">
+						<h4>Resource Capacities</h4>
+		`;
+
+		// Resource capacity fields
+		capacities.forEach((cap) => {
+			const value = resourceBonuses[cap] || "";
+			const label = cap
+				.replace(/([A-Z])/g, " $1")
+				.replace(/^./, (str) => str.toUpperCase())
+				.trim();
+			html += `
+				<div class="form-group">
+					<label>${label}</label>
+					<input type="number" id="bonus-capacity-${cap}" value="${value}" placeholder="0" step="0.1">
+				</div>
+			`;
+		});
+
+		html += `
+					</div>
+				</div>
+			</div>
+		`;
+
+		return html;
+	}
+
 	generateColorSelector(id, selectedColor) {
 		const options = COLORS.map(
 			(color) =>
@@ -532,14 +795,32 @@ class MapEditor {
 				? template.display || reset.templateId
 				: reset.templateId;
 
+			// Check if mob reset
+			const isMobReset = template?.type === "Mob";
+
+			let details = `
+				<div class="reset-details">
+					Room: ${reset.roomRef}<br>
+					Count: ${reset.minCount || 1} - ${reset.maxCount || 1}
+			`;
+
+			// Show equipped/inventory if present and this is a mob reset
+			if (isMobReset) {
+				if (reset.equipped && reset.equipped.length > 0) {
+					details += `<br>Equipped: ${reset.equipped.join(", ")}`;
+				}
+				if (reset.inventory && reset.inventory.length > 0) {
+					details += `<br>Inventory: ${reset.inventory.join(", ")}`;
+				}
+			}
+
+			details += `</div>`;
+
 			const item = document.createElement("div");
 			item.className = "reset-item";
 			item.innerHTML = `
 				<h4>${templateName}</h4>
-				<div class="reset-details">
-					Room: ${reset.roomRef}<br>
-					Count: ${reset.minCount || 1} - ${reset.maxCount || 1}
-				</div>
+				${details}
 				<div class="reset-actions">
 					<button class="edit-reset-btn" data-index="${filteredIndex}">Edit</button>
 					<button class="delete-reset-btn" data-index="${filteredIndex}">Delete</button>
@@ -1517,6 +1798,17 @@ class MapEditor {
 				)
 				.join("");
 
+			const isWeapon = template.type === "Weapon";
+			const isArmor = template.type === "Armor";
+			const isEquipment = template.type === "Equipment";
+			const isEquipmentType = isWeapon || isArmor || isEquipment;
+			const hitTypeSelector = isWeapon
+				? this.generateHitTypeSelector(template.hitType)
+				: "";
+			const bonusesSection = isEquipmentType
+				? this.generateBonusesSection(template)
+				: "";
+
 			html = `
 				<div class="form-group">
 					<label>ID</label>
@@ -1528,6 +1820,9 @@ class MapEditor {
 					<label>Type</label>
 					<select id="template-type">
 						<option value="Mob" ${template.type === "Mob" ? "selected" : ""}>Mob</option>
+						<option value="Equipment" ${
+							template.type === "Equipment" ? "selected" : ""
+						}>Equipment</option>
 						<option value="Weapon" ${
 							template.type === "Weapon" ? "selected" : ""
 						}>Weapon</option>
@@ -1545,6 +1840,21 @@ class MapEditor {
 					<label>Description</label>
 					<textarea id="template-description">${template.description || ""}</textarea>
 				</div>
+				${
+					type !== "room"
+						? `
+				<div class="form-group">
+					<label>Room Description</label>
+					<input type="text" id="template-room-description" value="${
+						template.roomDescription || ""
+					}" placeholder="Shows in room contents (1 line)">
+					<small style="color: #aaa; font-size: 0.85rem; display: block; margin-top: 0.25rem;">
+						One-line description shown when this object/mob is in a room
+					</small>
+				</div>
+				`
+						: ""
+				}
 				<div class="form-group">
 					<label>Keywords (comma-separated)</label>
 					<input type="text" id="template-keywords" value="${template.keywords || ""}">
@@ -1576,6 +1886,28 @@ class MapEditor {
 						<p style="color: #aaa; font-style: italic;">Select race, job, and level to see calculated attributes</p>
 					</div>
 				</div>
+				</div>
+				<div id="weapon-fields" style="display: ${isWeapon ? "block" : "none"};">
+					${hitTypeSelector}
+					<div class="form-group">
+						<label>Attack Power</label>
+						<input type="number" id="template-attack-power" value="${
+							template.attackPower || ""
+						}" placeholder="0" step="0.1">
+					</div>
+					${bonusesSection}
+				</div>
+				<div id="armor-fields" style="display: ${isArmor ? "block" : "none"};">
+					<div class="form-group">
+						<label>Defense</label>
+						<input type="number" id="template-defense" value="${
+							template.defense || ""
+						}" placeholder="0" step="0.1">
+					</div>
+					${bonusesSection}
+				</div>
+				<div id="equipment-fields" style="display: ${isEquipment ? "block" : "none"};">
+					${bonusesSection}
 				</div>
 				<div class="form-group">
 					<label>Map Text (1 letter)</label>
@@ -1736,18 +2068,45 @@ class MapEditor {
 			});
 		}
 
-		// Set up type selector handler to show/hide mob fields
+		// Set up type selector handler to show/hide mob, weapon, armor, and equipment fields
 		const typeSelect = document.getElementById("template-type");
 		if (typeSelect) {
 			const mobFields = document.getElementById("mob-fields");
+			const weaponFields = document.getElementById("weapon-fields");
+			const armorFields = document.getElementById("armor-fields");
+			const equipmentFields = document.getElementById("equipment-fields");
 			typeSelect.onchange = () => {
 				const newType = typeSelect.value;
 				if (mobFields) {
 					mobFields.style.display = newType === "Mob" ? "block" : "none";
 				}
+				if (weaponFields) {
+					weaponFields.style.display = newType === "Weapon" ? "block" : "none";
+				}
+				if (armorFields) {
+					armorFields.style.display = newType === "Armor" ? "block" : "none";
+				}
+				if (equipmentFields) {
+					equipmentFields.style.display =
+						newType === "Equipment" ? "block" : "none";
+				}
 				// Recalculate if switching to Mob
 				if (newType === "Mob") {
 					setTimeout(() => this.calculateMobAttributes(), 100);
+				}
+			};
+		}
+
+		// Set up bonuses section toggle
+		const bonusesToggle = document.getElementById("bonuses-toggle");
+		const bonusesContent = document.getElementById("bonuses-content");
+		if (bonusesToggle && bonusesContent) {
+			bonusesToggle.onclick = () => {
+				const isExpanded = bonusesContent.style.display !== "none";
+				bonusesContent.style.display = isExpanded ? "none" : "block";
+				const icon = bonusesToggle.querySelector(".bonuses-toggle-icon");
+				if (icon) {
+					icon.textContent = isExpanded ? "▼" : "▲";
 				}
 			};
 		}
@@ -1930,6 +2289,12 @@ class MapEditor {
 			const templateType = document.getElementById("template-type").value;
 			const display = document.getElementById("template-display").value;
 			const description = document.getElementById("template-description").value;
+			const roomDescriptionInput = document.getElementById(
+				"template-room-description"
+			);
+			const roomDescription = roomDescriptionInput
+				? roomDescriptionInput.value.trim()
+				: "";
 			const keywords = document.getElementById("template-keywords").value;
 			const mapText = document.getElementById("template-map-text").value;
 			const mapColorSelect = document.getElementById("template-map-color");
@@ -1948,6 +2313,7 @@ class MapEditor {
 				display,
 				description,
 			};
+			if (roomDescription) newTemplate.roomDescription = roomDescription;
 			if (keywords) newTemplate.keywords = keywords;
 			if (mapText) newTemplate.mapText = mapText;
 			if (mapColor !== undefined) newTemplate.mapColor = mapColor;
@@ -1961,7 +2327,107 @@ class MapEditor {
 				if (job) newTemplate.job = job;
 				if (level) newTemplate.level = parseInt(level) || 1;
 			}
-			// Note: If type is not Mob, we don't add race/job/level fields
+
+			// Add weapon-specific fields
+			if (templateType === "Weapon") {
+				const hitType = document.getElementById("template-hit-type")?.value;
+				const attackPower = document.getElementById(
+					"template-attack-power"
+				)?.value;
+				if (hitType) {
+					newTemplate.hitType = hitType;
+				}
+				if (attackPower) {
+					const apValue = parseFloat(attackPower);
+					if (!isNaN(apValue)) {
+						newTemplate.attackPower = apValue;
+					}
+				}
+			}
+
+			// Add armor-specific fields
+			if (templateType === "Armor") {
+				const defense = document.getElementById("template-defense")?.value;
+				if (defense) {
+					const defValue = parseFloat(defense);
+					if (!isNaN(defValue)) {
+						newTemplate.defense = defValue;
+					}
+				}
+			}
+
+			// Add bonuses for weapon, armor, and equipment
+			if (
+				templateType === "Weapon" ||
+				templateType === "Armor" ||
+				templateType === "Equipment"
+			) {
+				// Primary attribute bonuses
+				const primaryAttrs = ["strength", "agility", "intelligence"];
+				const attributeBonuses = {};
+				let hasPrimaryBonuses = false;
+				primaryAttrs.forEach((attr) => {
+					const input = document.getElementById(`bonus-primary-${attr}`);
+					if (input && input.value) {
+						const value = parseFloat(input.value);
+						if (!isNaN(value)) {
+							attributeBonuses[attr] = value;
+							hasPrimaryBonuses = true;
+						}
+					}
+				});
+				if (hasPrimaryBonuses) {
+					newTemplate.attributeBonuses = attributeBonuses;
+				}
+
+				// Secondary attribute bonuses
+				const secondaryAttrs = [
+					"attackPower",
+					"vitality",
+					"defense",
+					"critRate",
+					"avoidance",
+					"accuracy",
+					"endurance",
+					"spellPower",
+					"wisdom",
+					"resilience",
+				];
+				const secondaryAttributeBonuses = {};
+				let hasSecondaryBonuses = false;
+				secondaryAttrs.forEach((attr) => {
+					const input = document.getElementById(`bonus-secondary-${attr}`);
+					if (input && input.value) {
+						const value = parseFloat(input.value);
+						if (!isNaN(value)) {
+							secondaryAttributeBonuses[attr] = value;
+							hasSecondaryBonuses = true;
+						}
+					}
+				});
+				if (hasSecondaryBonuses) {
+					newTemplate.secondaryAttributeBonuses = secondaryAttributeBonuses;
+				}
+
+				// Resource capacity bonuses
+				const capacities = ["maxHealth", "maxMana"];
+				const resourceBonuses = {};
+				let hasResourceBonuses = false;
+				capacities.forEach((cap) => {
+					const input = document.getElementById(`bonus-capacity-${cap}`);
+					if (input && input.value) {
+						const value = parseFloat(input.value);
+						if (!isNaN(value)) {
+							resourceBonuses[cap] = value;
+							hasResourceBonuses = true;
+						}
+					}
+				});
+				if (hasResourceBonuses) {
+					newTemplate.resourceBonuses = resourceBonuses;
+				}
+			}
+			// Note: If type is not Mob/Weapon/Armor, we don't add those fields
 			// The YAML serializer will omit undefined fields
 
 			if (existing >= 0) {
@@ -1977,6 +2443,65 @@ class MapEditor {
 					delete updated.job;
 					delete updated.level;
 				}
+				// Equipment types: Equipment, Weapon, Armor
+				const isOldEquipmentType =
+					oldTemplate.type === "Equipment" ||
+					oldTemplate.type === "Weapon" ||
+					oldTemplate.type === "Armor";
+				const isNewEquipmentType =
+					templateType === "Equipment" ||
+					templateType === "Weapon" ||
+					templateType === "Armor";
+
+				// Remove weapon-specific fields if type changed away from Weapon
+				if (templateType !== "Weapon" && oldTemplate.type === "Weapon") {
+					delete updated.hitType;
+					delete updated.attackPower;
+				}
+				// Remove armor-specific fields if type changed away from Armor
+				if (templateType !== "Armor" && oldTemplate.type === "Armor") {
+					delete updated.defense;
+				}
+				// Preserve bonus fields when switching between equipment types
+				// Only remove bonuses if switching away from all equipment types
+				if (isOldEquipmentType && !isNewEquipmentType) {
+					delete updated.attributeBonuses;
+					delete updated.secondaryAttributeBonuses;
+					delete updated.resourceBonuses;
+				}
+				// Remove hitType if empty
+				if (templateType === "Weapon" && !updated.hitType) {
+					delete updated.hitType;
+				}
+				// Remove attackPower if empty
+				if (templateType === "Weapon" && updated.attackPower === undefined) {
+					delete updated.attackPower;
+				}
+				// Remove defense if empty
+				if (templateType === "Armor" && updated.defense === undefined) {
+					delete updated.defense;
+				}
+				// Remove empty bonus objects
+				if (
+					updated.attributeBonuses &&
+					Object.keys(updated.attributeBonuses).length === 0
+				) {
+					delete updated.attributeBonuses;
+				}
+				if (
+					updated.secondaryAttributeBonuses &&
+					Object.keys(updated.secondaryAttributeBonuses).length === 0
+				) {
+					delete updated.secondaryAttributeBonuses;
+				}
+				if (
+					updated.resourceBonuses &&
+					Object.keys(updated.resourceBonuses).length === 0
+				) {
+					delete updated.resourceBonuses;
+				}
+				// Remove roomDescription if empty
+				if (!roomDescription) delete updated.roomDescription;
 				// Remove map fields if they're empty
 				if (!mapText) delete updated.mapText;
 				if (mapColor === undefined) delete updated.mapColor;
@@ -2093,6 +2618,335 @@ class MapEditor {
 		this.renderMap(dungeon);
 	}
 
+	async populateTemplateTables(dungeon) {
+		// Load templates from all dungeons
+		const allTemplates = await this.loadAllDungeonTemplates();
+		const currentDungeonId = this.currentDungeonId;
+
+		// Get all equipment templates (Equipment, Armor, Weapon) from all dungeons
+		const equipmentTemplates = allTemplates.filter(
+			(t) => t.type === "Equipment" || t.type === "Armor" || t.type === "Weapon"
+		);
+
+		// Get all item templates (Item, Equipment, Armor, Weapon - all are items) from all dungeons
+		const itemTemplates = allTemplates.filter(
+			(t) =>
+				t.type === "Item" ||
+				t.type === "Equipment" ||
+				t.type === "Armor" ||
+				t.type === "Weapon"
+		);
+
+		// Populate equipment table
+		const equippedTable = document.getElementById("equipped-templates-table");
+		if (equippedTable) {
+			equippedTable.innerHTML = "";
+			if (equipmentTemplates.length === 0) {
+				equippedTable.innerHTML =
+					'<div class="template-list-empty">No equipment templates available</div>';
+			} else {
+				equipmentTemplates.forEach((template) => {
+					const item = document.createElement("div");
+					item.className = "template-table-item";
+					const isCurrentDungeon = template.dungeonId === currentDungeonId;
+					const displayId = isCurrentDungeon
+						? template.localId
+						: template.globalId;
+					const dungeonLabel = isCurrentDungeon
+						? ""
+						: ` <span style="color: #888; font-size: 0.75rem;">(${template.dungeonId})</span>`;
+					item.innerHTML = `
+						<div class="template-table-item-name">${
+							template.display || template.localId
+						}${dungeonLabel}</div>
+						<div class="template-table-item-id">${displayId}</div>
+					`;
+					item.addEventListener("click", async () => {
+						await this.addTemplateToList(template.globalId, "equipped");
+					});
+					equippedTable.appendChild(item);
+				});
+			}
+		}
+
+		// Populate inventory table
+		const inventoryTable = document.getElementById("inventory-templates-table");
+		if (inventoryTable) {
+			inventoryTable.innerHTML = "";
+			if (itemTemplates.length === 0) {
+				inventoryTable.innerHTML =
+					'<div class="template-list-empty">No item templates available</div>';
+			} else {
+				itemTemplates.forEach((template) => {
+					const item = document.createElement("div");
+					item.className = "template-table-item";
+					const isCurrentDungeon = template.dungeonId === currentDungeonId;
+					const displayId = isCurrentDungeon
+						? template.localId
+						: template.globalId;
+					const dungeonLabel = isCurrentDungeon
+						? ""
+						: ` <span style="color: #888; font-size: 0.75rem;">(${template.dungeonId})</span>`;
+					item.innerHTML = `
+						<div class="template-table-item-name">${
+							template.display || template.localId
+						}${dungeonLabel}</div>
+						<div class="template-table-item-id">${displayId}</div>
+					`;
+					item.addEventListener("click", async () => {
+						await this.addTemplateToList(template.globalId, "inventory");
+					});
+					inventoryTable.appendChild(item);
+				});
+			}
+		}
+	}
+
+	async loadAllDungeonTemplates() {
+		const allTemplates = [];
+		const currentDungeonId = this.currentDungeonId;
+
+		// Get current dungeon templates
+		const currentDungeon = this.yamlData?.dungeon;
+		if (currentDungeon && currentDungeon.templates) {
+			currentDungeon.templates.forEach((template) => {
+				allTemplates.push({
+					...template,
+					dungeonId: currentDungeonId,
+					localId: template.id,
+					globalId: template.id.includes("@")
+						? template.id
+						: `@${currentDungeonId}:${template.id}`,
+				});
+			});
+		}
+
+		// Load templates from all other dungeons
+		try {
+			const response = await fetch("/api/dungeons");
+			const data = await response.json();
+			const dungeonIds = data.dungeons || [];
+
+			// Load each dungeon's templates
+			for (const dungeonId of dungeonIds) {
+				if (dungeonId === currentDungeonId) continue; // Skip current dungeon (already loaded)
+
+				try {
+					const dungeonResponse = await fetch(`/api/dungeons/${dungeonId}`);
+					const dungeonData = await dungeonResponse.json();
+					const dungeonYaml = jsyaml.load(dungeonData.yaml);
+					const templates = dungeonYaml.dungeon?.templates || [];
+
+					templates.forEach((template) => {
+						allTemplates.push({
+							...template,
+							dungeonId: dungeonId,
+							localId: template.id,
+							globalId: template.id.includes("@")
+								? template.id
+								: `@${dungeonId}:${template.id}`,
+						});
+					});
+				} catch (error) {
+					console.warn(
+						`Failed to load templates from dungeon ${dungeonId}:`,
+						error
+					);
+				}
+			}
+		} catch (error) {
+			console.warn("Failed to load dungeon list for templates:", error);
+		}
+
+		return allTemplates;
+	}
+
+	async populateTemplateLists(reset) {
+		// Load all templates to resolve cross-dungeon references
+		const allTemplates = await this.loadAllDungeonTemplates();
+		const templateMap = new Map();
+		allTemplates.forEach((t) => {
+			templateMap.set(t.globalId, t);
+			templateMap.set(t.localId, t); // Also map local ID for current dungeon
+		});
+
+		// Helper to get global ID from a template ID (might be local or global)
+		const getGlobalId = (templateId) => {
+			if (templateId.includes("@")) {
+				return templateId; // Already global
+			}
+			// Check if it's from current dungeon
+			const template = templateMap.get(templateId);
+			if (template) {
+				return template.globalId;
+			}
+			// Default: assume current dungeon
+			return `@${this.currentDungeonId}:${templateId}`;
+		};
+
+		// Populate equipped list
+		const equippedList = document.getElementById("equipped-list");
+		if (equippedList) {
+			equippedList.innerHTML = "";
+			const equipped = reset.equipped || [];
+			if (equipped.length === 0) {
+				equippedList.innerHTML =
+					'<div class="template-list-empty">No equipment selected</div>';
+			} else {
+				equipped.forEach((templateId) => {
+					const globalId = getGlobalId(templateId);
+					this.addTemplateToList(globalId, "equipped", false);
+				});
+			}
+			this.updateTemplateInput("equipped");
+		}
+
+		// Populate inventory list
+		const inventoryList = document.getElementById("inventory-list");
+		if (inventoryList) {
+			inventoryList.innerHTML = "";
+			const inventory = reset.inventory || [];
+			if (inventory.length === 0) {
+				inventoryList.innerHTML =
+					'<div class="template-list-empty">No items selected</div>';
+			} else {
+				inventory.forEach((templateId) => {
+					const globalId = getGlobalId(templateId);
+					this.addTemplateToList(globalId, "inventory", false);
+				});
+			}
+			this.updateTemplateInput("inventory");
+		}
+	}
+
+	async addTemplateToList(templateId, listType, updateInput = true) {
+		// templateId should be a global ID (@dungeon:templateId) when adding from selector
+		// Load all templates to find the matching one
+		const allTemplates = await this.loadAllDungeonTemplates();
+		const templateMap = new Map();
+		allTemplates.forEach((t) => {
+			templateMap.set(t.globalId, t);
+			// Also map local ID for current dungeon templates
+			if (t.dungeonId === this.currentDungeonId) {
+				templateMap.set(t.localId, t);
+			}
+		});
+
+		// Find template by global ID or local ID
+		let template = templateMap.get(templateId);
+
+		// If not found, create a minimal template object for display
+		if (!template) {
+			// Parse the template ID to get display info
+			let displayName = templateId;
+			let dungeonId = this.currentDungeonId;
+			if (templateId.includes("@")) {
+				const parts = templateId.split(":");
+				if (parts.length > 1) {
+					dungeonId = parts[0].substring(1); // Remove @
+					displayName = parts[1];
+				}
+			}
+			template = {
+				id: templateId,
+				type: "Item", // Default type
+				display: displayName,
+				dungeonId: dungeonId,
+				localId: displayName,
+				globalId: templateId,
+			};
+		}
+
+		const listId = listType === "equipped" ? "equipped-list" : "inventory-list";
+		const list = document.getElementById(listId);
+		if (!list) return;
+
+		// Remove empty message if present
+		const emptyMsg = list.querySelector(".template-list-empty");
+		if (emptyMsg) {
+			emptyMsg.remove();
+		}
+
+		// Create list item (allow duplicates, so no duplicate check)
+		const listItem = document.createElement("div");
+		listItem.className = "template-list-item";
+		listItem.dataset.templateId = templateId;
+
+		// Parse template ID to show dungeon info if it's from another dungeon
+		let displayName = template.display || templateId;
+		let displayId = templateId;
+		let dungeonLabel = "";
+		if (templateId.includes("@")) {
+			const parts = templateId.split(":");
+			if (parts.length > 1) {
+				const dungeonId = parts[0].substring(1); // Remove @
+				const localId = parts[1];
+				if (dungeonId !== this.currentDungeonId) {
+					dungeonLabel = ` <span style="color: #888; font-size: 0.75rem;">(${dungeonId})</span>`;
+					displayName = template.display || localId;
+				} else {
+					displayId = localId; // Show local ID for current dungeon
+				}
+			}
+		}
+
+		listItem.innerHTML = `
+			<div class="template-list-item-content">
+				<div class="template-list-item-name">${displayName}${dungeonLabel}</div>
+				<div class="template-list-item-id">${displayId}</div>
+			</div>
+			<button type="button" class="template-list-item-remove" title="Remove">×</button>
+		`;
+
+		// Add remove handler
+		const removeBtn = listItem.querySelector(".template-list-item-remove");
+		removeBtn.addEventListener("click", (e) => {
+			e.stopPropagation();
+			listItem.remove();
+			if (list.children.length === 0) {
+				list.innerHTML =
+					'<div class="template-list-empty">No ' +
+					(listType === "equipped" ? "equipment" : "items") +
+					" selected</div>";
+			}
+			if (updateInput) {
+				this.updateTemplateInput(listType);
+			}
+		});
+
+		list.appendChild(listItem);
+
+		if (updateInput) {
+			this.updateTemplateInput(listType);
+		}
+	}
+
+	updateTemplateInput(listType) {
+		const listId = listType === "equipped" ? "equipped-list" : "inventory-list";
+		const inputId =
+			listType === "equipped" ? "reset-equipped" : "reset-inventory";
+		const list = document.getElementById(listId);
+		const input = document.getElementById(inputId);
+
+		if (!list || !input) return;
+
+		const items = list.querySelectorAll(".template-list-item");
+		const templateIds = Array.from(items).map(
+			(item) => item.dataset.templateId
+		);
+		// Store as comma-separated string in hidden input for compatibility
+		input.value = templateIds.join(", ");
+	}
+
+	getTemplateListValues(listType) {
+		const listId = listType === "equipped" ? "equipped-list" : "inventory-list";
+		const list = document.getElementById(listId);
+		if (!list) return [];
+
+		const items = list.querySelectorAll(".template-list-item");
+		return Array.from(items).map((item) => item.dataset.templateId);
+	}
+
 	editReset(index) {
 		// Save state to history before making changes
 		this.saveStateToHistory();
@@ -2106,6 +2960,24 @@ class MapEditor {
 		// Populate modal with current values
 		document.getElementById("reset-min-count").value = reset.minCount || 1;
 		document.getElementById("reset-max-count").value = reset.maxCount || 1;
+
+		// Check if this is a mob reset
+		const template = dungeon.templates?.find((t) => t.id === reset.templateId);
+		const isMobReset = template?.type === "Mob";
+
+		// Show/hide mob-specific fields
+		const mobFieldsSection = document.getElementById("reset-mob-fields");
+		if (mobFieldsSection) {
+			mobFieldsSection.style.display = isMobReset ? "block" : "none";
+		}
+
+		// Populate equipped and inventory fields if this is a mob reset
+		if (isMobReset) {
+			// populateTemplateTables is async, so we need to await it
+			this.populateTemplateTables(dungeon).then(() => {
+				this.populateTemplateLists(reset);
+			});
+		}
 
 		// Show modal
 		const modal = document.getElementById("reset-edit-modal");
@@ -2149,6 +3021,31 @@ class MapEditor {
 
 			reset.minCount = minCount;
 			reset.maxCount = maxCount;
+
+			// Update equipped and inventory if this is a mob reset
+			const template = dungeon.templates?.find(
+				(t) => t.id === reset.templateId
+			);
+			if (template?.type === "Mob") {
+				// Get values from the lists
+				const equipped = this.getTemplateListValues("equipped");
+				const inventory = this.getTemplateListValues("inventory");
+
+				reset.equipped = equipped.length > 0 ? equipped : undefined;
+				reset.inventory = inventory.length > 0 ? inventory : undefined;
+
+				// Remove field if empty
+				if (!reset.equipped || reset.equipped.length === 0) {
+					delete reset.equipped;
+				}
+				if (!reset.inventory || reset.inventory.length === 0) {
+					delete reset.inventory;
+				}
+			} else {
+				// Remove equipped/inventory from non-mob resets (cleanup)
+				delete reset.equipped;
+				delete reset.inventory;
+			}
 
 			this.loadResets(dungeon);
 			// Re-render map (count changes don't affect display, but ensure consistency)
