@@ -10013,8 +10013,24 @@ dungeon:
       allowedExits: 15
     - display: Cum
       description: It's cum.
-      mapText: '~'
+      mapText: "~"
       mapColor: 15
       allowedExits: 15
-  templates: []
+  templates:
+    - id: qweqweqew
+      type: Weapon
+      display: qweqwe
+      description: qweqwewqe
+      roomDescription: qweqwe
+      keywords: qweqwe
+      hitType: drench
+      attackPower: 55
+    - id: bubblegum-cannon
+      type: Weapon
+      display: Bubble-Gum Cannon
+      description: It's a cannon.
+      roomDescription: A giant candy-colored bazooka is lying on the floor.
+      keywords: bazooka candy bubblegum bubble gum cannon
+      hitType: blast
+      attackPower: 75
   resets: []

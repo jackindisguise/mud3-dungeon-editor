@@ -8055,10 +8055,15 @@ dungeon:
     - id: tower-sword
       type: Weapon
       keywords: sword blade weapon
-      display: Iron Sword
-      description: A well-crafted iron sword with a sharp blade and sturdy hilt.
+      display: Guardian Force
+      description: A radiant golden maul that smites your opponent.
       slot: mainHand
       attackPower: 5
+      hitType: smite
+      attributeBonuses:
+        strength: 20
+        agility: 20
+        intelligence: 20
     - id: tower-helmet
       type: Armor
       keywords: helmet head armor
@@ -8066,4 +8071,23 @@ dungeon:
       description: A sturdy steel helmet that provides protection for the head.
       slot: head
       defense: 3
-  resets: []
+  resets:
+    - templateId: tower-guardian
+      roomRef: '@tower{9,18,0}'
+      minCount: 1
+      maxCount: 1
+      equipped:
+        - '@neo-tokyo:bubblegum-cannon'
+        - '@tower:tower-helmet'
+      inventory:
+        - '@tower:tower-sword'
+        - '@tower:tower-helmet'
+        - '@tower:tower-sword'
+        - '@tower:tower-helmet'
+        - '@tower:tower-sword'
+        - '@tower:tower-helmet'
+        - '@tower:tower-sword'
+        - '@tower:tower-helmet'
+        - '@tower:tower-sword'
+        - '@tower:tower-helmet'
+        - '@tower:tower-sword'
