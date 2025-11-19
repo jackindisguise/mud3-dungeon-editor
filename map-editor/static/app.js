@@ -32,6 +32,9 @@ class MapEditor {
 		this.yamlData = null;
 		this.races = [];
 		this.jobs = [];
+		this.hitTypes = null; // COMMON_HIT_TYPES data from API
+		this.physicalDamageTypes = null;
+		this.magicalDamageTypes = null;
 		this.isDragging = false;
 		this.lastPlacedCell = null;
 		this.processedCells = new Set();
@@ -55,89 +58,71 @@ class MapEditor {
 	async init() {
 		await this.loadDungeonList();
 		await this.loadRacesAndJobs();
+		await this.loadHitTypes();
 
 		// Check for unsaved work in localStorage
 		this.checkForUnsavedWork();
 		this.setupEventListeners();
 	}
 
+	async loadHitTypes() {
+		try {
+			const response = await fetch("/api/hit-types");
+			if (!response.ok) {
+				throw new Error(`Failed to load hit types: ${response.statusText}`);
+			}
+			const data = await response.json();
+			this.hitTypes = data.hitTypes;
+			this.physicalDamageTypes = data.physicalDamageTypes;
+			this.magicalDamageTypes = data.magicalDamageTypes;
+		} catch (error) {
+			console.error("Failed to load hit types:", error);
+			// Fallback to empty data
+			this.hitTypes = {};
+			this.physicalDamageTypes = {};
+			this.magicalDamageTypes = {};
+		}
+	}
+
 	generateHitTypeSelector(selectedHitType) {
-		// Common hit types organized by damage type
-		// Based on COMMON_HIT_TYPES from damage-types.ts
-		const hitTypesByDamage = {
-			// Physical damage types
-			SLASH: [
-				{ key: "slash", verb: "slash" },
-				{ key: "cut", verb: "cut" },
-			],
-			STAB: [{ key: "stab", verb: "stab" }],
-			CRUSH: [
-				{ key: "crush", verb: "crush" },
-				{ key: "bludgeon", verb: "bludgeon" },
-			],
-			EXOTIC: [
-				{ key: "bite", verb: "bite" },
-				{ key: "sting", verb: "sting" },
-			],
-			// Magical damage types
-			FIRE: [
-				{ key: "burn", verb: "burn" },
-				{ key: "singe", verb: "singe" },
-				{ key: "scorch", verb: "scorch" },
-			],
-			ICE: [{ key: "freeze", verb: "freeze" }],
-			ELECTRIC: [
-				{ key: "shock", verb: "shock" },
-				{ key: "zap", verb: "zap" },
-			],
-			WATER: [{ key: "drench", verb: "drench" }],
-			ACID: [
-				{ key: "melt", verb: "melt" },
-				{ key: "dissolve", verb: "dissolve" },
-				{ key: "corrode", verb: "corrode" },
-				{ key: "erode", verb: "erode" },
-				{ key: "eat", verb: "eat" },
-			],
-			RADIANT: [
-				{ key: "smite", verb: "smite" },
-				{ key: "purify", verb: "purify" },
-				{ key: "sear", verb: "sear" },
-				{ key: "illuminate", verb: "illuminate" },
-			],
-			NECROTIC: [
-				{ key: "wither", verb: "wither" },
-				{ key: "decay", verb: "decay" },
-				{ key: "drain", verb: "drain" },
-				{ key: "corrupt", verb: "corrupt" },
-				{ key: "blight", verb: "blight" },
-			],
-			PSYCHIC: [
-				{ key: "assault", verb: "assault" },
-				{ key: "scour", verb: "scour" },
-				{ key: "rend", verb: "rend" },
-				{ key: "pierce", verb: "pierce" },
-				{ key: "shatter", verb: "shatter" },
-			],
-			FORCE: [
-				{ key: "pummel", verb: "pummel" },
-				{ key: "strike", verb: "strike" },
-				{ key: "impact", verb: "impact" },
-				{ key: "blast", verb: "blast" },
-			],
-			THUNDER: [
-				{ key: "resonate", verb: "resonate" },
-				{ key: "echo", verb: "echo" },
-				{ key: "boom", verb: "boom" },
-				{ key: "thunder", verb: "thunder" },
-				{ key: "concuss", verb: "concuss" },
-			],
-			POISON: [
-				{ key: "venom", verb: "venom" },
-				{ key: "toxify", verb: "toxify" },
-				{ key: "poison", verb: "poison" },
-				{ key: "taint", verb: "taint" },
-			],
+		// Color mapping for damage types - vibrant and readable
+		const damageTypeColors = {
+			// Physical damage types - metallic/silver tones
+			SLASH: "#e0e0e0", // Bright Silver
+			STAB: "#b0b0b0", // Medium Grey
+			CRUSH: "#d0d0d0", // Light Silver
+			EXOTIC: "#f0f0f0", // Very Light Silver
+			// Magical damage types - vibrant colors
+			FIRE: "#ff6666", // Bright Red
+			ICE: "#66ddff", // Bright Cyan
+			ELECTRIC: "#ffdd44", // Bright Yellow
+			WATER: "#6699ff", // Bright Blue
+			ACID: "#66ff66", // Bright Lime Green
+			RADIANT: "#ffffcc", // Bright Yellow-White
+			NECROTIC: "#cc66cc", // Bright Purple
+			PSYCHIC: "#ff66ff", // Bright Magenta
+			FORCE: "#dddddd", // Light Silver
+			THUNDER: "#ffaa66", // Bright Orange
+			POISON: "#66cc66", // Bright Green
 		};
+
+		// Generate hit types organized by damage type from COMMON_HIT_TYPES
+		const hitTypesByDamage = {};
+
+		// Iterate through hitTypes and group by damage type
+		if (this.hitTypes) {
+			for (const [key, hitType] of Object.entries(this.hitTypes)) {
+				const damageType = hitType.damageType;
+				if (!hitTypesByDamage[damageType]) {
+					hitTypesByDamage[damageType] = [];
+				}
+				hitTypesByDamage[damageType].push({
+					key: key,
+					verb: hitType.verb,
+					color: damageTypeColors[damageType] || "#ffffff",
+				});
+			}
+		}
 
 		// Get the selected hit type key (could be string or object)
 		let selectedKey = "";
@@ -160,58 +145,45 @@ class MapEditor {
 			'<div class="form-group"><label>Hit Type</label><select id="template-hit-type">';
 		html += '<option value="">(Default)</option>';
 
+		// Helper function to format damage type name for display
+		const formatDamageTypeName = (damageType) => {
+			return damageType.charAt(0) + damageType.slice(1).toLowerCase();
+		};
+
 		// Add Physical damage types section
-		html += '<optgroup label="─── Physical ───">';
-		html += this.generateHitTypeOptions(hitTypesByDamage.SLASH, selectedKey);
-		html += this.generateHitTypeOptions(hitTypesByDamage.STAB, selectedKey);
-		html += this.generateHitTypeOptions(hitTypesByDamage.CRUSH, selectedKey);
-		html += this.generateHitTypeOptions(hitTypesByDamage.EXOTIC, selectedKey);
+		html +=
+			'<optgroup label="─── Physical ───" style="color: #e0e0e0; font-weight: 600;">';
+		if (this.physicalDamageTypes) {
+			for (const damageType of Object.values(this.physicalDamageTypes)) {
+				if (hitTypesByDamage[damageType]) {
+					html += this.generateHitTypeOptions(
+						hitTypesByDamage[damageType],
+						selectedKey
+					);
+				}
+			}
+		}
 		html += "</optgroup>";
 
 		// Add Magical damage types sections
-		html += '<optgroup label="─── Fire ───">';
-		html += this.generateHitTypeOptions(hitTypesByDamage.FIRE, selectedKey);
-		html += "</optgroup>";
-
-		html += '<optgroup label="─── Ice ───">';
-		html += this.generateHitTypeOptions(hitTypesByDamage.ICE, selectedKey);
-		html += "</optgroup>";
-
-		html += '<optgroup label="─── Electric ───">';
-		html += this.generateHitTypeOptions(hitTypesByDamage.ELECTRIC, selectedKey);
-		html += "</optgroup>";
-
-		html += '<optgroup label="─── Water ───">';
-		html += this.generateHitTypeOptions(hitTypesByDamage.WATER, selectedKey);
-		html += "</optgroup>";
-
-		html += '<optgroup label="─── Acid ───">';
-		html += this.generateHitTypeOptions(hitTypesByDamage.ACID, selectedKey);
-		html += "</optgroup>";
-
-		html += '<optgroup label="─── Radiant ───">';
-		html += this.generateHitTypeOptions(hitTypesByDamage.RADIANT, selectedKey);
-		html += "</optgroup>";
-
-		html += '<optgroup label="─── Necrotic ───">';
-		html += this.generateHitTypeOptions(hitTypesByDamage.NECROTIC, selectedKey);
-		html += "</optgroup>";
-
-		html += '<optgroup label="─── Psychic ───">';
-		html += this.generateHitTypeOptions(hitTypesByDamage.PSYCHIC, selectedKey);
-		html += "</optgroup>";
-
-		html += '<optgroup label="─── Force ───">';
-		html += this.generateHitTypeOptions(hitTypesByDamage.FORCE, selectedKey);
-		html += "</optgroup>";
-
-		html += '<optgroup label="─── Thunder ───">';
-		html += this.generateHitTypeOptions(hitTypesByDamage.THUNDER, selectedKey);
-		html += "</optgroup>";
-
-		html += '<optgroup label="─── Poison ───">';
-		html += this.generateHitTypeOptions(hitTypesByDamage.POISON, selectedKey);
-		html += "</optgroup>";
+		if (this.magicalDamageTypes) {
+			for (const damageType of Object.values(this.magicalDamageTypes)) {
+				if (
+					hitTypesByDamage[damageType] &&
+					hitTypesByDamage[damageType].length > 0
+				) {
+					const damageTypeColor = damageTypeColors[damageType] || "#ffffff";
+					html += `<optgroup label="─── ${formatDamageTypeName(
+						damageType
+					)} ───" style="color: ${damageTypeColor}; font-weight: 600;">`;
+					html += this.generateHitTypeOptions(
+						hitTypesByDamage[damageType],
+						selectedKey
+					);
+					html += "</optgroup>";
+				}
+			}
+		}
 
 		html += "</select></div>";
 		return html;
@@ -222,7 +194,8 @@ class MapEditor {
 		let html = "";
 		hitTypes.forEach((hitType) => {
 			const isSelected = hitType.key === selectedKey ? "selected" : "";
-			html += `<option value="${hitType.key}" ${isSelected}>${hitType.verb}</option>`;
+			const color = hitType.color || "#ffffff";
+			html += `<option value="${hitType.key}" ${isSelected} style="color: ${color}; background: #1a1a1a;">${hitType.verb}</option>`;
 		});
 		return html;
 	}

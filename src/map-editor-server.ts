@@ -27,6 +27,11 @@ import {
 	getJobById,
 } from "./mud3/src/package/archetype.js";
 import { Mob } from "./mud3/src/dungeon.js";
+import {
+	COMMON_HIT_TYPES,
+	PHYSICAL_DAMAGE_TYPE,
+	MAGICAL_DAMAGE_TYPE,
+} from "./mud3/src/damage-types.js";
 import logger from "./mud3/src/logger.js";
 
 const PORT = 3000;
@@ -133,6 +138,11 @@ class MapEditorServerImpl implements MapEditorServer {
 
 			if (path === "/api/calculate-attributes" && req.method === "POST") {
 				await this.calculateAttributes(req, res);
+				return;
+			}
+
+			if (path === "/api/hit-types" && req.method === "GET") {
+				await this.getHitTypes(res);
 				return;
 			}
 
@@ -413,6 +423,39 @@ class MapEditorServerImpl implements MapEditorServer {
 			);
 		} catch (error) {
 			logger.error(`Failed to calculate attributes: ${error}`);
+			res.writeHead(500, { "Content-Type": "application/json" });
+			res.end(JSON.stringify({ error: String(error) }));
+		}
+	}
+
+	private async getHitTypes(res: ServerResponse): Promise<void> {
+		try {
+			// Convert COMMON_HIT_TYPES Map to a serializable format
+			const hitTypes: Record<
+				string,
+				{
+					verb: string;
+					verbThirdPerson?: string;
+					damageType: string;
+				}
+			> = {};
+			for (const [key, hitType] of COMMON_HIT_TYPES) {
+				hitTypes[key] = {
+					verb: hitType.verb,
+					verbThirdPerson: hitType.verbThirdPerson,
+					damageType: hitType.damageType,
+				};
+			}
+			res.writeHead(200, { "Content-Type": "application/json" });
+			res.end(
+				JSON.stringify({
+					hitTypes,
+					physicalDamageTypes: PHYSICAL_DAMAGE_TYPE,
+					magicalDamageTypes: MAGICAL_DAMAGE_TYPE,
+				})
+			);
+		} catch (error) {
+			logger.error(`Failed to get hit types: ${error}`);
 			res.writeHead(500, { "Content-Type": "application/json" });
 			res.end(JSON.stringify({ error: String(error) }));
 		}

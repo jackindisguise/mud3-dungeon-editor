@@ -930,6 +930,52 @@ header h1 {
 	font-family: inherit;
 }
 
+/* Hit type selector styling */
+#template-hit-type {
+	background: #1a1a1a;
+	border: 1px solid #555;
+	transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#template-hit-type:hover {
+	border-color: #666;
+}
+
+#template-hit-type:focus {
+	border-color: #4a9eff;
+	outline: none;
+	box-shadow: 0 0 4px rgba(74, 158, 255, 0.3);
+}
+
+#template-hit-type option {
+	padding: 0.5rem;
+	font-weight: 500;
+	background: #1a1a1a;
+}
+
+#template-hit-type option:hover {
+	background: #2a2a2a;
+}
+
+#template-hit-type option:checked {
+	background: #2a4a6a;
+	font-weight: 600;
+}
+
+#template-hit-type optgroup {
+	font-weight: 600;
+	padding: 0.5rem 0.25rem;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+}
+
+#template-hit-type optgroup option {
+	padding-left: 1.5rem;
+	font-weight: 400;
+	text-transform: none;
+	letter-spacing: normal;
+}
+
 .color-selector {
 	width: 100%;
 	padding: 0.5rem;
