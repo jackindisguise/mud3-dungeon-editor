@@ -566,6 +566,129 @@ class MapEditor {
 		});
 	}
 
+	// Helper function to get room at coordinates
+	getRoomAt(dungeon, x, y, z) {
+		const layerIndex = dungeon.dimensions.layers - 1 - z;
+		const layer = dungeon.grid[layerIndex] || [];
+		const row = layer[y] || [];
+		const roomIndex = row[x] || 0;
+		if (roomIndex > 0) {
+			return dungeon.rooms[roomIndex - 1] || null;
+		}
+		return null;
+	}
+
+	// Helper function to check if a room has an exit in a direction
+	hasExit(room, direction) {
+		if (!room || !room.allowedExits) return false;
+		const DIRECTION = {
+			NORTH: 1 << 0,
+			SOUTH: 1 << 1,
+			EAST: 1 << 2,
+			WEST: 1 << 3,
+		};
+		return (room.allowedExits & DIRECTION[direction]) !== 0;
+	}
+
+	// Helper function to get exit indicators for a cell
+	getExitIndicators(dungeon, x, y, z) {
+		const DIRECTION = {
+			NORTH: "NORTH",
+			SOUTH: "SOUTH",
+			EAST: "EAST",
+			WEST: "WEST",
+		};
+		const indicators = {
+			north: null, // null = no special line, 'exit' = two-way exit (slightly darker), 'one-way-exit' = hashed (can exit but neighbor can't), 'one-way-blocked' = solid (neighbor can exit to us but we can't back), 'blocked' = no exit (grey), 'link' = room link line
+			south: null,
+			east: null,
+			west: null,
+		};
+
+		const currentRoom = this.getRoomAt(dungeon, x, y, z);
+
+		// If cell is empty, check neighbors - show blocked on sides with room neighbors
+		if (!currentRoom) {
+			const directions = [
+				{ name: "north", checkX: x, checkY: y - 1 },
+				{ name: "south", checkX: x, checkY: y + 1 },
+				{ name: "east", checkX: x + 1, checkY: y },
+				{ name: "west", checkX: x - 1, checkY: y },
+			];
+
+			for (const dir of directions) {
+				const neighborRoom = this.getRoomAt(dungeon, dir.checkX, dir.checkY, z);
+				// If neighbor has a room, show blocked border on that side
+				if (neighborRoom) {
+					indicators[dir.name] = "blocked";
+				}
+			}
+			return indicators;
+		}
+
+		// Dense rooms cannot be entered or exited - all sides are blocked
+		if (currentRoom.dense) {
+			indicators.north = "blocked";
+			indicators.south = "blocked";
+			indicators.east = "blocked";
+			indicators.west = "blocked";
+			return indicators;
+		}
+
+		// Check each direction
+		const directions = [
+			{ name: "north", checkX: x, checkY: y - 1, opposite: "SOUTH" },
+			{ name: "south", checkX: x, checkY: y + 1, opposite: "NORTH" },
+			{ name: "east", checkX: x + 1, checkY: y, opposite: "WEST" },
+			{ name: "west", checkX: x - 1, checkY: y, opposite: "EAST" },
+		];
+
+		for (const dir of directions) {
+			const neighborRoom = this.getRoomAt(dungeon, dir.checkX, dir.checkY, z);
+
+			// Check if neighbor is empty - if so, this side is blocked (cannot exit to empty cells)
+			if (!neighborRoom) {
+				indicators[dir.name] = "blocked";
+				continue;
+			}
+
+			// Check if neighbor is dense - if so, this side is blocked (cannot enter dense rooms)
+			if (neighborRoom.dense) {
+				indicators[dir.name] = "blocked";
+				continue;
+			}
+
+			// Check if current room has room link in this direction (highest priority)
+			if (currentRoom.roomLinks && currentRoom.roomLinks[dir.name]) {
+				indicators[dir.name] = "link";
+			}
+			// Check if current room allows exit in this direction
+			else if (this.hasExit(currentRoom, dir.name.toUpperCase())) {
+				// If neighbor exists and can exit back: two-way connection (slightly darker)
+				if (this.hasExit(neighborRoom, dir.opposite)) {
+					indicators[dir.name] = "exit";
+				}
+				// If neighbor exists but cannot exit back: one-way exit (hashed border)
+				else {
+					indicators[dir.name] = "one-way-exit";
+				}
+			}
+			// Current room cannot exit in this direction
+			else {
+				// If neighbor can exit toward us but we can't exit back: one-way blocked (solid border)
+				if (this.hasExit(neighborRoom, dir.opposite)) {
+					indicators[dir.name] = "one-way-blocked";
+				}
+				// No exit allowed in this direction - show grey border
+				else {
+					indicators[dir.name] = "blocked";
+				}
+			}
+		}
+
+		return indicators;
+	}
+
 	renderMap(dungeon) {
 		const gridContainer = document.getElementById("map-grid");
 		gridContainer.innerHTML = "";
@@ -626,6 +749,10 @@ class MapEditor {
 					const room = dungeon.rooms[roomIndex - 1];
 					if (room) {
 						cell.title = room.display || `Room ${roomIndex}`;
+						// Add dense class if room is dense (cannot be entered or exited)
+						if (room.dense) {
+							cell.classList.add("dense-room");
+						}
 					}
 				}
 
@@ -645,6 +772,31 @@ class MapEditor {
 					const color = COLORS.find((c) => c.id === mapColor);
 					if (color) {
 						cell.style.color = color.hex;
+					}
+				}
+
+				// Add exit indicators for all cells (rooms and empty cells)
+				const exitIndicators = this.getExitIndicators(
+					dungeon,
+					x,
+					y,
+					this.currentLayer
+				);
+				// Add classes for exit visualization
+				for (const [direction, indicatorType] of Object.entries(
+					exitIndicators
+				)) {
+					if (indicatorType === "exit") {
+						cell.classList.add(`exit-${direction}`);
+					} else if (indicatorType === "one-way-exit") {
+						cell.classList.add(`one-way-exit-${direction}`);
+					} else if (indicatorType === "one-way-blocked") {
+						cell.classList.add(`one-way-blocked-${direction}`);
+					} else if (indicatorType === "blocked") {
+						cell.classList.add(`blocked-${direction}`);
+					} else if (indicatorType === "link") {
+						cell.classList.add(`exit-${direction}`);
+						cell.classList.add(`link-${direction}`);
 					}
 				}
 

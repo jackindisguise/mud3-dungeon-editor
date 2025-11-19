@@ -6,7 +6,7 @@
 
 body {
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-	background: #1a1a1a;
+	background: #121212;
 	color: #e0e0e0;
 	height: 100vh;
 	overflow: hidden;
@@ -522,7 +522,7 @@ header h1 {
 .grid-row-wrapper .grid-cell {
 	width: 30px;
 	height: 30px;
-	background: #1a1a1a;
+	background: #2a2a2a;
 	border: 1px solid #333;
 	cursor: pointer;
 	position: relative;
@@ -538,15 +538,46 @@ header h1 {
 
 .grid-row-wrapper .grid-cell:hover {
 	border-color: #666;
-	background: #252525;
+	background: #323232;
 }
 
 .grid-row-wrapper .grid-cell.has-room {
-	background: #2a4a2a;
+	background: #0d220d;
 }
 
 .grid-row-wrapper .grid-cell.has-room:hover {
 	background: #3a5a3a;
+}
+
+/* Dense rooms - cannot be entered or exited, show blocked on all sides */
+.grid-row-wrapper .grid-cell.dense-room {
+	background: #1a3a2a;
+	position: relative;
+}
+
+.grid-row-wrapper .grid-cell.dense-room:hover {
+	background: #2a4a3a;
+}
+
+/* Dense rooms should show blocked borders on all sides - thicker grey borders */
+.grid-row-wrapper .grid-cell.dense-room.blocked-north {
+	border-top-width: 3px;
+	border-top-color: #666;
+}
+
+.grid-row-wrapper .grid-cell.dense-room.blocked-south {
+	border-bottom-width: 3px;
+	border-bottom-color: #666;
+}
+
+.grid-row-wrapper .grid-cell.dense-room.blocked-east {
+	border-right-width: 3px;
+	border-right-color: #666;
+}
+
+.grid-row-wrapper .grid-cell.dense-room.blocked-west {
+	border-left-width: 3px;
+	border-left-color: #666;
 }
 
 .grid-row-wrapper .grid-cell.selected {
@@ -556,6 +587,115 @@ header h1 {
 
 .grid-row-wrapper .grid-cell.selected.has-room {
 	background: #1a4a2a;
+}
+
+/* Exit indicator lines - two-way exits slightly darker than background */
+.grid-row-wrapper .grid-cell.has-room.exit-north {
+	border-top-width: 2px;
+	border-top-color: #244542;
+}
+
+.grid-row-wrapper .grid-cell.has-room.exit-south {
+	border-bottom-width: 2px;
+	border-bottom-color: #244542;
+}
+
+.grid-row-wrapper .grid-cell.has-room.exit-east {
+	border-right-width: 2px;
+	border-right-color: #244542;
+}
+
+.grid-row-wrapper .grid-cell.has-room.exit-west {
+	border-left-width: 2px;
+	border-left-color: #244542;
+}
+
+/* One-way exits - hashed border (can exit but neighbor can't exit back) */
+.grid-row-wrapper .grid-cell.has-room.one-way-exit-north {
+	border-top-width: 2px;
+	border-top-color: #555;
+	border-top-style: dashed;
+}
+
+.grid-row-wrapper .grid-cell.has-room.one-way-exit-south {
+	border-bottom-width: 2px;
+	border-bottom-color: #555;
+	border-bottom-style: dashed;
+}
+
+.grid-row-wrapper .grid-cell.has-room.one-way-exit-east {
+	border-right-width: 2px;
+	border-right-color: #555;
+	border-right-style: dashed;
+}
+
+.grid-row-wrapper .grid-cell.has-room.one-way-exit-west {
+	border-left-width: 2px;
+	border-left-color: #555;
+	border-left-style: dashed;
+}
+
+/* One-way blocked - solid border (neighbor can exit to us but we can't exit back) */
+.grid-row-wrapper .grid-cell.has-room.one-way-blocked-north {
+	border-top-width: 2px;
+	border-top-color: #555;
+}
+
+.grid-row-wrapper .grid-cell.has-room.one-way-blocked-south {
+	border-bottom-width: 2px;
+	border-bottom-color: #555;
+}
+
+.grid-row-wrapper .grid-cell.has-room.one-way-blocked-east {
+	border-right-width: 2px;
+	border-right-color: #555;
+}
+
+.grid-row-wrapper .grid-cell.has-room.one-way-blocked-west {
+	border-left-width: 2px;
+	border-left-color: #555;
+}
+
+/* Blocked exits - grey borders when exit is not allowed */
+.grid-row-wrapper .grid-cell.has-room.blocked-north,
+.grid-row-wrapper .grid-cell.blocked-north {
+	border-top-width: 2px;
+	border-top-color: #555;
+}
+
+.grid-row-wrapper .grid-cell.has-room.blocked-south,
+.grid-row-wrapper .grid-cell.blocked-south {
+	border-bottom-width: 2px;
+	border-bottom-color: #555;
+}
+
+.grid-row-wrapper .grid-cell.has-room.blocked-east,
+.grid-row-wrapper .grid-cell.blocked-east {
+	border-right-width: 2px;
+	border-right-color: #555;
+}
+
+.grid-row-wrapper .grid-cell.has-room.blocked-west,
+.grid-row-wrapper .grid-cell.blocked-west {
+	border-left-width: 2px;
+	border-left-color: #555;
+}
+
+/* Room link indicators - different color (cyan) */
+.grid-row-wrapper .grid-cell.link-north {
+	border-top-color: #00ffff;
+}
+
+.grid-row-wrapper .grid-cell.link-south {
+	border-bottom-color: #00ffff;
+}
+
+.grid-row-wrapper .grid-cell.link-east {
+	border-right-color: #00ffff;
+}
+
+.grid-row-wrapper .grid-cell.link-west {
+	border-left-color: #00ffff;
 }
 
 .reset-list {

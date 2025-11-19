@@ -7735,27 +7735,7 @@ dungeon:
         - 1
         - 1
         - 1
-        - 1
-        - 1
-        - 1
-        - 1
-        - 1
-        - 1
-        - 1
-        - 1
-        - 1
-        - 5
-        - 3
-      - - 5
-        - 1
-        - 1
-        - 1
-        - 1
-        - 1
-        - 1
-        - 1
-        - 1
-        - 1
+        - 7
         - 1
         - 1
         - 1
@@ -7773,7 +7753,7 @@ dungeon:
         - 1
         - 1
         - 1
-        - 1
+        - 7
         - 1
         - 1
         - 1
@@ -7796,9 +7776,9 @@ dungeon:
         - 1
         - 1
         - 1
-        - 1
-        - 1
-        - 1
+        - 7
+        - 7
+        - 7
         - 1
         - 1
         - 1
@@ -7816,9 +7796,29 @@ dungeon:
         - 1
         - 1
         - 1
+        - 7
+        - 7
+        - 7
         - 1
         - 1
         - 1
+        - 1
+        - 1
+        - 5
+        - 3
+      - - 5
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+        - 1
+        - 7
+        - 7
+        - 7
         - 1
         - 1
         - 1
@@ -8021,6 +8021,7 @@ dungeon:
       description: You stand on a patch of grass surrounding the tower. The ground is soft beneath your feet.
       mapText: ','
       mapColor: 2
+      allowedExits: 15
     - display: Top of Staircase
       mapText: v
       description: A staircase leads down to the lower floors.
@@ -8036,6 +8037,11 @@ dungeon:
       mapText: '|'
       mapColor: 8
       allowedExits: 783
+    - display: Random Portal
+      description: This room is a portal.
+      mapText: '*'
+      mapColor: 13
+      allowedExits: 0
   templates:
     - id: tower-guardian
       type: Mob
