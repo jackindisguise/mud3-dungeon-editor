@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/jackindisguise/mud3-dungeon-editor/compare/v1.1.0...v1.2.0) (2025-11-19)
+
+
+### Features
+
+* added exit visualization grid to map editor ([fa2cbee](https://github.com/jackindisguise/mud3-dungeon-editor/commit/fa2cbee10c53a175ef4423fcd65b1d9481c5088d))
+
 ## [1.1.0](https://github.com/jackindisguise/mud3-dungeon-editor/compare/v1.0.0...v1.1.0) (2025-11-19)
 
 
