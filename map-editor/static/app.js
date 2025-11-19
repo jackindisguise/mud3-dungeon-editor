@@ -158,7 +158,7 @@ class MapEditor {
 				if (hitTypesByDamage[damageType]) {
 					html += this.generateHitTypeOptions(
 						hitTypesByDamage[damageType],
-						selectedKey
+						selectedKey,
 					);
 				}
 			}
@@ -174,11 +174,11 @@ class MapEditor {
 				) {
 					const damageTypeColor = damageTypeColors[damageType] || "#ffffff";
 					html += `<optgroup label="─── ${formatDamageTypeName(
-						damageType
+						damageType,
 					)} ───" style="color: ${damageTypeColor}; font-weight: 600;">`;
 					html += this.generateHitTypeOptions(
 						hitTypesByDamage[damageType],
-						selectedKey
+						selectedKey,
 					);
 					html += "</optgroup>";
 				}
@@ -304,7 +304,7 @@ class MapEditor {
 					selectedColor === color.id ? "selected" : ""
 				} style="background-color: ${color.hex}; color: ${
 					color.id <= 7 ? "#fff" : "#000"
-				};">${color.name}</option>`
+				};">${color.name}</option>`,
 		).join("");
 		return `<select id="${id}" class="color-selector">
 			<option value="">None (default)</option>
@@ -326,7 +326,7 @@ class MapEditor {
 		// Check for mobs first
 		for (const reset of resets) {
 			const template = dungeon.templates?.find(
-				(t) => t.id === reset.templateId
+				(t) => t.id === reset.templateId,
 			);
 			if (template && template.type === "Mob") {
 				mapText = template.mapText !== undefined ? template.mapText : "!";
@@ -338,7 +338,7 @@ class MapEditor {
 		// Check for objects
 		for (const reset of resets) {
 			const template = dungeon.templates?.find(
-				(t) => t.id === reset.templateId
+				(t) => t.id === reset.templateId,
 			);
 			if (template && template.type !== "Mob") {
 				if (template.mapText !== undefined) mapText = template.mapText;
@@ -431,7 +431,7 @@ class MapEditor {
 
 					this.showToast(
 						"Restored unsaved work",
-						`Last saved: ${new Date(parsed.timestamp).toLocaleString()}`
+						`Last saved: ${new Date(parsed.timestamp).toLocaleString()}`,
 					);
 					this.hasUnsavedChanges = true;
 					this.updateSaveButton();
@@ -530,7 +530,7 @@ class MapEditor {
 			"room",
 			"__DELETE__",
 			"🗑️ Delete Room",
-			"Click on rooms to remove them"
+			"Click on rooms to remove them",
 		);
 		roomList.appendChild(deleteItem);
 
@@ -540,7 +540,7 @@ class MapEditor {
 					"room",
 					index,
 					room.display || `Room ${index + 1}`,
-					room.description || ""
+					room.description || "",
 				);
 				roomList.appendChild(item);
 			});
@@ -557,7 +557,7 @@ class MapEditor {
 						"mob",
 						template.id,
 						template.display || template.id,
-						template.description || ""
+						template.description || "",
 					);
 					mobList.appendChild(item);
 				});
@@ -574,7 +574,7 @@ class MapEditor {
 						"object",
 						template.id,
 						template.display || template.id,
-						template.description || ""
+						template.description || "",
 					);
 					objectList.appendChild(item);
 				});
@@ -694,7 +694,7 @@ class MapEditor {
 
 					// Check if reset already exists
 					const existingReset = dungeon.resets?.find(
-						(r) => r.roomRef === roomRef && r.templateId === id
+						(r) => r.roomRef === roomRef && r.templateId === id,
 					);
 
 					if (existingReset) {
@@ -728,7 +728,7 @@ class MapEditor {
 		// Show toast notification
 		this.showToast(
 			`Placed ${templateName} in selection`,
-			`${placedCount} cell${placedCount !== 1 ? "s" : ""}`
+			`${placedCount} cell${placedCount !== 1 ? "s" : ""}`,
 		);
 
 		// Reload resets and re-render map
@@ -762,7 +762,7 @@ class MapEditor {
 
 		filteredResets.forEach((reset, filteredIndex) => {
 			const template = dungeon.templates?.find(
-				(t) => t.id === reset.templateId
+				(t) => t.id === reset.templateId,
 			);
 			const templateName = template
 				? template.display || reset.templateId
@@ -1015,7 +1015,7 @@ class MapEditor {
 					dungeon,
 					x,
 					y,
-					this.currentLayer
+					this.currentLayer,
 				);
 
 				// Set text content
@@ -1034,11 +1034,11 @@ class MapEditor {
 					dungeon,
 					x,
 					y,
-					this.currentLayer
+					this.currentLayer,
 				);
 				// Add classes for exit visualization
 				for (const [direction, indicatorType] of Object.entries(
-					exitIndicators
+					exitIndicators,
 				)) {
 					if (indicatorType === "exit") {
 						cell.classList.add(`exit-${direction}`);
@@ -1127,7 +1127,7 @@ class MapEditor {
 		if (this.selectedCell && this.selectedCell.z === this.currentLayer) {
 			const { x, y, z } = this.selectedCell;
 			const cell = document.querySelector(
-				`[data-x="${x}"][data-y="${y}"][data-z="${z}"]`
+				`[data-x="${x}"][data-y="${y}"][data-z="${z}"]`,
 			);
 			if (cell) {
 				cell.classList.add("selected");
@@ -1146,7 +1146,7 @@ class MapEditor {
 				.querySelectorAll(".grid-cell")
 				.forEach((c) => c.classList.remove("selected"));
 			const cell = document.querySelector(
-				`[data-x="${x}"][data-y="${y}"][data-z="${z}"]`
+				`[data-x="${x}"][data-y="${y}"][data-z="${z}"]`,
 			);
 			if (cell) {
 				cell.classList.add("selected");
@@ -1265,7 +1265,7 @@ class MapEditor {
 							const cellRoomRef = `@${dungeonId}{${cell.x},${cell.y},${cell.z}}`;
 							if (dungeon.resets) {
 								dungeon.resets = dungeon.resets.filter(
-									(r) => r.roomRef !== cellRoomRef
+									(r) => r.roomRef !== cellRoomRef,
 								);
 							}
 
@@ -1302,13 +1302,13 @@ class MapEditor {
 
 					this.showToast(
 						`Painted delete: ${roomName}`,
-						`Deleted ${deletedCount} room${deletedCount !== 1 ? "s" : ""}`
+						`Deleted ${deletedCount} room${deletedCount !== 1 ? "s" : ""}`,
 					);
 					this.loadResets(dungeon);
 				} else {
 					this.showToast(
 						"No room to delete",
-						`At coordinates (${x}, ${y}, ${z})`
+						`At coordinates (${x}, ${y}, ${z})`,
 					);
 				}
 			} else {
@@ -1328,19 +1328,19 @@ class MapEditor {
 					const roomRef = `@${dungeonId}{${x},${y},${z}}`;
 					if (dungeon.resets) {
 						dungeon.resets = dungeon.resets.filter(
-							(r) => r.roomRef !== roomRef
+							(r) => r.roomRef !== roomRef,
 						);
 					}
 
 					this.showToast(
 						`Deleted ${roomName}`,
-						`At coordinates (${x}, ${y}, ${z})`
+						`At coordinates (${x}, ${y}, ${z})`,
 					);
 					this.loadResets(dungeon);
 				} else {
 					this.showToast(
 						"No room to delete",
-						`At coordinates (${x}, ${y}, ${z})`
+						`At coordinates (${x}, ${y}, ${z})`,
 					);
 				}
 			}
@@ -1421,7 +1421,7 @@ class MapEditor {
 
 			this.showToast(
 				`Painted: ${newRoomName}`,
-				`Filled ${filledCount} cell${filledCount !== 1 ? "s" : ""}`
+				`Filled ${filledCount} cell${filledCount !== 1 ? "s" : ""}`,
 			);
 		} else {
 			// Insert mode: place single room
@@ -1437,12 +1437,12 @@ class MapEditor {
 			if (hadRoom) {
 				this.showToast(
 					`Replaced with ${roomName}`,
-					`At coordinates (${x}, ${y}, ${z})`
+					`At coordinates (${x}, ${y}, ${z})`,
 				);
 			} else {
 				this.showToast(
 					`Placed ${roomName}`,
-					`At coordinates (${x}, ${y}, ${z})`
+					`At coordinates (${x}, ${y}, ${z})`,
 				);
 			}
 		}
@@ -1475,12 +1475,12 @@ class MapEditor {
 
 		// Check if reset already exists - if so, increment count instead of alerting
 		const existing = dungeon.resets.find(
-			(r) => r.roomRef === roomRef && r.templateId === this.selectedTemplate
+			(r) => r.roomRef === roomRef && r.templateId === this.selectedTemplate,
 		);
 
 		// Get template name for toast
 		const template = dungeon.templates?.find(
-			(t) => t.id === this.selectedTemplate
+			(t) => t.id === this.selectedTemplate,
 		);
 		const templateName = template?.display || this.selectedTemplate;
 		const templateType = this.selectedTemplateType === "mob" ? "Mob" : "Object";
@@ -1493,7 +1493,7 @@ class MapEditor {
 				`Updated ${templateType} Reset: ${templateName}`,
 				`Count: ${existing.minCount || 1}-${
 					existing.maxCount
-				} at (${x}, ${y}, ${z})`
+				} at (${x}, ${y}, ${z})`,
 			);
 		} else {
 			// Add new reset
@@ -1506,7 +1506,7 @@ class MapEditor {
 			// Show toast notification
 			this.showToast(
 				`Added ${templateType} Reset: ${templateName}`,
-				`At coordinates (${x}, ${y}, ${z})`
+				`At coordinates (${x}, ${y}, ${z})`,
 			);
 		}
 
@@ -1549,7 +1549,7 @@ class MapEditor {
 						? resets
 								.map((reset, i) => {
 									const template = dungeon.templates?.find(
-										(t) => t.id === reset.templateId
+										(t) => t.id === reset.templateId,
 									);
 									return `<p>• ${template?.display || reset.templateId} (${
 										reset.minCount || 1
@@ -1602,8 +1602,8 @@ class MapEditor {
 			type === "room"
 				? "Edit Room Template"
 				: type === "mob"
-				? "Edit Mob Template"
-				: "Edit Object Template";
+					? "Edit Mob Template"
+					: "Edit Object Template";
 
 		let html = "";
 		const isMob = type !== "room" && template.type === "Mob";
@@ -1662,7 +1662,7 @@ class MapEditor {
 				.map(([dir, ref], index) => {
 					// Get available directions (all except the ones used by other links)
 					const availableDirs = allDirections.filter(
-						(d) => d === dir || !usedDirections.includes(d)
+						(d) => d === dir || !usedDirections.includes(d),
 					);
 
 					return `
@@ -1673,7 +1673,7 @@ class MapEditor {
 								(d) =>
 									`<option value="${d}" ${d === dir ? "selected" : ""}>${
 										d.charAt(0).toUpperCase() + d.slice(1)
-									}</option>`
+									}</option>`,
 							)
 							.join("")}
 					</select>
@@ -1712,7 +1712,7 @@ class MapEditor {
 					<label>Map Text (1 letter)</label>
 					<input type="text" id="template-map-text" value="${
 						template.mapText || ""
-					}" placeholder="Single character" maxlength="1" style="width: 80px;">
+					}" placeholder="." maxlength="1" style="width: 80px;">
 				</div>
 				<div class="form-group">
 					<label>Map Color</label>
@@ -1725,8 +1725,8 @@ class MapEditor {
 							<button type="button" class="exit-btn ${
 								template.dense ? "enabled" : "disabled"
 							}" id="template-dense-btn" data-dense="${
-				template.dense ? "true" : "false"
-			}">DENSE</button>
+								template.dense ? "true" : "false"
+							}">DENSE</button>
 						</div>
 					</div>
 				</div>
@@ -1759,7 +1759,7 @@ class MapEditor {
 					(r) =>
 						`<option value="${r.id}" ${
 							template.race === r.id ? "selected" : ""
-						}>${r.display}</option>`
+						}>${r.display}</option>`,
 				)
 				.join("");
 			const jobOptions = this.jobs
@@ -1767,7 +1767,7 @@ class MapEditor {
 					(j) =>
 						`<option value="${j.id}" ${
 							template.job === j.id ? "selected" : ""
-						}>${j.display}</option>`
+						}>${j.display}</option>`,
 				)
 				.join("");
 
@@ -1786,8 +1786,8 @@ class MapEditor {
 				<div class="form-group">
 					<label>ID</label>
 					<input type="text" id="template-id" value="${template.id || ""}" ${
-				id ? "readonly" : ""
-			}>
+						id ? "readonly" : ""
+					}>
 				</div>
 				<div class="form-group">
 					<label>Type</label>
@@ -1821,15 +1821,12 @@ class MapEditor {
 					<input type="text" id="template-room-description" value="${
 						template.roomDescription || ""
 					}" placeholder="Shows in room contents (1 line)">
-					<small style="color: #aaa; font-size: 0.85rem; display: block; margin-top: 0.25rem;">
-						One-line description shown when this object/mob is in a room
-					</small>
 				</div>
 				`
 						: ""
 				}
 				<div class="form-group">
-					<label>Keywords (comma-separated)</label>
+					<label>Keywords</label>
 					<input type="text" id="template-keywords" value="${template.keywords || ""}">
 				</div>
 				<div id="mob-fields" style="display: ${isMob ? "block" : "none"};">
@@ -1859,6 +1856,22 @@ class MapEditor {
 						<p style="color: #aaa; font-style: italic;">Select race, job, and level to see calculated attributes</p>
 					</div>
 				</div>
+				<div class="form-group">
+					<label>Behaviors</label>
+					<div class="exits-container">
+						<div class="exits-buttons">
+							<button type="button" class="exit-btn behavior-btn ${
+								template.behaviors?.aggressive ? "enabled" : "disabled"
+							}" data-behavior="aggressive" title="Mob will attack character mobs">AGGRESSIVE</button>
+							<button type="button" class="exit-btn behavior-btn ${
+								template.behaviors?.wimpy ? "enabled" : "disabled"
+							}" data-behavior="wimpy" title="Mob will flee when health reaches 25%">WIMPY</button>
+							<button type="button" class="exit-btn behavior-btn ${
+								template.behaviors?.wander ? "enabled" : "disabled"
+							}" data-behavior="wander" title="Mob will randomly move around every 30 seconds">WANDER</button>
+						</div>
+					</div>
+				</div>
 				</div>
 				<div id="weapon-fields" style="display: ${isWeapon ? "block" : "none"};">
 					${hitTypeSelector}
@@ -1886,7 +1899,7 @@ class MapEditor {
 					<label>Map Text (1 letter)</label>
 					<input type="text" id="template-map-text" value="${
 						template.mapText || ""
-					}" placeholder="Single character" maxlength="1" style="width: 80px;">
+					}" placeholder="." maxlength="1" style="width: 80px;">
 				</div>
 				<div class="form-group">
 					<label>Map Color</label>
@@ -2084,6 +2097,23 @@ class MapEditor {
 			};
 		}
 
+		// Set up behavior button handlers
+		if (isMob) {
+			document.querySelectorAll(".behavior-btn").forEach((btn) => {
+				btn.onclick = (e) => {
+					const behavior = e.target.dataset.behavior;
+					const isEnabled = e.target.classList.contains("enabled");
+					if (isEnabled) {
+						e.target.classList.remove("enabled");
+						e.target.classList.add("disabled");
+					} else {
+						e.target.classList.remove("disabled");
+						e.target.classList.add("enabled");
+					}
+				};
+			});
+		}
+
 		// Set up mob attribute calculation handlers
 		const raceSelect = document.getElementById("template-race");
 		const jobSelect = document.getElementById("template-job");
@@ -2254,7 +2284,7 @@ class MapEditor {
 				dungeon.rooms.push(newRoom);
 				this.showToast(
 					"Room template created",
-					`Created "${display || "New Room"}"`
+					`Created "${display || "New Room"}"`,
 				);
 			}
 		} else {
@@ -2263,7 +2293,7 @@ class MapEditor {
 			const display = document.getElementById("template-display").value;
 			const description = document.getElementById("template-description").value;
 			const roomDescriptionInput = document.getElementById(
-				"template-room-description"
+				"template-room-description",
 			);
 			const roomDescription = roomDescriptionInput
 				? roomDescriptionInput.value.trim()
@@ -2299,13 +2329,25 @@ class MapEditor {
 				if (race) newTemplate.race = race;
 				if (job) newTemplate.job = job;
 				if (level) newTemplate.level = parseInt(level) || 1;
+
+				// Collect behaviors
+				const behaviors = {};
+				document.querySelectorAll(".behavior-btn").forEach((btn) => {
+					const behavior = btn.dataset.behavior;
+					if (btn.classList.contains("enabled")) {
+						behaviors[behavior] = true;
+					}
+				});
+				if (Object.keys(behaviors).length > 0) {
+					newTemplate.behaviors = behaviors;
+				}
 			}
 
 			// Add weapon-specific fields
 			if (templateType === "Weapon") {
 				const hitType = document.getElementById("template-hit-type")?.value;
 				const attackPower = document.getElementById(
-					"template-attack-power"
+					"template-attack-power",
 				)?.value;
 				if (hitType) {
 					newTemplate.hitType = hitType;
@@ -2415,6 +2457,7 @@ class MapEditor {
 					delete updated.race;
 					delete updated.job;
 					delete updated.level;
+					delete updated.behaviors;
 				}
 				// Equipment types: Equipment, Weapon, Armor
 				const isOldEquipmentType =
@@ -2473,6 +2516,10 @@ class MapEditor {
 				) {
 					delete updated.resourceBonuses;
 				}
+				// Remove behaviors if empty
+				if (updated.behaviors && Object.keys(updated.behaviors).length === 0) {
+					delete updated.behaviors;
+				}
 				// Remove roomDescription if empty
 				if (!roomDescription) delete updated.roomDescription;
 				// Remove map fields if they're empty
@@ -2528,7 +2575,7 @@ class MapEditor {
 							const roomRef = `@${dungeonId}{${x},${y},${z}}`;
 							if (dungeon.resets) {
 								dungeon.resets = dungeon.resets.filter(
-									(r) => r.roomRef !== roomRef
+									(r) => r.roomRef !== roomRef,
 								);
 							}
 						}
@@ -2554,7 +2601,7 @@ class MapEditor {
 
 			this.showToast(
 				`Deleted ${roomName}`,
-				`Removed ${deletedCount} room${deletedCount !== 1 ? "s" : ""} from grid`
+				`Removed ${deletedCount} room${deletedCount !== 1 ? "s" : ""} from grid`,
 			);
 		} else {
 			// Mob or Object template
@@ -2581,7 +2628,7 @@ class MapEditor {
 				`Deleted ${templateName}`,
 				`Removed ${deletedResetCount} reset${
 					deletedResetCount !== 1 ? "s" : ""
-				}`
+				}`,
 			);
 		}
 
@@ -2598,7 +2645,8 @@ class MapEditor {
 
 		// Get all equipment templates (Equipment, Armor, Weapon) from all dungeons
 		const equipmentTemplates = allTemplates.filter(
-			(t) => t.type === "Equipment" || t.type === "Armor" || t.type === "Weapon"
+			(t) =>
+				t.type === "Equipment" || t.type === "Armor" || t.type === "Weapon",
 		);
 
 		// Get all item templates (Item, Equipment, Armor, Weapon - all are items) from all dungeons
@@ -2607,7 +2655,7 @@ class MapEditor {
 				t.type === "Item" ||
 				t.type === "Equipment" ||
 				t.type === "Armor" ||
-				t.type === "Weapon"
+				t.type === "Weapon",
 		);
 
 		// Populate equipment table
@@ -2723,7 +2771,7 @@ class MapEditor {
 				} catch (error) {
 					console.warn(
 						`Failed to load templates from dungeon ${dungeonId}:`,
-						error
+						error,
 					);
 				}
 			}
@@ -2905,7 +2953,7 @@ class MapEditor {
 
 		const items = list.querySelectorAll(".template-list-item");
 		const templateIds = Array.from(items).map(
-			(item) => item.dataset.templateId
+			(item) => item.dataset.templateId,
 		);
 		// Store as comma-separated string in hidden input for compatibility
 		input.value = templateIds.join(", ");
@@ -2997,7 +3045,7 @@ class MapEditor {
 			if (minCount > maxCount) {
 				this.showToast(
 					"Invalid count range",
-					"Minimum count cannot be greater than maximum count"
+					"Minimum count cannot be greater than maximum count",
 				);
 				return;
 			}
@@ -3007,7 +3055,7 @@ class MapEditor {
 
 			// Update equipped and inventory if this is a mob reset
 			const template = dungeon.templates?.find(
-				(t) => t.id === reset.templateId
+				(t) => t.id === reset.templateId,
 			);
 			if (template?.type === "Mob") {
 				// Get values from the lists
@@ -3093,7 +3141,7 @@ class MapEditor {
 		if (!width || !height || !layers) {
 			this.showToast(
 				"Invalid dimensions",
-				"Please enter valid width, height, and layers"
+				"Please enter valid width, height, and layers",
 			);
 			return;
 		}
@@ -3245,7 +3293,7 @@ class MapEditor {
 
 		const allDirections = ["north", "south", "east", "west", "up", "down"];
 		const usedDirections = Array.from(
-			container.querySelectorAll(".room-link-direction")
+			container.querySelectorAll(".room-link-direction"),
 		).map((select) => select.value);
 
 		return allDirections.filter((d) => !usedDirections.includes(d));
@@ -3262,14 +3310,14 @@ class MapEditor {
 			const currentValue = select.value;
 			// Get all directions used by OTHER selects (not this one)
 			const usedByOthers = Array.from(
-				container.querySelectorAll(".room-link-direction")
+				container.querySelectorAll(".room-link-direction"),
 			)
 				.filter((s) => s !== select)
 				.map((s) => s.value);
 
 			// Available directions: current value + all unused directions
 			const availableDirs = allDirections.filter(
-				(d) => d === currentValue || !usedByOthers.includes(d)
+				(d) => d === currentValue || !usedByOthers.includes(d),
 			);
 
 			// Save current value and rebuild options
@@ -3278,14 +3326,14 @@ class MapEditor {
 					(d) =>
 						`<option value="${d}" ${d === currentValue ? "selected" : ""}>${
 							d.charAt(0).toUpperCase() + d.slice(1)
-						}</option>`
+						}</option>`,
 				)
 				.join("");
 		});
 
 		// Recalculate used directions after updates
 		const usedDirections = Array.from(
-			container.querySelectorAll(".room-link-direction")
+			container.querySelectorAll(".room-link-direction"),
 		).map((select) => select.value);
 
 		// Update add button state
@@ -3333,7 +3381,7 @@ class MapEditor {
 						(d) =>
 							`<option value="${d}">${
 								d.charAt(0).toUpperCase() + d.slice(1)
-							}</option>`
+							}</option>`,
 					)
 					.join("")}
 			</select>
@@ -3425,13 +3473,13 @@ class MapEditor {
 					<h4>Primary Attributes</h4>
 					<div class="attribute-grid">
 						<div class="attribute-item"><span class="attr-label">Strength:</span> <span class="attr-value">${primary.strength.toFixed(
-							2
+							2,
 						)}</span></div>
 						<div class="attribute-item"><span class="attr-label">Agility:</span> <span class="attr-value">${primary.agility.toFixed(
-							2
+							2,
 						)}</span></div>
 						<div class="attribute-item"><span class="attr-label">Intelligence:</span> <span class="attr-value">${primary.intelligence.toFixed(
-							2
+							2,
 						)}</span></div>
 					</div>
 				</div>
@@ -3439,34 +3487,34 @@ class MapEditor {
 					<h4>Secondary Attributes</h4>
 					<div class="attribute-grid">
 						<div class="attribute-item"><span class="attr-label">Attack Power:</span> <span class="attr-value">${secondary.attackPower.toFixed(
-							2
+							2,
 						)}</span></div>
 						<div class="attribute-item"><span class="attr-label">Defense:</span> <span class="attr-value">${secondary.defense.toFixed(
-							2
+							2,
 						)}</span></div>
 						<div class="attribute-item"><span class="attr-label">Vitality:</span> <span class="attr-value">${secondary.vitality.toFixed(
-							2
+							2,
 						)}</span></div>
 						<div class="attribute-item"><span class="attr-label">Crit Rate:</span> <span class="attr-value">${secondary.critRate.toFixed(
-							2
+							2,
 						)}</span></div>
 						<div class="attribute-item"><span class="attr-label">Avoidance:</span> <span class="attr-value">${secondary.avoidance.toFixed(
-							2
+							2,
 						)}</span></div>
 						<div class="attribute-item"><span class="attr-label">Accuracy:</span> <span class="attr-value">${secondary.accuracy.toFixed(
-							2
+							2,
 						)}</span></div>
 						<div class="attribute-item"><span class="attr-label">Endurance:</span> <span class="attr-value">${secondary.endurance.toFixed(
-							2
+							2,
 						)}</span></div>
 						<div class="attribute-item"><span class="attr-label">Spell Power:</span> <span class="attr-value">${secondary.spellPower.toFixed(
-							2
+							2,
 						)}</span></div>
 						<div class="attribute-item"><span class="attr-label">Wisdom:</span> <span class="attr-value">${secondary.wisdom.toFixed(
-							2
+							2,
 						)}</span></div>
 						<div class="attribute-item"><span class="attr-label">Resilience:</span> <span class="attr-value">${secondary.resilience.toFixed(
-							2
+							2,
 						)}</span></div>
 					</div>
 				</div>
@@ -3474,10 +3522,10 @@ class MapEditor {
 					<h4>Resource Capacities</h4>
 					<div class="attribute-grid">
 						<div class="attribute-item"><span class="attr-label">Max Health:</span> <span class="attr-value">${Math.round(
-							resourceCaps.maxHealth
+							resourceCaps.maxHealth,
 						)}</span></div>
 						<div class="attribute-item"><span class="attr-label">Max Mana:</span> <span class="attr-value">${Math.round(
-							resourceCaps.maxMana
+							resourceCaps.maxMana,
 						)}</span></div>
 					</div>
 				</div>
@@ -3504,12 +3552,12 @@ class MapEditor {
 				? "Paint Delete"
 				: "Delete Room"
 			: type === "room"
-			? this.placementMode === "paint"
-				? "Paint Room"
-				: "Place Room"
-			: type === "mob"
-			? "Add Mob Reset"
-			: "Add Object Reset";
+				? this.placementMode === "paint"
+					? "Paint Room"
+					: "Place Room"
+				: type === "mob"
+					? "Add Mob Reset"
+					: "Add Object Reset";
 
 		indicator.setAttribute("data-type", isDelete ? "delete" : type);
 		indicator.querySelector(".placement-action").textContent = actionText;
@@ -3561,12 +3609,12 @@ class MapEditor {
 		if (this.selectedTemplate !== null && this.selectedTemplateType) {
 			const template = this.getTemplateDisplay(
 				this.selectedTemplateType,
-				this.selectedTemplate
+				this.selectedTemplate,
 			);
 			this.updatePlacementIndicator(
 				this.selectedTemplateType,
 				this.selectedTemplate,
-				template
+				template,
 			);
 		}
 	}
@@ -3640,7 +3688,7 @@ class MapEditor {
 					// Use placeTemplateInSelection which handles history properly
 					this.placeTemplateInSelection(
 						this.selectedTemplateType,
-						this.selectedTemplate
+						this.selectedTemplate,
 					);
 					// Clear selection after placement (but keep selection tool active)
 					this.selectedCells.clear();
@@ -3870,7 +3918,7 @@ class MapEditor {
 					this.deleteRoomAtCell(
 						this.selectedCell.x,
 						this.selectedCell.y,
-						this.selectedCell.z
+						this.selectedCell.z,
 					);
 				}
 			} else if (e.key === "Escape") {
@@ -4244,7 +4292,7 @@ class MapEditor {
 
 			this.showToast(
 				`Deleted ${roomName}`,
-				`At coordinates (${x}, ${y}, ${z})`
+				`At coordinates (${x}, ${y}, ${z})`,
 			);
 			this.loadResets(dungeon);
 			this.renderMap(dungeon);
@@ -4313,7 +4361,7 @@ class MapEditor {
 		const totalCells = dungeon.dimensions.width * dungeon.dimensions.height;
 		this.showToast(
 			"Selected all",
-			`${totalCells} cells on layer ${this.currentLayer}`
+			`${totalCells} cells on layer ${this.currentLayer}`,
 		);
 	}
 
@@ -4354,7 +4402,7 @@ class MapEditor {
 		if (deletedCount > 0) {
 			this.showToast(
 				`Deleted ${deletedCount} room${deletedCount !== 1 ? "s" : ""}`,
-				"From selected area"
+				"From selected area",
 			);
 			this.loadResets(dungeon);
 			this.renderMap(dungeon);
@@ -4499,7 +4547,7 @@ class MapEditor {
 		// Check all localStorage keys for unsaved work
 		const keys = Object.keys(localStorage);
 		const unsavedKeys = keys.filter((key) =>
-			key.startsWith("mud-map-editor-unsaved-")
+			key.startsWith("mud-map-editor-unsaved-"),
 		);
 
 		if (unsavedKeys.length > 0) {
@@ -4579,7 +4627,7 @@ class MapEditor {
 		if (!name) {
 			this.showToast(
 				"Invalid dungeon name",
-				"Please enter a name for the dungeon"
+				"Please enter a name for the dungeon",
 			);
 			return;
 		}
@@ -4589,7 +4637,7 @@ class MapEditor {
 		if (sanitizedName !== name) {
 			this.showToast(
 				"Invalid characters in name",
-				"Name can only contain lowercase letters, numbers, hyphens, and underscores"
+				"Name can only contain lowercase letters, numbers, hyphens, and underscores",
 			);
 			return;
 		}
@@ -4747,7 +4795,7 @@ class MapEditor {
 
 		this.showToast(
 			"Copied selection",
-			`${cells.length} cell${cells.length !== 1 ? "s" : ""}`
+			`${cells.length} cell${cells.length !== 1 ? "s" : ""}`,
 		);
 	}
 
@@ -4815,7 +4863,7 @@ class MapEditor {
 						const roomRef = `@${dungeonId}{${targetX},${targetY},${targetZ}}`;
 						if (dungeon.resets) {
 							dungeon.resets = dungeon.resets.filter(
-								(r) => r.roomRef !== roomRef
+								(r) => r.roomRef !== roomRef,
 							);
 						}
 					}
@@ -4876,7 +4924,7 @@ window.addEventListener("DOMContentLoaded", () => {
 	setTimeout(() => {
 		if (typeof jsyaml === "undefined") {
 			console.error(
-				"js-yaml library not loaded. Please check the script tag in index.html"
+				"js-yaml library not loaded. Please check the script tag in index.html",
 			);
 			return;
 		}

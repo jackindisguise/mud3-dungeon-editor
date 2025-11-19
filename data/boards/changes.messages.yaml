@@ -7,6 +7,7 @@ messages:
     readBy:
       - 5
       - 6
+      - 15
   - id: 98
     author: SYSTEM
     subject: Version 1.1.0
@@ -15,6 +16,7 @@ messages:
     readBy:
       - 5
       - 6
+      - 15
   - id: 99
     author: SYSTEM
     subject: Version 1.2.0
@@ -23,6 +25,7 @@ messages:
     readBy:
       - 5
       - 6
+      - 15
   - id: 100
     author: SYSTEM
     subject: Version 1.3.0
@@ -31,6 +34,7 @@ messages:
     readBy:
       - 5
       - 6
+      - 15
   - id: 101
     author: SYSTEM
     subject: Version 1.4.0
@@ -39,6 +43,7 @@ messages:
     readBy:
       - 5
       - 6
+      - 15
   - id: 102
     author: SYSTEM
     subject: Version 1.5.0
@@ -47,38 +52,60 @@ messages:
     readBy:
       - 5
       - 6
+      - 15
   - id: 103
     author: SYSTEM
     subject: Version 1.6.0
     content: "{YFeatures:{x\r\n{y{Y *{x {yexpand archetypes and polish ux{x{x\r\n{y{Y *{x {yadded dozens of new starter races/classes with lore helpfiles and{x\r\n   {yscripts{x{x\r\n{y{Y *{x {yreworked character creation storing archetype objects plus !info{x\r\n   {ysupport{x{x\r\n{y{Y *{x {yenriched help and features docs, added config and who command ux{x\r\n   {ytweaks{x{x\r\n{y{Y *{x {ybroadcast dungeon reset messages and updated dungeon data{x{x\r\n{y{Y *{x {yimprove config guidance and auto-look handling{x{x\r\n{y{Y *{x {yrefactored the config command with helper functions, richer usage{x\r\n   {ytext, and color listings via mud-ext{x{x\r\n{y{Y *{x {yrouted movement through Mob.step() so movement feedback and auto-look{x\r\n   {ydisplay live with the mob{x{x\r\n\r\n{GBug Fixes:{x\r\n{g{G *{x {gimproved prompt/echo handling and telnet IAC stripping compatibility{x{x\r\n{g{G *{x {gprevented equipped items from being duplicated in serialized mob{x\r\n   {gcontents{x{x\r\n\r\n{CMiscellaneous:{x\r\n{c{C *{x {creorganized archetype, dungeon, and command loading utilities{x{x\r\n{c{C *{x {cbumped mud-ext to v2.12.0 and updated the lockfile{x{x\r\n{c{C *{x {crefreshed gamestate metadata{x{x"
     postedAt: '2025-11-15T03:43:59.646Z'
+    readBy:
+      - 15
   - id: 104
     author: SYSTEM
     subject: Version 1.7.0
     content: "{YFeatures:{x\r\n{y{Y *{x {yadd action queue visibility and cancellation{x{x\r\n{y{Y *{x {yadded cancel and queue commands for action management{x{x\r\n{y{Y *{x {yincluded raw command text in prompts and listing output{x{x\r\n{y{Y *{x {ystored input on action queue entries for later display{x{x\r\n{y{Y *{x {yadded tests covering cancel, queue, and prompt formatting{x{x\r\n{y{Y *{x {yadd per-character action queue cooldowns{x{x\r\n{y{Y *{x {ymoved action state into Character and exposed queue prompt status{x{x\r\n{y{Y *{x {yadded Command.getActionCooldownMs with registry{x\r\n   {yqueueing/notifications{x{x\r\n{y{Y *{x {yallowed package commands to declare cooldowns and applied defaults to{x\r\n   {ymovement plus new work command{x{x\r\n{y{Y *{x {yadded persistent room links system{x{x\r\n{y{Y *{x {yadded roomLinks field to RoomTemplate interface for storing room{x\r\n   {ylinks in dungeon files{x{x\r\n{y{Y *{x {yimplemented room link serialization in saveDungeon to extract links{x\r\n   {yfrom rooms and save them in templates{x{x\r\n{y{Y *{x {yimplemented room link loading in loadDungeon to collect roomLinks and{x\r\n   {ydefer creation until all dungeons are loaded{x{x\r\n{y{Y *{x {yadded processPendingRoomLinks function that creates RoomLink{x\r\n   {yinstances after all dungeons are loaded{x{x\r\n{y{Y *{x {yadded automatic bidirectional link detection - if two rooms link to{x\r\n   {yeach other, creates two-way link, otherwise creates one-way link{x{x\r\n{y{Y *{x {yadded comprehensive debug logging to room link processing including{x\r\n   {yper-link processing, bidirectional detection, and summary statistics{x{x\r\n{y{Y *{x {yadded Sector 7 dungeon from Final Fantasy 7{x{x\r\n{y{Y *{x {ycreated sector7.yaml dungeon file with 15x15 slums layer{x{x\r\n{y{Y *{x {yadded upper plate layer accessible via stairs{x{x\r\n{y{Y *{x {yimplemented room templates for slums, Seventh Heaven bar, train{x\r\n   {ystation, pillar, houses, shops, and plate areas{x{x\r\n{y{Y *{x {yadded NPC templates for Sector 7 residents, shopkeepers, and Mako{x\r\n   {ytrains{x{x\r\n{y{Y *{x {yadded item templates for Materia orbs and potions{x{x\r\n{y{Y *{x {yconfigured resets for NPCs and items at appropriate locations{x{x\r\n{y{Y *{x {yimproved minimap display and fixed logging issues{x{x\r\n{y{Y *{x {yenhanced minimap display with box formatting in look command{x{x\r\n{y{Y *{x {yupdated tower dungeon configuration{x{x\r\n\r\n{GBug Fixes:{x\r\n{g{G *{x {gadded debug logging to diagnose room lookup failures in room link{x\r\n   {gprocessing{x{x\r\n{g{G *{x {gfixed logging issue where mob was logged after destruction in game.ts{x{x\r\n\r\n{CMiscellaneous:{x\r\n{c{C *{x {crefreshed gamestate metadata{x{x\r\n{c{C *{x {ccovered cooldown queueing in command and character specs{x{x\r\n{c{C *{x {cswitched node test reporter to dot and refreshed gamestate metadata{x{x\r\n{c{C *{x {cupdated gamestate.yaml with latest timestamp{x{x\r\n{c{C *{x {cremoved \"Related Commands\" sections from block, searching, and{x\r\n   {cunblock help files{x{x\r\n{c{C *{x {cupdated mud-ext dependency from v2.12.0 to v2.12.1{x{x"
     postedAt: '2025-11-16T05:47:34.370Z'
+    readBy:
+      - 15
   - id: 105
     author: SYSTEM
     subject: Version 1.8.0
     content: "{YFeatures:{x\r\n{y{Y *{x {yadd base+compressed serialization and normalize deserialize\\n\\n- Add{x\r\n   {y{compress} option and propagate to subclasses\\n- Emit base-form keys{x\r\n   {ywith undefined for uncompressed\\n- Implement compression vs{x\r\n   {ybaseSerializedTypes\\n- Introduce normalizeSerializedData and{x\r\n   {yintegrate into DungeonObject.deserialize{x{x"
     postedAt: '2025-11-16T05:47:34.371Z'
+    readBy:
+      - 15
   - id: 106
     author: SYSTEM
     subject: Version 1.9.0
     content: "{YFeatures:{x\r\n{y{Y *{x {ytemplate-aware serialization, global template ids, and compression{x\r\n   {yhelpers{x{x\r\n{y{Y *{x {yadded templateId to DungeonObject and SerializedDungeonObject for{x\r\n   {yinstance-template linkage{x{x\r\n{y{Y *{x {ybased compression/normalization on template baselines to omit{x\r\n   {yredundant fields{x{x\r\n{y{Y *{x {yadded shared helpers getCompressionBaseline and{x\r\n   {ycompressSerializedObject to centralize diffing{x{x\r\n{y{Y *{x {ysupported room templates with neutral-coordinate baseline caching for{x\r\n   {yconsistent diffs{x{x\r\n{y{Y *{x {ylocalized template ids when saving dungeons and globalized them on{x\r\n   {yload (@dungeon:id){x{x\r\n{y{Y *{x {yaccepted local templateId in resets and auto-prefixed with current{x\r\n   {ydungeon id on load{x{x\r\n\r\n{GBug Fixes:{x\r\n{g{G *{x {gomitted templateId in uncompressed output when undefined to match{x\r\n   {gserializer expectations{x{x\r\n\r\n{CMiscellaneous:{x\r\n{c{C *{x {cupdated Equipment/Armor/Weapon serializers to build full uncompressed{x\r\n   {cand use shared compression{x{x\r\n{c{C *{x {cresolved templates via registry or global cache with fallback to type{x\r\n   {cbaselines{x{x\r\n{c{C *{x {cupdated data/dungeons/tower.yaml to use local template ids and{x\r\n   {clocalized reset references{x{x"
     postedAt: '2025-11-16T06:00:50.475Z'
+    readBy:
+      - 15
   - id: 107
     author: SYSTEM
     subject: Version 1.10.0
     content: "{YFeatures:{x\r\n{y{Y *{x {yadd flat-step APIs, caching, and startup pre-cache{x{x\r\n{y{Y *{x {yadded findDirectionsBetweenRooms and findDirectionsViaRefs{x{x\r\n{y{Y *{x {yimplemented suffix-based path cache for direction lookups{x{x\r\n{y{Y *{x {ypre-cached gateway-to-gateway paths across all dungeons in index.ts{x{x\r\n{y{Y *{x {yadded tiny-a and tiny-b dungeons and linked them (# and to tower){x{x\r\n{y{Y *{x {yapplied template-aware compression to mob serializer{x{x\r\n{y{Y *{x {ycompressed equipped by omitting slots matching baseline{x{x\r\n\r\n{CMiscellaneous:{x\r\n{c{C *{x {cmemoized dungeon graph via buildDungeonGraph cache{x{x\r\n{c{C *{x {cconsolidated tests into a single pathfinding.spec.ts{x{x\r\n{c{C *{x {cremoved flaky cross-dungeon chain test assuming vertical moves{x{x\r\n{c{C *{x {cminor spec/test adjustments and logs for clarity{x{x"
     postedAt: '2025-11-17T15:38:57.835Z'
+    readBy:
+      - 15
   - id: 108
     author: SYSTEM
     subject: Version 1.11.0
     content: "{YFeatures:{x\r\n{y{Y *{x {yrefactor combat system and add experience/leveling features{x{x\r\n{y{Y *{x {yadd damageMessage function with HP percentage display{x{x\r\n{y{Y *{x {ycreated damageMessage function that wraps act() to inject HP{x\r\n   {ypercentage{x{x\r\n{y{Y *{x {yadded HP percentage suffix to user and target messages (not room{x\r\n   {ymessages){x{x\r\n{y{Y *{x {yadd experience gain on mob death{x{x\r\n{y{Y *{x {yadded experience gain to handleDeath function{x{x\r\n{y{Y *{x {yonly players gain experience from kills{x{x\r\n{y{Y *{x {yexperience messages sent to killer{x{x\r\n{y{Y *{x {yadd levelup command{x{x\r\n{y{Y *{x {ycreated levelup command that grants one level's worth of experience{x\r\n   {y(100 XP){x{x\r\n{y{Y *{x {yshows level up message if threshold reached{x{x\r\n\r\n{GBug Fixes:{x\r\n{g{G *{x {gupdated createPrimaryAttributesView to handle non-finite values{x{x\r\n{g{G *{x {gupdated createSecondaryAttributesView to handle non-finite values{x{x\r\n{g{G *{x {gupdated createResourceCapsView to handle non-finite values{x{x\r\n\r\n{CMiscellaneous:{x\r\n{c{C *{x {cupdate accuracy calculation to use 50% base hit chance{x{x\r\n{c{C *{x {cchanged accuracy vs avoidance to use 50% base hit chance with{x\r\n   {cdifference modifier{x{x\r\n{c{C *{x {cclamped hit chance to 5-95% range for reasonable bounds{x{x\r\n{c{C *{x {cmove accuracy checks from calculateDamage to oneHit{x{x\r\n{c{C *{x {cremoved accuracy checks from calculateDamage function{x{x\r\n{c{C *{x {cadded accuracy checks to oneHit method before damage calculation{x{x\r\n{c{C *{x {cupdated processMobCombatRound to use oneHit directly{x{x\r\n{c{C *{x {cmoved damageMessage from Mob static method to combat.ts module{x{x\r\n{c{C *{x {censure experience is always stored as integers{x{x\r\n{c{C *{x {cupdated gainExperience to floor adjusted amount before storing{x{x\r\n{c{C *{x {cupdated experience getter/setter to use Math.floor{x{x\r\n{c{C *{x {cupdated experienceToLevel to use integer calculations{x{x\r\n{c{C *{x {cchange weapon attack power system{x{x\r\n{c{C *{x {cremoved weapon attack power from base attackPower attribute{x\r\n   {ccalculation{x{x\r\n{c{C *{x {cweapons now only add attack power when that specific weapon is used{x{x\r\n{c{C *{x {cupdated oneHit to use baseAttackPower + weapon.attackPower when{x\r\n   {cweapon equipped{x{x\r\n{c{C *{x {cmain hand and off hand weapons now have different attack powers{x{x\r\n{c{C *{x {cmove damageMessage to act module{x{x\r\n{c{C *{x {cmoved damageMessage function from combat.ts to act.ts{x{x\r\n{c{C *{x {cupdated imports in combat.ts and dungeon.ts to use act module{x{x\r\n{c{C *{x {cfixed act.spec.ts test setup to properly create characters with{x\r\n   {ccredentials{x{x\r\n{c{C *{x {cadded message tracking helper to verify act() and damageMessage(){x\r\n   {coutput{x{x\r\n{c{C *{x {cfixed maxHealth calculation in tests by setting attributes to 0{x{x\r\n{c{C *{x {cadded comprehensive test suite for damageMessage function{x{x\r\n{c{C *{x {cmoved toFinite helper function to global scope for reuse{x{x"
     postedAt: '2025-11-17T15:38:57.835Z'
+    readBy:
+      - 15
   - id: 109
     author: SYSTEM
     subject: Version 1.12.0
     content: "{YFeatures:{x\r\n{y{Y *{x {yadd pure JavaScript version of post-changelog-to-board script{x{x\r\n{y{Y *{x {ycreated pure JavaScript version of post-changelog-to-board in scripts{x\r\n   {ydirectory{x{x\r\n{y{Y *{x {yarguably feature complete{x{x\r\n{y{Y *{x {yadded getCachedPathResult function to retrieve full cached path{x\r\n   {yresults{x{x\r\n{y{Y *{x {yadded OneHitOptions interface with target, weapon, and guaranteedHit{x\r\n   {yoptions{x{x\r\n{y{Y *{x {yadded guaranteedHit option to disable miss chance in oneHit method{x{x\r\n{y{Y *{x {yinitial map editor commit{x{x\r\n{y{Y *{x {yadded map editor with placement tools, undo/redo, and auto-save{x{x\r\n{y{Y *{x {yimplemented initial map editor with dungeon grid visualization and{x\r\n   {ytemplate management{x{x\r\n{y{Y *{x {yadded room, mob, and object template editors with full CRUD{x\r\n   {yoperations{x{x\r\n{y{Y *{x {yimplemented grid-based dungeon layout with multi-layer support{x{x\r\n{y{Y *{x {yadded reset management system for placing mobs and objects in rooms{x{x\r\n{y{Y *{x {ycreated template modal system for editing room, mob, and object{x\r\n   {yproperties{x{x\r\n{y{Y *{x {yadded map text and map color fields to templates with visual color{x\r\n   {yselector{x{x\r\n{y{Y *{x {yimplemented room description field for rooms{x{x\r\n{y{Y *{x {yadded placement indicator showing selected template and placement{x\r\n   {ymode{x{x\r\n{y{Y *{x {yimplemented insert and paint placement modes for rooms{x{x\r\n{y{Y *{x {yadded delete room template option with bulldozer icon indicator{x{x\r\n{y{Y *{x {yimplemented drag-to-place functionality for drawing across multiple{x\r\n   {ycells{x{x\r\n{y{Y *{x {yadded toast notification system for user feedback on actions{x{x\r\n{y{Y *{x {ycreated selection toolbox with rectangle, circle, and squircle{x\r\n   {yselection tools{x{x\r\n{y{Y *{x {yimplemented multi-cell selection with delete key support{x{x\r\n{y{Y *{x {yadded keyboard shortcuts for layer navigation (PageUp/PageDown,{x\r\n   {yHome/End){x{x\r\n{y{Y *{x {yimplemented undo/redo system with Ctrl+Z and Ctrl+Y shortcuts{x{x\r\n{y{Y *{x {yadded localStorage auto-save to prevent data loss on page refresh{x{x\r\n{y{Y *{x {yimplemented restore functionality for unsaved work with user prompt{x{x\r\n{y{Y *{x {yadded visual indicator on save button for unsaved changes{x{x\r\n{y{Y *{x {ymore features{x{x\r\n\r\n{GBug Fixes:{x\r\n{g{G *{x {gresolved mob template editor close issue when opened first{x{x\r\n{g{G *{x {gcorrected template index 0 selection bug{x{x\r\n{g{G *{x {gfixed PageUp/PageDown layer navigation direction{x{x\r\n{g{G *{x {greplaced all alert() calls with toast notifications{x{x\r\n{g{G *{x {gfixed reset tab edit and delete button functionality{x{x\r\n{g{G *{x {gprevented duplicate cell processing during drag operations{x{x\r\n{g{G *{x {gcorrected toast message positioning and stacking behavior{x{x\r\n{g{G *{x {gadded proper event listener cleanup for reset edit modal{x{x\r\n\r\n{CMiscellaneous:{x\r\n{c{C *{x {cremoved TypeScript type annotations and interfaces from{x\r\n   {cpost-changelog-to-board{x{x\r\n{c{C *{x {cupdated import paths to use dist folder for direct execution{x{x\r\n{c{C *{x {cconverted TypeScript interfaces to JSDoc comments where helpful{x{x\r\n{c{C *{x {cupdate pathfinding cache and oneHit method signature{x{x\r\n{c{C *{x {cchanged cache to store full PathResult objects instead of directions{x\r\n   {conly{x{x\r\n{c{C *{x {cupdated cachePathResult to cache complete path results for each{x\r\n   {csuffix path{x{x\r\n{c{C *{x {cupdated getCachedDirections to extract directions from cached{x\r\n   {cPathResult{x{x\r\n{c{C *{x {cchanged oneHit method to use options object instead of regular{x\r\n   {carguments{x{x\r\n{c{C *{x {cupdated all oneHit call sites to use new options object format{x{x\r\n{c{C *{x {csplit dungeon loading into separate server and localStorage restore{x\r\n   {cpaths{x{x\r\n{c{C *{x {cimproved tab system to support independent left and right sidebar{x\r\n   {ctabs{x{x\r\n{c{C *{x {cadded responsive CSS for mobile and tablet screen sizes{x{x\r\n{c{C *{x {cadded placement indicator styling with mode buttons{x{x\r\n{c{C *{x {cadded toast container with gradient fade-out effect{x{x\r\n{c{C *{x {cadded selection tool highlighting and active states{x{x\r\n{c{C *{x {cadded unsaved changes indicator styling for save button{x{x"
     postedAt: '2025-11-18T22:40:29.761Z'
+    readBy:
+      - 15
+  - id: 110
+    author: SYSTEM
+    subject: Version 1.13.0
+    content: "{YFeatures:{x\r\n{y{Y *{x {yadded neo-tokyo dungeon and cross-dungeon template reference in tower{x{x\r\n{y{Y *{x {yadded neo-tokyo dungeon with bubblegum-cannon weapon template{x{x\r\n{y{Y *{x {yadded cross-dungeon template reference in tower reset to neo-tokyo{x\r\n   {ybubblegum-cannon{x{x\r\n{y{Y *{x {yadded equipped and inventory fields to mob resets{x{x\r\n{y{Y *{x {yadded equipped and inventory arrays to Reset class for mob spawning{x{x\r\n{y{Y *{x {yadded EquipmentTemplate, ArmorTemplate, and WeaponTemplate interfaces{x{x\r\n{y{Y *{x {yupdated createFromTemplate to use template-specific properties for{x\r\n   {yequipment{x{x\r\n{y{Y *{x {yupdated applyTemplate methods to accept specific template types{x{x\r\n{y{Y *{x {yupdated reset serialization to include equipped and inventory{x\r\n   {ytemplate IDs{x{x\r\n{y{Y *{x {yupdated reset deserialization to restore equipped and inventory{x\r\n   {yarrays{x{x\r\n{y{Y *{x {yadded unit tests for reset equipped and inventory functionality{x{x\r\n{y{Y *{x {yset default prompt with colored stats display{x{x\r\n{y{Y *{x {yadded default prompt showing health, mana, exhaustion, xp, and tnl{x\r\n   {ywith light colors{x{x\r\n\r\n{GBug Fixes:{x\r\n{g{G *{x {gupdated character.spec.ts test for DEFAULT_PLAYER_SETTINGS prompt{x\r\n   {gvalue{x{x\r\n{g{G *{x {gupdated cross-dungeon template resolution in Reset.execute() to use{x\r\n   {gresolveTemplateById(){x{x\r\n{g{G *{x {gcorrected resolveTemplateById() to use globalized template IDs for{x\r\n   {glookups{x{x\r\n{g{G *{x {gimprove template index validation in dungeon loading{x{x\r\n{g{G *{x {gadded null, undefined, and NaN checks for template indices{x{x\r\n{g{G *{x {gconvert template index to number before arithmetic operations{x{x\r\n{g{G *{x {guse asterisk instead of UTF-8 bullet for telnet compatibility{x{x\r\n{g{G *{x {greplaced UTF-8 bullet character with asterisk in board message{x\r\n   {gnotifications{x{x\r\n{g{G *{x {ghandle null/undefined values in dungeon grid during load{x{x\r\n\r\n{CMiscellaneous:{x\r\n{c{C *{x {cAdded support for equipping items and adding inventory items when{x\r\n   {cspawning mobs from resets. Also added type-safe template interfaces{x\r\n   {cfor Equipment, Armor, and Weapon.{x{x\r\n{c{C *{x {cmoved equipment helpers and fixed cross-dungeon template resolution{x{x\r\n{c{C *{x {cmoved equipment helper functions from commands/equipment.ts to{x\r\n   {cequipment.ts{x{x\r\n{c{C *{x {cFixed issue where null values in YAML grid (represented as '-' in{x\r\n   {cYAML) caused 'template at index NaN is undefined' errors when loading{x\r\n   {cdungeons. The code now properly treats null, undefined, and NaN{x\r\n   {cvalues as empty cells (0), skipping them during dungeon loading. Also{x\r\n   {censures templateIndex is explicitly converted to Number before{x\r\n   {carithmetic operations.{x{x"
+    postedAt: '2025-11-19T06:09:48.689Z'
+    readBy:
+      - 15
