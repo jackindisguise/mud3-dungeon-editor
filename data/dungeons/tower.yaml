@@ -8054,7 +8054,7 @@ dungeon:
       level: 20
     - id: tower-sword
       type: Weapon
-      keywords: sword blade weapon
+      keywords: guardian force maul golden radiant
       display: Guardian Force
       description: A radiant golden maul that smites your opponent.
       slot: mainHand
@@ -8064,6 +8064,7 @@ dungeon:
         strength: 20
         agility: 20
         intelligence: 20
+      roomDescription: The Guardian Force is lying here, humming with violence.
     - id: tower-helmet
       type: Armor
       keywords: helmet head armor
@@ -8091,3 +8092,34 @@ dungeon:
         - '@tower:tower-sword'
         - '@tower:tower-helmet'
         - '@tower:tower-sword'
+    - templateId: tower-guardian
+      roomRef: '@tower{8,3,19}'
+      minCount: 1
+      maxCount: 1
+      equipped:
+        - '@tower:tower-sword'
+    - templateId: tower-guardian
+      roomRef: '@tower{9,3,19}'
+      minCount: 1
+      maxCount: 1
+      equipped:
+        - '@tower:tower-sword'
+    - templateId: tower-guardian
+      roomRef: '@tower{10,3,19}'
+      minCount: 1
+      maxCount: 1
+      equipped:
+        - '@tower:tower-sword'
+    - templateId: tower-guardian
+      roomRef: '@tower{9,17,0}'
+      minCount: 1
+      maxCount: 5
+      equipped:
+        - '@tower:tower-sword'
+      inventory:
+        - '@tower:tower-sword'
+        - '@tower:tower-sword'
+    - templateId: tower-sword
+      roomRef: '@tower{10,17,0}'
+      minCount: 1
+      maxCount: 1

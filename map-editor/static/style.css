@@ -951,6 +951,7 @@ header h1 {
 	padding: 0.5rem;
 	font-weight: 500;
 	background: #1a1a1a;
+	text-transform: uppercase;
 }
 
 #template-hit-type option:hover {
@@ -972,7 +973,7 @@ header h1 {
 #template-hit-type optgroup option {
 	padding-left: 1.5rem;
 	font-weight: 400;
-	text-transform: none;
+	text-transform: uppercase;
 	letter-spacing: normal;
 }
 
