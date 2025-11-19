@@ -151,6 +151,13 @@ class MapEditor {
 			const data = await response.json();
 			const select = document.getElementById("dungeon-select");
 			select.innerHTML = '<option value="">Select a dungeon...</option>';
+			
+			// Add "New..." option
+			const newOption = document.createElement("option");
+			newOption.value = "__NEW__";
+			newOption.textContent = "New...";
+			select.appendChild(newOption);
+			
 			data.dungeons.forEach((id) => {
 				const option = document.createElement("option");
 				option.value = id;
@@ -563,9 +570,29 @@ class MapEditor {
 		const gridContainer = document.getElementById("map-grid");
 		gridContainer.innerHTML = "";
 
-		const container = document.createElement("div");
-		container.className = "grid-container";
-		container.style.gridTemplateColumns = `repeat(${dungeon.dimensions.width}, 30px)`;
+		// Create wrapper for grid with rulers
+		const wrapper = document.createElement("div");
+		wrapper.className = "grid-wrapper";
+
+		// Create top ruler (column numbers)
+		const topRuler = document.createElement("div");
+		topRuler.className = "grid-ruler-top";
+		// Add corner cell (empty)
+		const cornerCell = document.createElement("div");
+		cornerCell.className = "grid-ruler-corner";
+		topRuler.appendChild(cornerCell);
+		// Add column numbers
+		for (let x = 0; x < dungeon.dimensions.width; x++) {
+			const rulerCell = document.createElement("div");
+			rulerCell.className = "grid-ruler-cell";
+			rulerCell.textContent = x;
+			topRuler.appendChild(rulerCell);
+		}
+		wrapper.appendChild(topRuler);
+
+		// Create main content area
+		const contentArea = document.createElement("div");
+		contentArea.className = "grid-content-area";
 
 		// Store current selection before clearing
 		const previousSelection = new Set(this.selectedCells);
@@ -577,6 +604,15 @@ class MapEditor {
 		// Render cells (YAML stores rows top-first, but we need to reverse for display)
 		for (let y = 0; y < dungeon.dimensions.height; y++) {
 			const row = layer[y] || [];
+			const rowWrapper = document.createElement("div");
+			rowWrapper.className = "grid-row-wrapper";
+			
+			// Add row ruler cell before each row
+			const rowRulerCell = document.createElement("div");
+			rowRulerCell.className = "grid-ruler-cell grid-ruler-left";
+			rowRulerCell.textContent = y;
+			rowWrapper.appendChild(rowRulerCell);
+			
 			for (let x = 0; x < dungeon.dimensions.width; x++) {
 				const cell = document.createElement("div");
 				cell.className = "grid-cell";
@@ -669,11 +705,13 @@ class MapEditor {
 					}
 				});
 
-				container.appendChild(cell);
+				rowWrapper.appendChild(cell);
 			}
+			contentArea.appendChild(rowWrapper);
 		}
 
-		gridContainer.appendChild(container);
+		wrapper.appendChild(contentArea);
+		gridContainer.appendChild(wrapper);
 
 		// Restore selection visuals after rendering
 		this.selectedCells = previousSelection;
@@ -2610,7 +2648,11 @@ class MapEditor {
 		document
 			.getElementById("dungeon-select")
 			.addEventListener("change", (e) => {
-				if (e.target.value) {
+				if (e.target.value === "__NEW__") {
+					this.showNewDungeonModal();
+					// Reset dropdown to empty
+					e.target.value = "";
+				} else if (e.target.value) {
 					this.loadDungeon(e.target.value);
 				}
 			});
@@ -2650,6 +2692,48 @@ class MapEditor {
 				closeHelpModal();
 			}
 		});
+
+		// New dungeon modal
+		const newDungeonModal = document.getElementById("new-dungeon-modal");
+		const newDungeonCloseBtn = document.getElementById("new-dungeon-close");
+		const newDungeonCancelBtn = document.getElementById("new-dungeon-cancel");
+		const newDungeonCreateBtn = document.getElementById("new-dungeon-create");
+
+		const closeNewDungeonModal = () => {
+			newDungeonModal.classList.remove("active");
+		};
+
+		if (newDungeonCloseBtn) {
+			newDungeonCloseBtn.addEventListener("click", closeNewDungeonModal);
+		}
+
+		if (newDungeonCancelBtn) {
+			newDungeonCancelBtn.addEventListener("click", closeNewDungeonModal);
+		}
+
+		if (newDungeonCreateBtn) {
+			newDungeonCreateBtn.addEventListener("click", () => {
+				this.createNewDungeon();
+			});
+		}
+
+		// Close new dungeon modal when clicking outside
+		newDungeonModal.addEventListener("click", (e) => {
+			if (e.target === newDungeonModal) {
+				closeNewDungeonModal();
+			}
+		});
+
+		// Allow Enter key to submit new dungeon form
+		const newDungeonNameInput = document.getElementById("new-dungeon-name");
+		if (newDungeonNameInput) {
+			newDungeonNameInput.addEventListener("keydown", (e) => {
+				if (e.key === "Enter" && newDungeonModal.classList.contains("active")) {
+					e.preventDefault();
+					this.createNewDungeon();
+				}
+			});
+		}
 
 		// Tabs - scope to each sidebar independently
 		document.querySelectorAll(".sidebar").forEach((sidebar) => {
@@ -2776,6 +2860,12 @@ class MapEditor {
 				}
 				if (helpModal && helpModal.classList.contains("active")) {
 					helpModal.classList.remove("active");
+					return;
+				}
+
+				const newDungeonModal = document.getElementById("new-dungeon-modal");
+				if (newDungeonModal && newDungeonModal.classList.contains("active")) {
+					newDungeonModal.classList.remove("active");
 					return;
 				}
 
@@ -3336,6 +3426,125 @@ class MapEditor {
 				resolve(false);
 			};
 		});
+	}
+
+	showNewDungeonModal() {
+		const modal = document.getElementById("new-dungeon-modal");
+		if (!modal) return;
+
+		// Reset form values
+		document.getElementById("new-dungeon-name").value = "";
+		document.getElementById("new-dungeon-width").value = "10";
+		document.getElementById("new-dungeon-height").value = "10";
+		document.getElementById("new-dungeon-layers").value = "1";
+
+		modal.classList.add("active");
+
+		// Focus on name input
+		setTimeout(() => {
+			document.getElementById("new-dungeon-name").focus();
+		}, 100);
+	}
+
+	async createNewDungeon() {
+		const nameInput = document.getElementById("new-dungeon-name");
+		const widthInput = document.getElementById("new-dungeon-width");
+		const heightInput = document.getElementById("new-dungeon-height");
+		const layersInput = document.getElementById("new-dungeon-layers");
+
+		const name = nameInput.value.trim().toLowerCase();
+		const width = parseInt(widthInput.value, 10);
+		const height = parseInt(heightInput.value, 10);
+		const layers = parseInt(layersInput.value, 10);
+
+		// Validate inputs
+		if (!name) {
+			this.showToast("Invalid dungeon name", "Please enter a name for the dungeon");
+			return;
+		}
+
+		// Sanitize name (only allow lowercase letters, numbers, hyphens, underscores)
+		const sanitizedName = name.replace(/[^a-z0-9_-]/g, "_");
+		if (sanitizedName !== name) {
+			this.showToast(
+				"Invalid characters in name",
+				"Name can only contain lowercase letters, numbers, hyphens, and underscores"
+			);
+			return;
+		}
+
+		if (width < 1 || width > 100) {
+			this.showToast("Invalid width", "Width must be between 1 and 100");
+			return;
+		}
+
+		if (height < 1 || height > 100) {
+			this.showToast("Invalid height", "Height must be between 1 and 100");
+			return;
+		}
+
+		if (layers < 1 || layers > 100) {
+			this.showToast("Invalid layers", "Layers must be between 1 and 100");
+			return;
+		}
+
+		try {
+			// Create empty dungeon structure
+			const grid = [];
+			for (let z = 0; z < layers; z++) {
+				const layer = [];
+				for (let y = 0; y < height; y++) {
+					const row = new Array(width).fill(0);
+					layer.push(row);
+				}
+				grid.push(layer);
+			}
+
+			const dungeonData = {
+				dungeon: {
+					id: sanitizedName,
+					dimensions: {
+						width,
+						height,
+						layers,
+					},
+					grid,
+					rooms: [],
+					templates: [],
+					resets: [],
+				},
+			};
+
+			// Create dungeon on server
+			const response = await fetch(`/api/dungeons/${sanitizedName}`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					yaml: jsyaml.dump(dungeonData, { lineWidth: -1, noRefs: true }),
+				}),
+			});
+
+			if (!response.ok) {
+				const error = await response.json();
+				throw new Error(error.error || "Failed to create dungeon");
+			}
+
+			// Close modal
+			document.getElementById("new-dungeon-modal").classList.remove("active");
+
+			// Reload dungeon list
+			await this.loadDungeonList();
+
+			// Load the new dungeon
+			await this.loadDungeon(sanitizedName);
+
+			this.showToast("Dungeon created", `Created "${sanitizedName}"`);
+		} catch (error) {
+			console.error("Failed to create dungeon:", error);
+			this.showToast("Failed to create dungeon", error.message);
+		}
 	}
 
 	updateSaveButton() {

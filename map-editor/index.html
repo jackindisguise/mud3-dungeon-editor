@@ -53,140 +53,142 @@
 
 				<!-- Center: Map Grid -->
 				<main class="map-container">
-					<!-- Toolbox -->
-					<div class="toolbox">
-						<div class="toolbox-title">Selection Tools</div>
-						<div class="toolbox-tools">
-							<button
-								class="tool-btn"
-								id="tool-rectangle"
-								data-tool="rectangle"
-								title="Rectangle Selection"
-							>
-								▭
-							</button>
-							<button
-								class="tool-btn"
-								id="tool-circle"
-								data-tool="circle"
-								title="Circle Selection"
-							>
-								○
-							</button>
-							<button
-								class="tool-btn"
-								id="tool-squircle"
-								data-tool="squircle"
-								title="Squircle Selection"
-							>
-								▢
-							</button>
-							<button
-								class="tool-btn"
-								id="tool-edge-rectangle"
-								data-tool="edge-rectangle"
-								title="Rectangle Edge Selection"
-							>
-								⊡
-							</button>
-							<button
-								class="tool-btn"
-								id="tool-edge-circle"
-								data-tool="edge-circle"
-								title="Circle Edge Selection"
-							>
-								◯
-							</button>
-							<button
-								class="tool-btn"
-								id="tool-edge-squircle"
-								data-tool="edge-squircle"
-								title="Squircle Edge Selection"
-							>
-								⊟
-							</button>
+					<div class="map-area">
+						<div class="map-controls">
+							<label>
+								Layer:
+								<select id="layer-select"></select>
+							</label>
+							<label>
+								Dimensions:
+								<input
+									type="number"
+									id="width-input"
+									min="1"
+									max="100"
+									placeholder="width"
+								/>
+								<input
+									type="number"
+									id="height-input"
+									min="1"
+									max="100"
+									placeholder="height"
+								/>
+								<input
+									type="number"
+									id="layers-input"
+									min="1"
+									max="100"
+									placeholder="layers"
+								/>
+								<button id="resize-btn">Resize</button>
+							</label>
+							<label>
+								Reset Message:
+								<input
+									type="text"
+									id="reset-message-input"
+									placeholder="Reset message..."
+								/>
+							</label>
 						</div>
-					</div>
-					<div class="map-controls">
-						<label>
-							Layer:
-							<select id="layer-select"></select>
-						</label>
-						<label>
-							Dimensions:
-							<input
-								type="number"
-								id="width-input"
-								min="1"
-								max="100"
-								placeholder="width"
-							/>
-							<input
-								type="number"
-								id="height-input"
-								min="1"
-								max="100"
-								placeholder="height"
-							/>
-							<input
-								type="number"
-								id="layers-input"
-								min="1"
-								max="100"
-								placeholder="layers"
-							/>
-							<button id="resize-btn">Resize</button>
-						</label>
-						<label>
-							Reset Message:
-							<input
-								type="text"
-								id="reset-message-input"
-								placeholder="Reset message..."
-							/>
-						</label>
-					</div>
-					<div class="map-grid" id="map-grid"></div>
-					<!-- Toast Container -->
-					<div id="toast-container" class="toast-container"></div>
-					<!-- Placement Indicator -->
-					<div
-						id="placement-indicator"
-						class="placement-indicator"
-						style="display: none"
-					>
-						<div class="placement-indicator-content">
-							<div class="placement-main-row">
-								<div class="placement-icon"></div>
-								<div class="placement-text">
-									<div class="placement-action"></div>
-									<div class="placement-template"></div>
-								</div>
+						<!-- Selection Tools Bar -->
+						<div class="toolbox-bar">
+							<div class="toolbox-label">Selection Tools</div>
+							<div class="toolbox-tools">
 								<button
-									class="placement-cancel"
-									id="placement-cancel-btn"
-									title="Cancel placement"
+									class="tool-btn"
+									id="tool-rectangle"
+									data-tool="rectangle"
+									title="Rectangle Selection"
 								>
-									×
+									▭
+								</button>
+								<button
+									class="tool-btn"
+									id="tool-circle"
+									data-tool="circle"
+									title="Circle Selection"
+								>
+									○
+								</button>
+								<button
+									class="tool-btn"
+									id="tool-squircle"
+									data-tool="squircle"
+									title="Squircle Selection"
+								>
+									▢
+								</button>
+								<button
+									class="tool-btn"
+									id="tool-edge-rectangle"
+									data-tool="edge-rectangle"
+									title="Rectangle Edge Selection"
+								>
+									⊡
+								</button>
+								<button
+									class="tool-btn"
+									id="tool-edge-circle"
+									data-tool="edge-circle"
+									title="Circle Edge Selection"
+								>
+									◯
+								</button>
+								<button
+									class="tool-btn"
+									id="tool-edge-squircle"
+									data-tool="edge-squircle"
+									title="Squircle Edge Selection"
+								>
+									⊟
 								</button>
 							</div>
-							<div class="placement-modes">
-								<button
-									class="placement-mode-btn"
-									id="placement-mode-insert"
-									data-mode="insert"
-									title="Insert mode (click to place, drag to draw)"
-								>
-									✏️
-								</button>
-								<button
-									class="placement-mode-btn"
-									id="placement-mode-paint"
-									data-mode="paint"
-									title="Paint mode (click to replace all identical templates)"
-								>
-									🪣
-								</button>
+						</div>
+						<div class="map-grid" id="map-grid"></div>
+						<!-- Toast Container -->
+						<div id="toast-container" class="toast-container"></div>
+						<!-- Placement Indicator -->
+						<div
+							id="placement-indicator"
+							class="placement-indicator"
+							style="display: none"
+						>
+							<div class="placement-indicator-content">
+								<div class="placement-main-row">
+									<div class="placement-icon"></div>
+									<div class="placement-text">
+										<div class="placement-action"></div>
+										<div class="placement-template"></div>
+									</div>
+									<button
+										class="placement-cancel"
+										id="placement-cancel-btn"
+										title="Cancel placement"
+									>
+										×
+									</button>
+								</div>
+								<div class="placement-modes">
+									<button
+										class="placement-mode-btn"
+										id="placement-mode-insert"
+										data-mode="insert"
+										title="Insert mode (click to place, drag to draw)"
+									>
+										✏️
+									</button>
+									<button
+										class="placement-mode-btn"
+										id="placement-mode-paint"
+										data-mode="paint"
+										title="Paint mode (click to replace all identical templates)"
+									>
+										🪣
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -243,6 +245,68 @@
 				</div>
 			</div>
 
+			<!-- New Dungeon Modal -->
+			<div id="new-dungeon-modal" class="modal">
+				<div class="modal-content">
+					<span class="close" id="new-dungeon-close">&times;</span>
+					<h2>Create New Dungeon</h2>
+					<div class="form-group">
+						<label>Dungeon Name:</label>
+						<input
+							type="text"
+							id="new-dungeon-name"
+							placeholder="my-dungeon"
+							pattern="[a-z0-9_-]+"
+							title="Only lowercase letters, numbers, hyphens, and underscores allowed"
+						/>
+						<small
+							style="
+								color: #aaa;
+								font-size: 0.85rem;
+								display: block;
+								margin-top: 0.25rem;
+							"
+						>
+							Lowercase letters, numbers, hyphens, and underscores only
+						</small>
+					</div>
+					<div class="form-group">
+						<label>Width:</label>
+						<input
+							type="number"
+							id="new-dungeon-width"
+							min="1"
+							max="100"
+							value="10"
+						/>
+					</div>
+					<div class="form-group">
+						<label>Height:</label>
+						<input
+							type="number"
+							id="new-dungeon-height"
+							min="1"
+							max="100"
+							value="10"
+						/>
+					</div>
+					<div class="form-group">
+						<label>Layers:</label>
+						<input
+							type="number"
+							id="new-dungeon-layers"
+							min="1"
+							max="100"
+							value="1"
+						/>
+					</div>
+					<div class="modal-actions">
+						<button id="new-dungeon-create">Create</button>
+						<button id="new-dungeon-cancel">Cancel</button>
+					</div>
+				</div>
+			</div>
+
 			<!-- Help modal -->
 			<div id="help-modal" class="modal">
 				<div class="modal-content help-modal-content">
@@ -287,8 +351,8 @@
 							<h3>Selection Tools</h3>
 							<ul>
 								<li>
-									Click any selection tool in the toolbox (left side of map) to
-									activate it
+									Click any selection tool in the Selection Tools bar (below the
+									dungeon options) to activate it
 								</li>
 								<li>
 									<strong>Rectangle</strong> (▭) - Select all cells in a

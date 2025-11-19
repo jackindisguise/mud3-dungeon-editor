@@ -109,6 +109,12 @@ class MapEditorServerImpl implements MapEditorServer {
 				return;
 			}
 
+			if (path.startsWith("/api/dungeons/") && req.method === "POST") {
+				const id = path.split("/")[3];
+				await this.createDungeon(req, res, id);
+				return;
+			}
+
 			if (path.startsWith("/api/dungeons/") && req.method === "PUT") {
 				const id = path.split("/")[3];
 				await this.updateDungeon(req, res, id);
@@ -202,6 +208,77 @@ class MapEditorServerImpl implements MapEditorServer {
 				res.end(JSON.stringify({ error: String(error) }));
 			}
 		}
+	}
+
+	private async createDungeon(
+		req: IncomingMessage,
+		res: ServerResponse,
+		id: string
+	): Promise<void> {
+		let body = "";
+		for await (const chunk of req) {
+			body += chunk;
+		}
+
+		const data = JSON.parse(body);
+
+		// Check if dungeon already exists
+		const filePath = join(DUNGEON_DIR, `${id}.yaml`);
+		try {
+			await access(filePath, FS_CONSTANTS.F_OK);
+			// File exists
+			res.writeHead(409, { "Content-Type": "application/json" });
+			res.end(JSON.stringify({ error: "Dungeon already exists" }));
+			return;
+		} catch (error) {
+			// File doesn't exist, which is what we want
+			if ((error as NodeJS.ErrnoException).code !== "ENOENT") {
+				logger.error(`Failed to check dungeon existence ${id}: ${error}`);
+				res.writeHead(500, { "Content-Type": "application/json" });
+				res.end(JSON.stringify({ error: String(error) }));
+				return;
+			}
+		}
+
+		// If YAML is provided, save it directly
+		if (data.yaml) {
+			const tempPath = `${filePath}.tmp`;
+
+			try {
+				// Ensure directory exists
+				const { mkdir } = await import("fs/promises");
+				await mkdir(DUNGEON_DIR, { recursive: true });
+
+				// Write to temporary file first (atomic write)
+				await writeFile(tempPath, data.yaml, "utf-8");
+				// Atomically rename
+				const { rename } = await import("fs/promises");
+				await rename(tempPath, filePath);
+
+				logger.debug(`Created dungeon YAML: ${id}`);
+				res.writeHead(201, { "Content-Type": "application/json" });
+				res.end(JSON.stringify({ success: true, id }));
+				return;
+			} catch (error) {
+				// Clean up temp file
+				try {
+					const { unlink } = await import("fs/promises");
+					await unlink(tempPath);
+				} catch {
+					// Ignore cleanup errors
+				}
+				logger.error(`Failed to create dungeon ${id}: ${error}`);
+				res.writeHead(500, { "Content-Type": "application/json" });
+				res.end(JSON.stringify({ error: String(error) }));
+				return;
+			}
+		}
+
+		// Fallback: if no YAML provided, return error (YAML is required)
+		res.writeHead(400, { "Content-Type": "application/json" });
+		res.end(
+			JSON.stringify({ error: "YAML data is required for dungeon creation" })
+		);
 	}
 
 	private async updateDungeon(

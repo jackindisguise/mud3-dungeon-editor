@@ -6,4 +6,5 @@ logs/*.log
 .cursor
 guides
 commit-message.md
+commit-message.txt
 src/mud3
