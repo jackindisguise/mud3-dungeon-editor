@@ -17,6 +17,7 @@
 		"deploy": "npm run build && npm run coverage && npm run doc",
 		"start": "npm run map-editor",
 		"map-editor": "npm run build && node dist/start-map-editor.js",
+		"start:debug": "node scripts/setup-debug-logging.js",
 		"pull-mud3": "node scripts/pull-mud3.js",
 		"copy-mud3-data": "node scripts/copy-mud3-data.js",
 		"update-mud3": "npm run pull-mud3 && npm run copy-mud3-data"

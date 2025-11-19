@@ -1225,6 +1225,11 @@ dungeon:
         - 0
         - 0
         - 0
+        - .nan
+        - .nan
+        - .nan
+        - .nan
+        - .nan
         - 0
         - 0
         - 0
@@ -1300,17 +1305,7 @@ dungeon:
         - 0
         - 0
         - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
       - - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
         - 0
         - 0
         - 0
@@ -1330,6 +1325,11 @@ dungeon:
         - 0
         - 0
         - 0
+        - .nan
+        - .nan
+        - .nan
+        - .nan
+        - .nan
         - 0
         - 0
         - 0
@@ -10005,6 +10005,16 @@ dungeon:
         - 0
         - 0
         - 0
-  rooms: []
+  rooms:
+    - display: Jon is Gay
+      description: It turns out, Jon is a gay n-word.
+      mapText: Œ
+      mapColor: 11
+      allowedExits: 15
+    - display: Cum
+      description: It's cum.
+      mapText: '~'
+      mapColor: 15
+      allowedExits: 15
   templates: []
   resets: []

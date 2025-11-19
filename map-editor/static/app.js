@@ -151,13 +151,13 @@ class MapEditor {
 			const data = await response.json();
 			const select = document.getElementById("dungeon-select");
 			select.innerHTML = '<option value="">Select a dungeon...</option>';
-			
+
 			// Add "New..." option
 			const newOption = document.createElement("option");
 			newOption.value = "__NEW__";
 			newOption.textContent = "New...";
 			select.appendChild(newOption);
-			
+
 			data.dungeons.forEach((id) => {
 				const option = document.createElement("option");
 				option.value = id;
@@ -606,13 +606,13 @@ class MapEditor {
 			const row = layer[y] || [];
 			const rowWrapper = document.createElement("div");
 			rowWrapper.className = "grid-row-wrapper";
-			
+
 			// Add row ruler cell before each row
 			const rowRulerCell = document.createElement("div");
 			rowRulerCell.className = "grid-ruler-cell grid-ruler-left";
 			rowRulerCell.textContent = y;
 			rowWrapper.appendChild(rowRulerCell);
-			
+
 			for (let x = 0; x < dungeon.dimensions.width; x++) {
 				const cell = document.createElement("div");
 				cell.className = "grid-cell";
@@ -2168,8 +2168,11 @@ class MapEditor {
 		const resetMessage = document.getElementById("reset-message-input").value;
 		this.yamlData.dungeon.resetMessage = resetMessage || undefined;
 
-		// Save to localStorage before server save
-		this.saveToLocalStorage();
+		// Clear any pending auto-save timeout before saving
+		if (this.autoSaveTimeout) {
+			clearTimeout(this.autoSaveTimeout);
+			this.autoSaveTimeout = null;
+		}
 
 		// Convert back to YAML
 		const yaml = jsyaml.dump(this.yamlData, { lineWidth: 120, noRefs: true });
@@ -3009,12 +3012,11 @@ class MapEditor {
 				}
 			}
 		} else if (this.selectionMode === "edge-circle") {
-			// Circle edge: only cells on the circumference
+			// Circle edge: only cells on the circumference (exactly one pixel width)
 			const centerX = (minX + maxX) / 2;
 			const centerY = (minY + maxY) / 2;
 			const radiusX = (maxX - minX) / 2;
 			const radiusY = (maxY - minY) / 2;
-			const tolerance = 0.15; // Tolerance for edge detection
 
 			// Handle very small selections (fallback to rectangle edge)
 			if (radiusX === 0 || radiusY === 0) {
@@ -3026,14 +3028,50 @@ class MapEditor {
 					}
 				}
 			} else {
+				// First, determine which cells are inside the circle
+				const insideCells = new Set();
 				for (let y = minY; y <= maxY; y++) {
 					for (let x = minX; x <= maxX; x++) {
 						const dx = (x - centerX) / radiusX;
 						const dy = (y - centerY) / radiusY;
 						const distance = Math.sqrt(dx * dx + dy * dy);
-						// Include cells close to the edge (distance ≈ 1.0)
-						if (Math.abs(distance - 1.0) <= tolerance) {
-							cells.add(`${x},${y},${z}`);
+						if (distance <= 1.0) {
+							insideCells.add(`${x},${y},${z}`);
+						}
+					}
+				}
+
+				// Then, find edge cells: cells that are inside but have at least one neighbor outside
+				for (let y = minY; y <= maxY; y++) {
+					for (let x = minX; x <= maxX; x++) {
+						const cellKey = `${x},${y},${z}`;
+						if (insideCells.has(cellKey)) {
+							// Check if any neighbor is outside the circle
+							const neighbors = [
+								`${x - 1},${y},${z}`,
+								`${x + 1},${y},${z}`,
+								`${x},${y - 1},${z}`,
+								`${x},${y + 1},${z}`,
+								`${x - 1},${y - 1},${z}`,
+								`${x + 1},${y - 1},${z}`,
+								`${x - 1},${y + 1},${z}`,
+								`${x + 1},${y + 1},${z}`,
+							];
+
+							// If at least one neighbor is outside, this is an edge cell
+							const isEdge = neighbors.some((neighbor) => {
+								const [nx, ny] = neighbor.split(",").map(Number);
+								// If neighbor is outside bounding box, it's outside the shape
+								if (nx < minX || nx > maxX || ny < minY || ny > maxY) {
+									return true;
+								}
+								// Otherwise check if it's inside the shape
+								return !insideCells.has(neighbor);
+							});
+
+							if (isEdge) {
+								cells.add(cellKey);
+							}
 						}
 					}
 				}
@@ -3057,13 +3095,12 @@ class MapEditor {
 				}
 			}
 		} else if (this.selectionMode === "edge-squircle") {
-			// Squircle edge: only cells on the boundary
+			// Squircle edge: only cells on the boundary (exactly one pixel width, contiguous)
 			const centerX = (minX + maxX) / 2;
 			const centerY = (minY + maxY) / 2;
 			const radiusX = (maxX - minX) / 2;
 			const radiusY = (maxY - minY) / 2;
 			const n = 3; // Superellipse power (3 gives a nice rounded square)
-			const tolerance = 0.15; // Tolerance for edge detection
 
 			// Handle very small selections (fallback to rectangle edge)
 			if (radiusX === 0 || radiusY === 0) {
@@ -3075,14 +3112,50 @@ class MapEditor {
 					}
 				}
 			} else {
+				// First, determine which cells are inside the squircle
+				const insideCells = new Set();
 				for (let y = minY; y <= maxY; y++) {
 					for (let x = minX; x <= maxX; x++) {
 						const dx = Math.abs((x - centerX) / radiusX);
 						const dy = Math.abs((y - centerY) / radiusY);
 						const value = Math.pow(dx, n) + Math.pow(dy, n);
-						// Include cells close to the boundary (value ≈ 1.0)
-						if (Math.abs(value - 1.0) <= tolerance) {
-							cells.add(`${x},${y},${z}`);
+						if (value <= 1.0) {
+							insideCells.add(`${x},${y},${z}`);
+						}
+					}
+				}
+
+				// Then, find edge cells: cells that are inside but have at least one neighbor outside
+				for (let y = minY; y <= maxY; y++) {
+					for (let x = minX; x <= maxX; x++) {
+						const cellKey = `${x},${y},${z}`;
+						if (insideCells.has(cellKey)) {
+							// Check if any neighbor is outside the squircle
+							const neighbors = [
+								`${x - 1},${y},${z}`,
+								`${x + 1},${y},${z}`,
+								`${x},${y - 1},${z}`,
+								`${x},${y + 1},${z}`,
+								`${x - 1},${y - 1},${z}`,
+								`${x + 1},${y - 1},${z}`,
+								`${x - 1},${y + 1},${z}`,
+								`${x + 1},${y + 1},${z}`,
+							];
+
+							// If at least one neighbor is outside, this is an edge cell
+							const isEdge = neighbors.some((neighbor) => {
+								const [nx, ny] = neighbor.split(",").map(Number);
+								// If neighbor is outside bounding box, it's outside the shape
+								if (nx < minX || nx > maxX || ny < minY || ny > maxY) {
+									return true;
+								}
+								// Otherwise check if it's inside the shape
+								return !insideCells.has(neighbor);
+							});
+
+							if (isEdge) {
+								cells.add(cellKey);
+							}
 						}
 					}
 				}
@@ -3359,9 +3432,21 @@ class MapEditor {
 		}
 
 		// Debounce auto-save (save 500ms after last change)
-		this.autoSaveTimeout = setTimeout(() => {
+		const timeoutId = setTimeout(() => {
+			// Only proceed if this timeout hasn't been cleared
+			if (this.autoSaveTimeout !== timeoutId) {
+				return;
+			}
+
 			try {
 				const storageKey = this.getLocalStorageKey(this.currentDungeonId);
+				// Check if localStorage was cleared (meaning we saved to server)
+				const existingData = localStorage.getItem(storageKey);
+				if (existingData === null && !this.hasUnsavedChanges) {
+					// We saved to server, don't mark as unsaved
+					return;
+				}
+
 				const dataToSave = {
 					yamlData: this.yamlData,
 					timestamp: Date.now(),
@@ -3375,6 +3460,7 @@ class MapEditor {
 				// localStorage might be full or disabled
 			}
 		}, 500);
+		this.autoSaveTimeout = timeoutId;
 	}
 
 	checkForUnsavedWork() {
@@ -3459,7 +3545,10 @@ class MapEditor {
 
 		// Validate inputs
 		if (!name) {
-			this.showToast("Invalid dungeon name", "Please enter a name for the dungeon");
+			this.showToast(
+				"Invalid dungeon name",
+				"Please enter a name for the dungeon"
+			);
 			return;
 		}
 
